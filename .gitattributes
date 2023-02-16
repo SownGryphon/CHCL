@@ -7,3 +7,4 @@
 *.js linguist-detectable=false
 *.css linguist-detectable=false
 *.bat linguist-detectable=false
+Makefile linguist-detectable=false
