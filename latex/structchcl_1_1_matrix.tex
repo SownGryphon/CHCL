@@ -1,0 +1,955 @@
+\hypertarget{structchcl_1_1_matrix}{}\doxysection{chcl\+::Matrix Struct Reference}
+\label{structchcl_1_1_matrix}\index{chcl::Matrix@{chcl::Matrix}}
+
+
+A matrix class that supports basic arithmetic operations.  
+
+
+
+
+{\ttfamily \#include $<$Matrix.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+float \mbox{\hyperlink{structchcl_1_1_matrix_a98d69b1bd1f78076f05a15ec90f2d623}{determinant}} () const
+\item 
+\mbox{\hyperlink{structchcl_1_1_matrix_a9374173d8dfd7ed616d3ef904b4d381e}{operator bool}} () const
+\begin{DoxyCompactList}\small\item\em Bool Cast. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{structchcl_1_1_matrix_ae16aeac8cc2e3ed2178218d48440f6a4}{per\+Value}} (\textbf{ std\+::function}$<$ float(float)$>$)
+\begin{DoxyCompactList}\small\item\em Per-\/value operation. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{Indent}\textbf{ Constructors and Destructors}\par
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structchcl_1_1_matrix_a2dba13c45127354c9f75ef576f49269b}{Matrix}} ()
+\begin{DoxyCompactList}\small\item\em Default construtor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structchcl_1_1_matrix_a87191c14096bc480dc71ea8f77417f28}{Matrix}} (unsigned int cols, unsigned int rows, float default\+Val=0.f)
+\begin{DoxyCompactList}\small\item\em Creates matrix of specific size. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structchcl_1_1_matrix_a528694998d4358226c72d6d10c62dc35}{Matrix}} (unsigned int cols, unsigned int rows, float $\ast$\mbox{\hyperlink{structchcl_1_1_matrix_a4bbb6911d9e9ba4ed0b16ef531e9b5f8}{values}})
+\begin{DoxyCompactList}\small\item\em Creates matrix from given values. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structchcl_1_1_matrix_abcf708e864ed3d9db2c3b317c5e529ab}{Matrix}} (const \mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \&other)
+\begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structchcl_1_1_matrix_a9b1c3627f573d78a2f08623fdfef990f}\label{structchcl_1_1_matrix_a9b1c3627f573d78a2f08623fdfef990f}} 
+{\bfseries $\sim$\+Matrix} ()
+\begin{DoxyCompactList}\small\item\em Deletes values array. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}\textbf{ Member Access Functions}\par
+\begin{DoxyCompactItemize}
+\item 
+unsigned int \mbox{\hyperlink{structchcl_1_1_matrix_ae76f2497b93780b44d2b475b428ef3d4}{get\+Num\+Cols}} () const
+\begin{DoxyCompactList}\small\item\em Returns the number of columns. \end{DoxyCompactList}\item 
+unsigned int \mbox{\hyperlink{structchcl_1_1_matrix_a633b32b675b83dfffaeaec56f43fde21}{get\+Num\+Rows}} () const
+\begin{DoxyCompactList}\small\item\em Returns the number of rows. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{structchcl_1_1_matrix_a64f1187cb6dc9182e1ad19dccc74cd5e}{get\+Value}} (unsigned int col, unsigned int row) const
+\begin{DoxyCompactList}\small\item\em Returns the value in the given position. \end{DoxyCompactList}\item 
+float \& \mbox{\hyperlink{structchcl_1_1_matrix_a4765056b638415e40982bf4ee83d7124}{get\+Value}} (unsigned int col, unsigned int row)
+\begin{DoxyCompactList}\small\item\em Returns a reference to the value at the given position. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \mbox{\hyperlink{structchcl_1_1_matrix_af97e6600797cc886ff3bfa00701d75f2}{get\+Value\+As\+Matrix}} (unsigned int col, unsigned int row) const
+\begin{DoxyCompactList}\small\item\em Returns the value as a matrix. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{structchcl_1_1_matrix_afd330218e86fb2bad851f72ad3455837}{get\+Col}} (unsigned int col, float $\ast$out) const
+\begin{DoxyCompactList}\small\item\em Returns the given column. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{structchcl_1_1_matrix_a4068c7f902699dc7d859369c847cb1d5}{get\+Row}} (unsigned int row, float $\ast$out) const
+\begin{DoxyCompactList}\small\item\em Returns the given row. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \mbox{\hyperlink{structchcl_1_1_matrix_ad11c2c1ccb5ab9df19563edafeee65b7}{get\+Col\+As\+Matrix}} (unsigned int col) const
+\begin{DoxyCompactList}\small\item\em Get a column as a matrix. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \mbox{\hyperlink{structchcl_1_1_matrix_a3f59a737b40afdb3ce56fb0af19d426b}{get\+Row\+As\+Matrix}} (unsigned int row) const
+\begin{DoxyCompactList}\small\item\em Get a row as a matrix. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}\textbf{ Assignment Operators}\par
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \& \mbox{\hyperlink{structchcl_1_1_matrix_ae3dcb4b8ceb4b26f3a78a1d38ec78686}{operator=}} (float val)
+\begin{DoxyCompactList}\small\item\em Float assignment operator. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \& \mbox{\hyperlink{structchcl_1_1_matrix_a82958876c90d9ff3faf21b13061854fe}{operator+=}} (float val)
+\begin{DoxyCompactList}\small\item\em Float addition assignment operator. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \& \mbox{\hyperlink{structchcl_1_1_matrix_af95310f05938b0d412fa3a74d8031539}{operator-\/=}} (float val)
+\begin{DoxyCompactList}\small\item\em Float subtraction assignment operator. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \& \mbox{\hyperlink{structchcl_1_1_matrix_a3233f790c7b147954dbf466f808f792e}{operator$\ast$=}} (float val)
+\begin{DoxyCompactList}\small\item\em Float multiplication assignment operator. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \& \mbox{\hyperlink{structchcl_1_1_matrix_af850251e0b29d0784262cccd3cb7e145}{operator/=}} (float val)
+\begin{DoxyCompactList}\small\item\em Float division assignment operator. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \& \mbox{\hyperlink{structchcl_1_1_matrix_a3e40db12ae78b7616ee3f099bb15f13d}{operator=}} (const \mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \&other)
+\begin{DoxyCompactList}\small\item\em Matrix assignment operator. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \& \mbox{\hyperlink{structchcl_1_1_matrix_a5cedf82d2a6ff379c38527e4c7c1d6f9}{operator+=}} (const \mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \&other)
+\begin{DoxyCompactList}\small\item\em Matrix addition assignment operator. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \& \mbox{\hyperlink{structchcl_1_1_matrix_a2dd13cb2b6b81706bfc1cda293a530d3}{operator-\/=}} (const \mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \&other)
+\begin{DoxyCompactList}\small\item\em Matrix subtraction assignment operator. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \& \mbox{\hyperlink{structchcl_1_1_matrix_a864b19d438268deb75217dcde8a41ac6}{operator$\ast$=}} (const \mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \&other)
+\begin{DoxyCompactList}\small\item\em Matrix multiplication assignment operator. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}\textbf{ Comparison Operators}\par
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{structchcl_1_1_matrix_a797d03df703f77cccb25ab9a0770e760}{operator==}} (const \mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \&other) const
+\begin{DoxyCompactList}\small\item\em Equality operator. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{structchcl_1_1_matrix_a44f33a4281273fc500bae6d2c4d86f34}{operator!=}} (const \mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \&other) const
+\begin{DoxyCompactList}\small\item\em Inequality operator. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+float $\ast$ \mbox{\hyperlink{structchcl_1_1_matrix_a4bbb6911d9e9ba4ed0b16ef531e9b5f8}{values}}
+\begin{DoxyCompactList}\small\item\em Matrix values. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Friends}
+\begin{Indent}\textbf{ Arithmetic Operators}\par
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \mbox{\hyperlink{structchcl_1_1_matrix_af01876d86501920449022e3673b6ebb6}{operator+}} (\mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} matrix, float val)
+\begin{DoxyCompactList}\small\item\em Float addition operator. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \mbox{\hyperlink{structchcl_1_1_matrix_a01b536c14053482bf859ede74500637d}{operator-\/}} (\mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} matrix, float val)
+\begin{DoxyCompactList}\small\item\em Float subtraction operator. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \mbox{\hyperlink{structchcl_1_1_matrix_acd7c7131c4788227a42364053ef302b9}{operator$\ast$}} (\mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} matrix, float val)
+\begin{DoxyCompactList}\small\item\em Float multiplication operator. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \mbox{\hyperlink{structchcl_1_1_matrix_a3ad1c2a043c7380f24a9a3a8afa0b32a}{operator/}} (\mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} matrix, float val)
+\begin{DoxyCompactList}\small\item\em Float division operator. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \mbox{\hyperlink{structchcl_1_1_matrix_a696f0ff87c84a275b774c32571051229}{operator+}} (float val, \mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} matrix)
+\begin{DoxyCompactList}\small\item\em Float addition operator. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \mbox{\hyperlink{structchcl_1_1_matrix_afcb456851d3126b2e5869e292c43de1a}{operator-\/}} (float val, \mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} matrix)
+\begin{DoxyCompactList}\small\item\em Float subtraction operator. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \mbox{\hyperlink{structchcl_1_1_matrix_accbd2f279e814c9aa393cf269f9ddde2}{operator$\ast$}} (float val, \mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} matrix)
+\begin{DoxyCompactList}\small\item\em Float multiplication operator. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \mbox{\hyperlink{structchcl_1_1_matrix_a4b146317439d3dcf103d35527e194151}{operator/}} (float val, \mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} matrix)
+\begin{DoxyCompactList}\small\item\em Float division operator. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \mbox{\hyperlink{structchcl_1_1_matrix_a548660d6103ef18a40ded35e431b8560}{operator+}} (\mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} lhs, const \mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \&rhs)
+\begin{DoxyCompactList}\small\item\em Matrix addition operator. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \mbox{\hyperlink{structchcl_1_1_matrix_ad5027617c2b62ec8d534ecd114617d0e}{operator-\/}} (\mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} lhs, const \mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \&rhs)
+\begin{DoxyCompactList}\small\item\em Matrix subtraction operator. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \mbox{\hyperlink{structchcl_1_1_matrix_a8c9c31b48daf1420aff80a499d3ec8fa}{operator$\ast$}} (\mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} lhs, const \mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \&rhs)
+\begin{DoxyCompactList}\small\item\em Matrix multiplication operator. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+
+
+\doxysubsection{Detailed Description}
+A matrix class that supports basic arithmetic operations. 
+
+These matrices support basic arithmetic operators which can be used with floats and other matrices. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{structchcl_1_1_matrix_a2dba13c45127354c9f75ef576f49269b}\label{structchcl_1_1_matrix_a2dba13c45127354c9f75ef576f49269b}} 
+\index{chcl::Matrix@{chcl::Matrix}!Matrix@{Matrix}}
+\index{Matrix@{Matrix}!chcl::Matrix@{chcl::Matrix}}
+\doxysubsubsection{\texorpdfstring{Matrix()}{Matrix()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily Matrix\+::\+Matrix (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Default construtor. 
+
+Creates a 0 by 0 matrix with no values. \mbox{\Hypertarget{structchcl_1_1_matrix_a87191c14096bc480dc71ea8f77417f28}\label{structchcl_1_1_matrix_a87191c14096bc480dc71ea8f77417f28}} 
+\index{chcl::Matrix@{chcl::Matrix}!Matrix@{Matrix}}
+\index{Matrix@{Matrix}!chcl::Matrix@{chcl::Matrix}}
+\doxysubsubsection{\texorpdfstring{Matrix()}{Matrix()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily Matrix\+::\+Matrix (\begin{DoxyParamCaption}\item[{unsigned int}]{cols,  }\item[{unsigned int}]{rows,  }\item[{float}]{default\+Val = {\ttfamily 0.f} }\end{DoxyParamCaption})}
+
+
+
+Creates matrix of specific size. 
+
+Creates a matrix of the given size, optionally filled with the specified value.
+
+
+\begin{DoxyParams}{Parameters}
+{\em cols,rows} & The size of the matrix. \\
+\hline
+{\em default\+Val} & (optional) The value to which initialise all values of the matrix to. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structchcl_1_1_matrix_a528694998d4358226c72d6d10c62dc35}\label{structchcl_1_1_matrix_a528694998d4358226c72d6d10c62dc35}} 
+\index{chcl::Matrix@{chcl::Matrix}!Matrix@{Matrix}}
+\index{Matrix@{Matrix}!chcl::Matrix@{chcl::Matrix}}
+\doxysubsubsection{\texorpdfstring{Matrix()}{Matrix()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily Matrix\+::\+Matrix (\begin{DoxyParamCaption}\item[{unsigned int}]{cols,  }\item[{unsigned int}]{rows,  }\item[{float $\ast$}]{values }\end{DoxyParamCaption})}
+
+
+
+Creates matrix from given values. 
+
+Creates a matrix of the given size and fills it with the provided values.
+
+
+\begin{DoxyParams}{Parameters}
+{\em cols,rows} & The size of the matrix. \\
+\hline
+{\em values} & A float array containing the values to fill the matrix with.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyRemark}{Remarks}
+Values array must be large enough to fil the entire matrix. 
+\end{DoxyRemark}
+\mbox{\Hypertarget{structchcl_1_1_matrix_abcf708e864ed3d9db2c3b317c5e529ab}\label{structchcl_1_1_matrix_abcf708e864ed3d9db2c3b317c5e529ab}} 
+\index{chcl::Matrix@{chcl::Matrix}!Matrix@{Matrix}}
+\index{Matrix@{Matrix}!chcl::Matrix@{chcl::Matrix}}
+\doxysubsubsection{\texorpdfstring{Matrix()}{Matrix()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily Matrix\+::\+Matrix (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \&}]{other }\end{DoxyParamCaption})}
+
+
+
+Copy constructor. 
+
+Creates a matrix with the same size as the given matrix and copies the given matrix\textquotesingle{}s values.
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & Matrix to be copied. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{structchcl_1_1_matrix_a98d69b1bd1f78076f05a15ec90f2d623}\label{structchcl_1_1_matrix_a98d69b1bd1f78076f05a15ec90f2d623}} 
+\index{chcl::Matrix@{chcl::Matrix}!determinant@{determinant}}
+\index{determinant@{determinant}!chcl::Matrix@{chcl::Matrix}}
+\doxysubsubsection{\texorpdfstring{determinant()}{determinant()}}
+{\footnotesize\ttfamily float Matrix\+::determinant (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Calculates the determinant of the matrix.
+
+
+\begin{DoxyExceptions}{Exceptions}
+{\em logic\+\_\+error} & If the {\ttfamily this} matrix is not a square matrix. \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{structchcl_1_1_matrix_afd330218e86fb2bad851f72ad3455837}\label{structchcl_1_1_matrix_afd330218e86fb2bad851f72ad3455837}} 
+\index{chcl::Matrix@{chcl::Matrix}!getCol@{getCol}}
+\index{getCol@{getCol}!chcl::Matrix@{chcl::Matrix}}
+\doxysubsubsection{\texorpdfstring{getCol()}{getCol()}}
+{\footnotesize\ttfamily void Matrix\+::get\+Col (\begin{DoxyParamCaption}\item[{unsigned int}]{col,  }\item[{float $\ast$}]{out }\end{DoxyParamCaption}) const}
+
+
+
+Returns the given column. 
+
+Returns the given column using the output parameter {\ttfamily out}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em col} & Column to return. \\
+\hline
+{\em out} & A float array used as an output parameter.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyRemark}{Remarks}
+Output variable must be passed in as an array of the correct size.
+\end{DoxyRemark}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em out\+\_\+of\+\_\+range} & If trying to access a column outside the {\ttfamily this} matrix. \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{structchcl_1_1_matrix_ad11c2c1ccb5ab9df19563edafeee65b7}\label{structchcl_1_1_matrix_ad11c2c1ccb5ab9df19563edafeee65b7}} 
+\index{chcl::Matrix@{chcl::Matrix}!getColAsMatrix@{getColAsMatrix}}
+\index{getColAsMatrix@{getColAsMatrix}!chcl::Matrix@{chcl::Matrix}}
+\doxysubsubsection{\texorpdfstring{getColAsMatrix()}{getColAsMatrix()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} Matrix\+::get\+Col\+As\+Matrix (\begin{DoxyParamCaption}\item[{unsigned int}]{col }\end{DoxyParamCaption}) const}
+
+
+
+Get a column as a matrix. 
+
+Returns the given column as a column matrix.
+
+
+\begin{DoxyParams}{Parameters}
+{\em col} & Column to be returned.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A column matrix containing the given column.
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em out\+\_\+of\+\_\+bounds} & If trying to acccess a column outside the {\ttfamily this} matrix. \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{structchcl_1_1_matrix_ae76f2497b93780b44d2b475b428ef3d4}\label{structchcl_1_1_matrix_ae76f2497b93780b44d2b475b428ef3d4}} 
+\index{chcl::Matrix@{chcl::Matrix}!getNumCols@{getNumCols}}
+\index{getNumCols@{getNumCols}!chcl::Matrix@{chcl::Matrix}}
+\doxysubsubsection{\texorpdfstring{getNumCols()}{getNumCols()}}
+{\footnotesize\ttfamily unsigned int Matrix\+::get\+Num\+Cols (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Returns the number of columns. 
+
+\begin{DoxyReturn}{Returns}
+Number of columns in the {\ttfamily this} matrix. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{structchcl_1_1_matrix_a633b32b675b83dfffaeaec56f43fde21}\label{structchcl_1_1_matrix_a633b32b675b83dfffaeaec56f43fde21}} 
+\index{chcl::Matrix@{chcl::Matrix}!getNumRows@{getNumRows}}
+\index{getNumRows@{getNumRows}!chcl::Matrix@{chcl::Matrix}}
+\doxysubsubsection{\texorpdfstring{getNumRows()}{getNumRows()}}
+{\footnotesize\ttfamily unsigned int Matrix\+::get\+Num\+Rows (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Returns the number of rows. 
+
+\begin{DoxyReturn}{Returns}
+Number of rows in the {\ttfamily this} matrix. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{structchcl_1_1_matrix_a4068c7f902699dc7d859369c847cb1d5}\label{structchcl_1_1_matrix_a4068c7f902699dc7d859369c847cb1d5}} 
+\index{chcl::Matrix@{chcl::Matrix}!getRow@{getRow}}
+\index{getRow@{getRow}!chcl::Matrix@{chcl::Matrix}}
+\doxysubsubsection{\texorpdfstring{getRow()}{getRow()}}
+{\footnotesize\ttfamily void Matrix\+::get\+Row (\begin{DoxyParamCaption}\item[{unsigned int}]{row,  }\item[{float $\ast$}]{out }\end{DoxyParamCaption}) const}
+
+
+
+Returns the given row. 
+
+Returns the given row using the output parameter {\ttfamily out}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em row} & Row to return. \\
+\hline
+{\em out} & A float array used as an output parameter.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyRemark}{Remarks}
+Output variable must be passed in as an array of the correct size.
+\end{DoxyRemark}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em out\+\_\+of\+\_\+range} & If attempting to access a row outside the {\ttfamily this} matrix. \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{structchcl_1_1_matrix_a3f59a737b40afdb3ce56fb0af19d426b}\label{structchcl_1_1_matrix_a3f59a737b40afdb3ce56fb0af19d426b}} 
+\index{chcl::Matrix@{chcl::Matrix}!getRowAsMatrix@{getRowAsMatrix}}
+\index{getRowAsMatrix@{getRowAsMatrix}!chcl::Matrix@{chcl::Matrix}}
+\doxysubsubsection{\texorpdfstring{getRowAsMatrix()}{getRowAsMatrix()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} Matrix\+::get\+Row\+As\+Matrix (\begin{DoxyParamCaption}\item[{unsigned int}]{row }\end{DoxyParamCaption}) const}
+
+
+
+Get a row as a matrix. 
+
+Returns the given row as a row matrix.
+
+
+\begin{DoxyParams}{Parameters}
+{\em row} & Row to be returned.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A row matrix containing the given row.
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em out\+\_\+of\+\_\+bound} & If trying to access a row outside the {\ttfamily this} matrix. \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{structchcl_1_1_matrix_a4765056b638415e40982bf4ee83d7124}\label{structchcl_1_1_matrix_a4765056b638415e40982bf4ee83d7124}} 
+\index{chcl::Matrix@{chcl::Matrix}!getValue@{getValue}}
+\index{getValue@{getValue}!chcl::Matrix@{chcl::Matrix}}
+\doxysubsubsection{\texorpdfstring{getValue()}{getValue()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily float \& Matrix\+::get\+Value (\begin{DoxyParamCaption}\item[{unsigned int}]{col,  }\item[{unsigned int}]{row }\end{DoxyParamCaption})}
+
+
+
+Returns a reference to the value at the given position. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em col,row} & The position of the desired value.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A reference to the value in the given position.
+\end{DoxyReturn}
+\begin{DoxyRemark}{Remarks}
+This is the non-\/const variant of this function.
+\end{DoxyRemark}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em out\+\_\+of\+\_\+bounds} & If trying to access an index outside the {\ttfamily this} matrix. \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{structchcl_1_1_matrix_a64f1187cb6dc9182e1ad19dccc74cd5e}\label{structchcl_1_1_matrix_a64f1187cb6dc9182e1ad19dccc74cd5e}} 
+\index{chcl::Matrix@{chcl::Matrix}!getValue@{getValue}}
+\index{getValue@{getValue}!chcl::Matrix@{chcl::Matrix}}
+\doxysubsubsection{\texorpdfstring{getValue()}{getValue()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily float Matrix\+::get\+Value (\begin{DoxyParamCaption}\item[{unsigned int}]{col,  }\item[{unsigned int}]{row }\end{DoxyParamCaption}) const}
+
+
+
+Returns the value in the given position. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em col,row} & The position of the desired value.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The value in the given position.
+\end{DoxyReturn}
+\begin{DoxyRemark}{Remarks}
+This is the const variant of this function.
+\end{DoxyRemark}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em out\+\_\+of\+\_\+bounds} & If trying to access an index outside the Matrux. \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{structchcl_1_1_matrix_af97e6600797cc886ff3bfa00701d75f2}\label{structchcl_1_1_matrix_af97e6600797cc886ff3bfa00701d75f2}} 
+\index{chcl::Matrix@{chcl::Matrix}!getValueAsMatrix@{getValueAsMatrix}}
+\index{getValueAsMatrix@{getValueAsMatrix}!chcl::Matrix@{chcl::Matrix}}
+\doxysubsubsection{\texorpdfstring{getValueAsMatrix()}{getValueAsMatrix()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} Matrix\+::get\+Value\+As\+Matrix (\begin{DoxyParamCaption}\item[{unsigned int}]{col,  }\item[{unsigned int}]{row }\end{DoxyParamCaption}) const}
+
+
+
+Returns the value as a matrix. 
+
+Returns the value in the given position as a 1x1 matrix.
+
+
+\begin{DoxyParams}{Parameters}
+{\em col,row} & The position of the desired value.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A 1x1 matrix containing the desired value.
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em out\+\_\+of\+\_\+bound} & If trying to access an index outside the {\ttfamily this} matrix. \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{structchcl_1_1_matrix_a9374173d8dfd7ed616d3ef904b4d381e}\label{structchcl_1_1_matrix_a9374173d8dfd7ed616d3ef904b4d381e}} 
+\index{chcl::Matrix@{chcl::Matrix}!operator bool@{operator bool}}
+\index{operator bool@{operator bool}!chcl::Matrix@{chcl::Matrix}}
+\doxysubsubsection{\texorpdfstring{operator bool()}{operator bool()}}
+{\footnotesize\ttfamily Matrix\+::operator bool (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Bool Cast. 
+
+Allows for implicit or explicit conversion to a bool. Returns {\ttfamily false} if all values are 0, returns {\ttfamily true} otherwise. Also returns {\ttfamily false} if used on a zero matrix. \mbox{\Hypertarget{structchcl_1_1_matrix_a44f33a4281273fc500bae6d2c4d86f34}\label{structchcl_1_1_matrix_a44f33a4281273fc500bae6d2c4d86f34}} 
+\index{chcl::Matrix@{chcl::Matrix}!operator"!=@{operator"!=}}
+\index{operator"!=@{operator"!=}!chcl::Matrix@{chcl::Matrix}}
+\doxysubsubsection{\texorpdfstring{operator"!=()}{operator!=()}}
+{\footnotesize\ttfamily bool Matrix\+::operator!= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \&}]{other }\end{DoxyParamCaption}) const}
+
+
+
+Inequality operator. 
+
+Compares the {\ttfamily other} matrix to the {\ttfamily this} matrix. Will return false only if matrices are of identical size and contain identical elements.
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & Matrix to be compared to.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The result of the comparison. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{structchcl_1_1_matrix_a864b19d438268deb75217dcde8a41ac6}\label{structchcl_1_1_matrix_a864b19d438268deb75217dcde8a41ac6}} 
+\index{chcl::Matrix@{chcl::Matrix}!operator$\ast$=@{operator$\ast$=}}
+\index{operator$\ast$=@{operator$\ast$=}!chcl::Matrix@{chcl::Matrix}}
+\doxysubsubsection{\texorpdfstring{operator$\ast$=()}{operator*=()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \& Matrix\+::operator$\ast$= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \&}]{other }\end{DoxyParamCaption})}
+
+
+
+Matrix multiplication assignment operator. 
+
+Multiplies the {\ttfamily this} matrix by the {\ttfamily other} matrix and assigns the result to itself.
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & The matrix to add.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A reference to itself after the assignment was complete.
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em invalid\+\_\+argument} & If the sizes of the matrices are not appropriate for matrix multilpication. \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{structchcl_1_1_matrix_a3233f790c7b147954dbf466f808f792e}\label{structchcl_1_1_matrix_a3233f790c7b147954dbf466f808f792e}} 
+\index{chcl::Matrix@{chcl::Matrix}!operator$\ast$=@{operator$\ast$=}}
+\index{operator$\ast$=@{operator$\ast$=}!chcl::Matrix@{chcl::Matrix}}
+\doxysubsubsection{\texorpdfstring{operator$\ast$=()}{operator*=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \& Matrix\+::operator$\ast$= (\begin{DoxyParamCaption}\item[{float}]{val }\end{DoxyParamCaption})}
+
+
+
+Float multiplication assignment operator. 
+
+Multilpies all matrix elements by {\ttfamily val}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em val} & The value to multiply all matrix elements by.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A reference to itself after the assignment was complete. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{structchcl_1_1_matrix_a5cedf82d2a6ff379c38527e4c7c1d6f9}\label{structchcl_1_1_matrix_a5cedf82d2a6ff379c38527e4c7c1d6f9}} 
+\index{chcl::Matrix@{chcl::Matrix}!operator+=@{operator+=}}
+\index{operator+=@{operator+=}!chcl::Matrix@{chcl::Matrix}}
+\doxysubsubsection{\texorpdfstring{operator+=()}{operator+=()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \& Matrix\+::operator+= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \&}]{other }\end{DoxyParamCaption})}
+
+
+
+Matrix addition assignment operator. 
+
+Adds the {\ttfamily other} matrix to the {\ttfamily this} matrix on a per-\/value basis.
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & The matrix to add.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A reference to itself after the assignment was complete.
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em invalid\+\_\+argument} & If the sizes of the matrices do not match. \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{structchcl_1_1_matrix_a82958876c90d9ff3faf21b13061854fe}\label{structchcl_1_1_matrix_a82958876c90d9ff3faf21b13061854fe}} 
+\index{chcl::Matrix@{chcl::Matrix}!operator+=@{operator+=}}
+\index{operator+=@{operator+=}!chcl::Matrix@{chcl::Matrix}}
+\doxysubsubsection{\texorpdfstring{operator+=()}{operator+=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \& Matrix\+::operator+= (\begin{DoxyParamCaption}\item[{float}]{val }\end{DoxyParamCaption})}
+
+
+
+Float addition assignment operator. 
+
+Adds {\ttfamily val} to all matrix elements.
+
+
+\begin{DoxyParams}{Parameters}
+{\em val} & The value to add to all matrix elements.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A reference to itself after the assignment was complete. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{structchcl_1_1_matrix_a2dd13cb2b6b81706bfc1cda293a530d3}\label{structchcl_1_1_matrix_a2dd13cb2b6b81706bfc1cda293a530d3}} 
+\index{chcl::Matrix@{chcl::Matrix}!operator-\/=@{operator-\/=}}
+\index{operator-\/=@{operator-\/=}!chcl::Matrix@{chcl::Matrix}}
+\doxysubsubsection{\texorpdfstring{operator-\/=()}{operator-=()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \& Matrix\+::operator-\/= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \&}]{other }\end{DoxyParamCaption})}
+
+
+
+Matrix subtraction assignment operator. 
+
+Subtracts the {\ttfamily other} matrix from the {\ttfamily this} matrix on a per-\/value basis.
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & The matrix to subtract.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A reference to itself after the assignment was complete.
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em invalid\+\_\+argument} & If the sizes of the matrices do not match. \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{structchcl_1_1_matrix_af95310f05938b0d412fa3a74d8031539}\label{structchcl_1_1_matrix_af95310f05938b0d412fa3a74d8031539}} 
+\index{chcl::Matrix@{chcl::Matrix}!operator-\/=@{operator-\/=}}
+\index{operator-\/=@{operator-\/=}!chcl::Matrix@{chcl::Matrix}}
+\doxysubsubsection{\texorpdfstring{operator-\/=()}{operator-=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \& Matrix\+::operator-\/= (\begin{DoxyParamCaption}\item[{float}]{val }\end{DoxyParamCaption})}
+
+
+
+Float subtraction assignment operator. 
+
+Subtracts {\ttfamily val} from all matrix elements.
+
+
+\begin{DoxyParams}{Parameters}
+{\em val} & The value to subtract from all matrix elements.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A reference to itself after the assignment was complete. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{structchcl_1_1_matrix_af850251e0b29d0784262cccd3cb7e145}\label{structchcl_1_1_matrix_af850251e0b29d0784262cccd3cb7e145}} 
+\index{chcl::Matrix@{chcl::Matrix}!operator/=@{operator/=}}
+\index{operator/=@{operator/=}!chcl::Matrix@{chcl::Matrix}}
+\doxysubsubsection{\texorpdfstring{operator/=()}{operator/=()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \& Matrix\+::operator/= (\begin{DoxyParamCaption}\item[{float}]{val }\end{DoxyParamCaption})}
+
+
+
+Float division assignment operator. 
+
+Divides all matrix elements by {\ttfamily val}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em val} & The value to divide all matrix elements by.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A reference to itself after the assignment was complete. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{structchcl_1_1_matrix_a3e40db12ae78b7616ee3f099bb15f13d}\label{structchcl_1_1_matrix_a3e40db12ae78b7616ee3f099bb15f13d}} 
+\index{chcl::Matrix@{chcl::Matrix}!operator=@{operator=}}
+\index{operator=@{operator=}!chcl::Matrix@{chcl::Matrix}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \& Matrix\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \&}]{other }\end{DoxyParamCaption})}
+
+
+
+Matrix assignment operator. 
+
+Sets all values of the {\ttfamily this} matrix to the values of the {\ttfamily other} matrix. Resizes the {\ttfamily this} matrix if necessary.
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & The matrix to assign to.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A reference to itself after the assignment was complete. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{structchcl_1_1_matrix_ae3dcb4b8ceb4b26f3a78a1d38ec78686}\label{structchcl_1_1_matrix_ae3dcb4b8ceb4b26f3a78a1d38ec78686}} 
+\index{chcl::Matrix@{chcl::Matrix}!operator=@{operator=}}
+\index{operator=@{operator=}!chcl::Matrix@{chcl::Matrix}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \& Matrix\+::operator= (\begin{DoxyParamCaption}\item[{float}]{val }\end{DoxyParamCaption})}
+
+
+
+Float assignment operator. 
+
+Sets all matrix elements to {\ttfamily val}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em val} & The value to set all matrix elements to.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A reference to itself after the assignment was complete. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{structchcl_1_1_matrix_a797d03df703f77cccb25ab9a0770e760}\label{structchcl_1_1_matrix_a797d03df703f77cccb25ab9a0770e760}} 
+\index{chcl::Matrix@{chcl::Matrix}!operator==@{operator==}}
+\index{operator==@{operator==}!chcl::Matrix@{chcl::Matrix}}
+\doxysubsubsection{\texorpdfstring{operator==()}{operator==()}}
+{\footnotesize\ttfamily bool Matrix\+::operator== (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \&}]{other }\end{DoxyParamCaption}) const}
+
+
+
+Equality operator. 
+
+Compares the {\ttfamily other} matrix to the {\ttfamily this} matrix. Will return true only if matrices are of identical size and contain identical elements.
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & Matrix to be compared to.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The result of the comparison. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{structchcl_1_1_matrix_ae16aeac8cc2e3ed2178218d48440f6a4}\label{structchcl_1_1_matrix_ae16aeac8cc2e3ed2178218d48440f6a4}} 
+\index{chcl::Matrix@{chcl::Matrix}!perValue@{perValue}}
+\index{perValue@{perValue}!chcl::Matrix@{chcl::Matrix}}
+\doxysubsubsection{\texorpdfstring{perValue()}{perValue()}}
+{\footnotesize\ttfamily void Matrix\+::per\+Value (\begin{DoxyParamCaption}\item[{\textbf{ std\+::function}$<$ float(float)$>$}]{func }\end{DoxyParamCaption})}
+
+
+
+Per-\/value operation. 
+
+Executes the supplied operation on each element of the matrix.
+
+
+\begin{DoxyParams}{Parameters}
+{\em func} & A {\ttfamily \textbf{ std\+::function}} object to execute on each element of the matrix. Must be in the form {\ttfamily float func(float val)}, which takes in the current value of the element, and returns the new value. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{structchcl_1_1_matrix_accbd2f279e814c9aa393cf269f9ddde2}\label{structchcl_1_1_matrix_accbd2f279e814c9aa393cf269f9ddde2}} 
+\index{chcl::Matrix@{chcl::Matrix}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!chcl::Matrix@{chcl::Matrix}}
+\doxysubsubsection{\texorpdfstring{operator$\ast$}{operator*}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} operator$\ast$ (\begin{DoxyParamCaption}\item[{float}]{val,  }\item[{\mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}}}]{matrix }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Float multiplication operator. 
+
+Multiplies all elements of the matrix by the given value.
+
+
+\begin{DoxyParams}{Parameters}
+{\em val} & Number to multiply all matrix elements by. \\
+\hline
+{\em matrix} & The matrix to multiply.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The result of the addition. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{structchcl_1_1_matrix_a8c9c31b48daf1420aff80a499d3ec8fa}\label{structchcl_1_1_matrix_a8c9c31b48daf1420aff80a499d3ec8fa}} 
+\index{chcl::Matrix@{chcl::Matrix}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!chcl::Matrix@{chcl::Matrix}}
+\doxysubsubsection{\texorpdfstring{operator$\ast$}{operator*}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} operator$\ast$ (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}}}]{lhs,  }\item[{const \mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \&}]{rhs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Matrix multiplication operator. 
+
+Executes matrix multiplication between given matrices.
+
+
+\begin{DoxyParams}{Parameters}
+{\em lhs,rhs} & matrices to multiply.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The result of the multiplication.
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em invalid\+\_\+argument} & Throws this exception if the number of columns of the {\ttfamily lhs} matrix does not match the number of rows of the {\ttfamily rhs} matrix. \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{structchcl_1_1_matrix_acd7c7131c4788227a42364053ef302b9}\label{structchcl_1_1_matrix_acd7c7131c4788227a42364053ef302b9}} 
+\index{chcl::Matrix@{chcl::Matrix}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!chcl::Matrix@{chcl::Matrix}}
+\doxysubsubsection{\texorpdfstring{operator$\ast$}{operator*}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} operator$\ast$ (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}}}]{matrix,  }\item[{float}]{val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Float multiplication operator. 
+
+Multiplies all elements of the matrix by the given value.
+
+
+\begin{DoxyParams}{Parameters}
+{\em matrix} & The matrix to multiply. \\
+\hline
+{\em val} & Number to multiply all matrix elements by.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The result of the addition. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{structchcl_1_1_matrix_a696f0ff87c84a275b774c32571051229}\label{structchcl_1_1_matrix_a696f0ff87c84a275b774c32571051229}} 
+\index{chcl::Matrix@{chcl::Matrix}!operator+@{operator+}}
+\index{operator+@{operator+}!chcl::Matrix@{chcl::Matrix}}
+\doxysubsubsection{\texorpdfstring{operator+}{operator+}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} operator+ (\begin{DoxyParamCaption}\item[{float}]{val,  }\item[{\mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}}}]{matrix }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Float addition operator. 
+
+Adds the given value to all elements of the matrix.
+
+
+\begin{DoxyParams}{Parameters}
+{\em val} & Number to add to all matrix elements. \\
+\hline
+{\em matrix} & The matrix to add to.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The result of the addition. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{structchcl_1_1_matrix_a548660d6103ef18a40ded35e431b8560}\label{structchcl_1_1_matrix_a548660d6103ef18a40ded35e431b8560}} 
+\index{chcl::Matrix@{chcl::Matrix}!operator+@{operator+}}
+\index{operator+@{operator+}!chcl::Matrix@{chcl::Matrix}}
+\doxysubsubsection{\texorpdfstring{operator+}{operator+}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} operator+ (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}}}]{lhs,  }\item[{const \mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \&}]{rhs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Matrix addition operator. 
+
+Adds the values of the two matrices and returns the result.
+
+
+\begin{DoxyParams}{Parameters}
+{\em lhs,rhs} & The matrices to add.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The result of the addition.
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em invalid\+\_\+argument} & If the sizes of the two matrices do not match. \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{structchcl_1_1_matrix_af01876d86501920449022e3673b6ebb6}\label{structchcl_1_1_matrix_af01876d86501920449022e3673b6ebb6}} 
+\index{chcl::Matrix@{chcl::Matrix}!operator+@{operator+}}
+\index{operator+@{operator+}!chcl::Matrix@{chcl::Matrix}}
+\doxysubsubsection{\texorpdfstring{operator+}{operator+}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} operator+ (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}}}]{matrix,  }\item[{float}]{val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Float addition operator. 
+
+Adds the given value to all elements of the matrix.
+
+
+\begin{DoxyParams}{Parameters}
+{\em matrix} & The matrix to add to. \\
+\hline
+{\em val} & Number to add to all matrix elements.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The result of the addition. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{structchcl_1_1_matrix_afcb456851d3126b2e5869e292c43de1a}\label{structchcl_1_1_matrix_afcb456851d3126b2e5869e292c43de1a}} 
+\index{chcl::Matrix@{chcl::Matrix}!operator-\/@{operator-\/}}
+\index{operator-\/@{operator-\/}!chcl::Matrix@{chcl::Matrix}}
+\doxysubsubsection{\texorpdfstring{operator-\/}{operator-}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} operator-\/ (\begin{DoxyParamCaption}\item[{float}]{val,  }\item[{\mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}}}]{matrix }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Float subtraction operator. 
+
+Returns a matrix containing the difference between {\ttfamily val} and the values of {\ttfamily matrix}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em val} & Number to subtract from. \\
+\hline
+{\em matrix} & The matrix to subtract from {\ttfamily val}.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The result of the subtraction. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{structchcl_1_1_matrix_ad5027617c2b62ec8d534ecd114617d0e}\label{structchcl_1_1_matrix_ad5027617c2b62ec8d534ecd114617d0e}} 
+\index{chcl::Matrix@{chcl::Matrix}!operator-\/@{operator-\/}}
+\index{operator-\/@{operator-\/}!chcl::Matrix@{chcl::Matrix}}
+\doxysubsubsection{\texorpdfstring{operator-\/}{operator-}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} operator-\/ (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}}}]{lhs,  }\item[{const \mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} \&}]{rhs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Matrix subtraction operator. 
+
+Subtracts the values of the {\ttfamily rhs} matrix from the values of the {\ttfamily lhs} matrix.
+
+
+\begin{DoxyParams}{Parameters}
+{\em lhs} & The matrix that will be subtracted from. \\
+\hline
+{\em rhs} & The matrix to be subtracted from the other matrix.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The result of the subtraction.
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em invalid\+\_\+argument} & If the sizes of the two matrices do not match. \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{structchcl_1_1_matrix_a01b536c14053482bf859ede74500637d}\label{structchcl_1_1_matrix_a01b536c14053482bf859ede74500637d}} 
+\index{chcl::Matrix@{chcl::Matrix}!operator-\/@{operator-\/}}
+\index{operator-\/@{operator-\/}!chcl::Matrix@{chcl::Matrix}}
+\doxysubsubsection{\texorpdfstring{operator-\/}{operator-}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} operator-\/ (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}}}]{matrix,  }\item[{float}]{val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Float subtraction operator. 
+
+Subtracts the given value from all elements of the matrix.
+
+
+\begin{DoxyParams}{Parameters}
+{\em matrix} & The matrix to subtract from. \\
+\hline
+{\em val} & Number to subtract from all matrix elements.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The result of the subtraction. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{structchcl_1_1_matrix_a4b146317439d3dcf103d35527e194151}\label{structchcl_1_1_matrix_a4b146317439d3dcf103d35527e194151}} 
+\index{chcl::Matrix@{chcl::Matrix}!operator/@{operator/}}
+\index{operator/@{operator/}!chcl::Matrix@{chcl::Matrix}}
+\doxysubsubsection{\texorpdfstring{operator/}{operator/}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} operator/ (\begin{DoxyParamCaption}\item[{float}]{val,  }\item[{\mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}}}]{matrix }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Float division operator. 
+
+Returns a matrix containing the quotient of {\ttfamily val} and the values of {\ttfamily matrix}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em val} & Number to divide. \\
+\hline
+{\em matrix} & The matrix to divide {\ttfamily val} by.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The result of the division. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{structchcl_1_1_matrix_a3ad1c2a043c7380f24a9a3a8afa0b32a}\label{structchcl_1_1_matrix_a3ad1c2a043c7380f24a9a3a8afa0b32a}} 
+\index{chcl::Matrix@{chcl::Matrix}!operator/@{operator/}}
+\index{operator/@{operator/}!chcl::Matrix@{chcl::Matrix}}
+\doxysubsubsection{\texorpdfstring{operator/}{operator/}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}} operator/ (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structchcl_1_1_matrix}{Matrix}}}]{matrix,  }\item[{float}]{val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Float division operator. 
+
+Divides all elements of the matrix by the given value.
+
+
+\begin{DoxyParams}{Parameters}
+{\em matrix} & The matrix to divide. \\
+\hline
+{\em val} & Number to divide all matrix elements by.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The result of the division. 
+\end{DoxyReturn}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structchcl_1_1_matrix_a4bbb6911d9e9ba4ed0b16ef531e9b5f8}\label{structchcl_1_1_matrix_a4bbb6911d9e9ba4ed0b16ef531e9b5f8}} 
+\index{chcl::Matrix@{chcl::Matrix}!values@{values}}
+\index{values@{values}!chcl::Matrix@{chcl::Matrix}}
+\doxysubsubsection{\texorpdfstring{values}{values}}
+{\footnotesize\ttfamily float$\ast$ chcl\+::\+Matrix\+::values}
+
+
+
+Matrix values. 
+
+The matrix elements, stored left-\/to-\/right, top-\/to-\/bottom. 
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Custom Helper Class Library/src/\mbox{\hyperlink{_matrix_8h}{Matrix.\+h}}\item 
+Custom Helper Class Library/src/Matrix.\+cpp\end{DoxyCompactItemize}
