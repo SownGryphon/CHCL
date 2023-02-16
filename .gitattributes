@@ -3,6 +3,7 @@
 
 *.html linguist-detectable=false
 *.tex linguist-detectable=false
+*.sty linguist-detectable=false
 *.js linguist-detectable=false
 *.css linguist-detectable=false
 *.bat linguist-detectable=false
