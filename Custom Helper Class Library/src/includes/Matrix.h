@@ -72,12 +72,12 @@ namespace chcl
 		* 
 		*	@returns Number of columns in the `this` matrix.
 		*/
-		unsigned int getNumCols() const;
+		unsigned int getCols() const;
 		/**	@brief Returns the number of rows.
 		* 
 		*	@returns Number of rows in the `this` matrix.
 		*/
-		unsigned int getNumRows() const;
+		unsigned int getRows() const;
 
 		/** @brief Returns the value in the given position.
 		* 

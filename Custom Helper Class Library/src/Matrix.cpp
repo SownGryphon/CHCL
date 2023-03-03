@@ -1,7 +1,7 @@
 /** @file Defines the functions for the MatrixLib library.
 */
 
-#include "Matrix.h"
+#include "includes/Matrix.h"
 
 #include <stdexcept>
 
@@ -34,12 +34,12 @@ Matrix::~Matrix()
 	delete[] values;
 }
 
-unsigned int Matrix::getNumCols() const
+unsigned int Matrix::getCols() const
 {
 	return m_cols;
 }
 
-unsigned int Matrix::getNumRows() const
+unsigned int Matrix::getRows() const
 {
 	return m_rows;
 }
@@ -342,7 +342,7 @@ Matrix& Matrix::operator*=(const Matrix& other)
 	// Abort if multiplication cannot be done.
 	if (m_cols != other.m_rows)
 	{
-		throw std::invalid_argument("Matrix sizes are not apprpriate to execute matrix multiplication.");
+		throw std::invalid_argument("Matrix sizes are not appropriate to execute matrix multiplication.");
 	}
 
 	Matrix result{ other.m_cols, m_rows };
@@ -356,7 +356,7 @@ Matrix& Matrix::operator*=(const Matrix& other)
 		{
 			for (unsigned int k = 0; k < commonSize; ++k)
 			{
-				result.getValue(j, k) += getValue(k, i) * other.getValue(j, k);
+				result.getValue(j, i) += getValue(k, i) * other.getValue(j, k);
 			}
 		}
 	}
