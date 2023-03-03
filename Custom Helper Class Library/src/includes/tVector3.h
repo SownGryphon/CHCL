@@ -15,5 +15,9 @@ namespace chcl
 		tVector3(float x, float y, float z);
 
 		tVector3(const tVectorN<3>& vec);
+
+		tVector3 xComponent() const;
+		tVector3 yComponent() const;
+		tVector3 zComponent() const;
 	};
 }

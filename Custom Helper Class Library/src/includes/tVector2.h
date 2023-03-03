@@ -15,6 +15,9 @@ namespace chcl
 
 		tVector2(const tVectorN<2>& vec);
 
+		tVector2 xComponent() const;
+		tVector2 yComponent() const;
+
 		float arg() const;
 	};
 }

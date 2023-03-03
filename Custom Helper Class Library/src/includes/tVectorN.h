@@ -205,7 +205,6 @@ namespace chcl
 	tVecNTemplate Matrix tVectorN<dims>::toMatrix() const
 	{
 		Matrix result{ 1, dims, (float*) position };
-
 		return result;
 	}
 
@@ -241,7 +240,6 @@ namespace chcl
 	tVecNTemplate tVectorN<dims>& tVectorN<dims>::operator=(const tVectorN& other)
 	{
 		std::memcpy(this->position, other.position, sizeof(float) * dims);
-
 		return *this;
 	}
 
@@ -300,21 +298,18 @@ namespace chcl
 	tVecNTemplate tVectorN<dims> operator*(tVectorN<dims> vec, float val)
 	{
 		vec *= val;
-		
 		return vec;
 	}
 
 	tVecNTemplate tVectorN<dims> operator*(float val, tVectorN<dims> vec)
 	{
 		vec *= val;
-		
 		return vec;
 	}
 
 	tVecNTemplate tVectorN<dims> operator/(tVectorN<dims> vec, float val)
 	{
 		vec /= val;
-		
 		return vec;
 	}
 }

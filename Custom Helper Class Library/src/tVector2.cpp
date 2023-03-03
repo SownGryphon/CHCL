@@ -17,3 +17,13 @@ tVector2::tVector2(float x, float y)
 
 tVector2::tVector2(const tVectorN<2>& vec) :
 	tVectorN{ vec } {}
+
+tVector2 tVector2::xComponent() const
+{
+	return component(0);
+}
+
+tVector2 tVector2::yComponent() const
+{
+	return component(1);
+}
