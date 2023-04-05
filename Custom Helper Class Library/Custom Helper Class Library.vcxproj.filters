@@ -30,24 +30,30 @@
     <ClCompile Include="src\tVector2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\OctBool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\includes\Matrix.h">
+    <ClInclude Include="src\include\Matrix.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\includes\Vector2.h">
+    <ClInclude Include="src\include\Vector2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\includes\CHCL.h">
+    <ClInclude Include="src\include\CHCL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\includes\tVector3.h">
+    <ClInclude Include="src\include\tVector3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\includes\tVectorN.h">
+    <ClInclude Include="src\include\tVectorN.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\includes\tVector2.h">
+    <ClInclude Include="src\include\tVector2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\OctBool.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

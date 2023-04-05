@@ -2,7 +2,7 @@
 #include <ios>
 #include <iostream>
 
-#include "includes/CHCL.h"
+#include "include/CHCL.h"
 
 using namespace chcl;
 

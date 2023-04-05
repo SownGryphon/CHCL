@@ -1,7 +1,7 @@
 /** @file Defines the functions for the MatrixLib library.
 */
 
-#include "includes/Matrix.h"
+#include "include/Matrix.h"
 
 #include <stdexcept>
 
