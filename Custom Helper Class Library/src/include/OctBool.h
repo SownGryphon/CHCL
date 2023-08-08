@@ -3,25 +3,17 @@ namespace chcl
 {
 	class OctBool
 	{
-		unsigned char data;
-
-		struct OctBoolEntry
-		{
-			OctBool &parent;
-			const unsigned char index;
-
-			OctBoolEntry(OctBool &parent, const unsigned char index);
-
-			OctBoolEntry& operator=(const bool state);
-
-			operator bool() const;
-		};
-
 	public:
+		OctBool();
 		OctBool(unsigned char data);
 
-		OctBoolEntry operator[](unsigned char index);
+		const bool operator[](unsigned char index) const;
+
+		const bool get(unsigned char index) const;
+		const bool set(unsigned char index, const bool state);
 
 		operator bool() const;
+	private:
+		unsigned char data;
 	};
 }

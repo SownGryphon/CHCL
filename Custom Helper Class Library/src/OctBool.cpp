@@ -2,44 +2,37 @@
 
 using namespace chcl;
 
-OctBool::OctBoolEntry::OctBoolEntry(OctBool &parent, const unsigned char index) :
-	parent{ parent }, index{ index } {}
-
-OctBool::OctBoolEntry::operator bool() const
-{
-	unsigned char bitIndex = 1 << index;
-
-	return parent.data & bitIndex;
-}
-
-OctBool::OctBoolEntry& OctBool::OctBoolEntry::operator=(const bool state)
-{
-	unsigned char bitIndex = 1 << index;
-
-	if (state)
-	{
-		parent.data |= bitIndex;
-	}
-	else
-	{
-		parent.data &= ~bitIndex;
-	}
-
-	return *this;
-}
+OctBool::OctBool() :
+	data{ 0 } {}
 
 OctBool::OctBool(unsigned char data) :
 	data{ data } {}
 
-OctBool::OctBoolEntry OctBool::operator[](unsigned char index)
+const bool OctBool::operator[](unsigned char index) const
 {
-	return OctBoolEntry(*this, index);
+	return get(index);
+}
+
+const bool OctBool::get(unsigned char index) const
+{
+	unsigned char indexBit = 1 << index;
+
+	return ((data & indexBit) >> index);
+}
+
+const bool OctBool::set(unsigned char index, const bool state)
+{
+	unsigned char indexBit = 1 << index;
+
+	if (state)
+		data |= indexBit;
+	else
+		data &= ~indexBit;
+
+	return state;
 }
 
 OctBool::operator bool() const
 {
-	if (data)
-		return true;
-	else
-		return false;
+	return data;
 }

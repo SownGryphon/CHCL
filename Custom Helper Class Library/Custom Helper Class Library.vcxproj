@@ -142,6 +142,7 @@
     <ClCompile Include="src\OctBool.cpp" />
     <ClCompile Include="src\CHCL.cpp" />
     <ClCompile Include="src\Matrix.cpp" />
+    <ClCompile Include="src\OctBoolArray.cpp" />
     <ClCompile Include="src\Vector2.cpp" />
     <ClCompile Include="src\tVector3.cpp" />
     <ClCompile Include="src\tVector2.cpp" />
@@ -150,6 +151,7 @@
     <ClInclude Include="src\include\OctBool.h" />
     <ClInclude Include="src\include\CHCL.h" />
     <ClInclude Include="src\include\Matrix.h" />
+    <ClInclude Include="src\include\OctBoolArray.h" />
     <ClInclude Include="src\include\tVector2.h" />
     <ClInclude Include="src\include\tVectorN.h" />
     <ClInclude Include="src\include\Vector2.h" />
