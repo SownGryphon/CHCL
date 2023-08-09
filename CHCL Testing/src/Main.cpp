@@ -75,4 +75,20 @@ int main()
 	std::cout << "Matrix7:\n"; chcl::printMatrix(matrix7);
 
 	std::cout << "Matrix7 * Matrix6:\n"; chcl::printMatrix(matrix7 * matrix6);
+
+	std::cout << "\nMatrix determinants:\n";
+	chcl::Matrix detMatrix1(2, 2, {
+			4, 6,
+			3, 8
+		});
+	std::cout << "Matrix 1:\n"; chcl::printMatrix(detMatrix1);
+	std::cout << "Determinant: " << detMatrix1.determinant() << "\n\n";
+
+	chcl::Matrix detMatrix2(3, 3, {
+			6, 1, 1,
+			4, -2, 5,
+			2, 8, 7
+		});
+	std::cout << "Matrix 2:\n"; chcl::printMatrix(detMatrix2);
+	std::cout << "Determinant: " << detMatrix2.determinant() << "\n\n";
 }

@@ -132,15 +132,14 @@ float Matrix::determinant() const
 	Matrix detCalculator{ m_rows - 1, m_cols - 1 };	// Stores each sub-matrix and calculates its determinant
 
 	// Construct a smaller matrix for each element of the current matrix that does not contain the values in that row or column
-	for (unsigned int i = 0; i < m_rows * m_cols; ++i)
+	for (unsigned int i = 0; i < m_cols; ++i)
 	{
 		unsigned int elementIndex = 0;	// Keeps track of what index of the sub-matrix should be written to
-		for (unsigned int j = 0; j < m_rows * m_cols; ++j)
+		// Skip first row
+		for (unsigned int j = m_cols; j < m_rows * m_cols; ++j)
 		{
-			// Skip rows and columns containing the current value
+			// Skip columns containing the current value
 			if (j % m_cols == i % m_cols)
-				continue;
-			if (j / m_cols == i / m_cols)
 				continue;
 
 			detCalculator.m_values[elementIndex] = m_values[j];
@@ -149,7 +148,7 @@ float Matrix::determinant() const
 		}
 
 		// Every other sub-determinant needs to be negative
-		rollingDet += detCalculator.determinant() * (i & 1 ? -1.f : 1.f);
+		rollingDet += getValue(i, 0) * detCalculator.determinant() * (i & 1 ? -1.f : 1.f);
 	}
 
 	return rollingDet;
