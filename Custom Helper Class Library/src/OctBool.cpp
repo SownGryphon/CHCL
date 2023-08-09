@@ -1,4 +1,4 @@
-#include "include/OctBool.h"
+#include "OctBool.h"
 
 using namespace chcl;
 

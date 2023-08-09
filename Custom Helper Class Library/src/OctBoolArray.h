@@ -1,5 +1,7 @@
 #pragma once
 
+#include <initializer_list>
+
 #include "OctBool.h"
 
 namespace chcl
@@ -9,6 +11,7 @@ namespace chcl
 	public:
 		OctBoolArray();
 		OctBoolArray(unsigned int size);
+		OctBoolArray(std::initializer_list<bool> list);
 		OctBoolArray(const OctBoolArray& other);
 		~OctBoolArray();
 
@@ -20,7 +23,7 @@ namespace chcl
 		inline const bool get(unsigned int index) const;
 		inline const bool set(unsigned int index, const bool state);
 	private:
-		unsigned int size, numElements;
+		unsigned int count, octBoolCount;
 		OctBool* data;
 	};
 }

@@ -1,37 +1,43 @@
-/** @file Defines the functions for the MatrixLib library.
-*/
-
-#include "include/Matrix.h"
+#include "Matrix.h"
 
 #include <stdexcept>
 
 using namespace chcl;
 
 Matrix::Matrix() :
-	m_cols{ 0 }, m_rows{ 0 }, values{ new float[0] } {}
+	m_cols{ 0 }, m_rows{ 0 }, m_values{ new float[0] } {}
 
 Matrix::Matrix(unsigned int cols, unsigned int rows, float defaultVal) :
-	m_cols{ cols }, m_rows{ rows }, values{ new float[cols * rows] }
+	m_cols{ cols }, m_rows{ rows }, m_values{ new float[cols * rows] }
 {
 	for (unsigned int i = cols * rows; i != 0; --i)
 	{
-		values[i - 1] = defaultVal;
+		m_values[i - 1] = defaultVal;
 	}
 }
 
 Matrix::Matrix(unsigned int cols, unsigned int rows, float* values) :
-	m_cols{ cols }, m_rows{ rows }, values{ new float[cols * rows] }
+	m_cols{ cols }, m_rows{ rows }, m_values{ new float[cols * rows] }
 {
-	memcpy(this->values, values, cols* rows * sizeof(float));
+	memcpy(this->m_values, values, cols* rows * sizeof(float));
+}
+
+Matrix::Matrix(unsigned int cols, unsigned int rows, std::initializer_list<float> values) :
+	Matrix(cols, rows)
+{
+	if (cols * rows != values.size())
+		std::throw_with_nested(std::invalid_argument("Initialiser lsit size does not match Matrix size."));
+
+	std::memcpy(m_values, values.begin(), values.size() * sizeof(float));
 }
 
 Matrix::Matrix(const Matrix& other) :
-	Matrix{ other.m_cols, other.m_rows, other.values }
+	Matrix(other.m_cols, other.m_rows, other.m_values)
 {}
 
 Matrix::~Matrix()
 {
-	delete[] values;
+	delete[] m_values;
 }
 
 unsigned int Matrix::getCols() const
@@ -52,11 +58,11 @@ float Matrix::getValue(unsigned int col, unsigned int row) const	// Const varian
 	if (row >= m_rows)
 		throw std::out_of_range("Row out of range.");
 
-	return values[row * m_cols + col];
+	return m_values[row * m_cols + col];
 
 }
 
-float& Matrix::getValue(unsigned int col, unsigned int row)			// Non-const variant
+float& Matrix::getValue(unsigned int col, unsigned int row)		// Non-const variant
 {
 	if (col >= m_cols)
 		throw std::out_of_range("Column out of range.");
@@ -64,7 +70,7 @@ float& Matrix::getValue(unsigned int col, unsigned int row)			// Non-const varia
 	if (row >= m_rows)
 		throw std::out_of_range("Row out of range.");
 
-	return values[row * m_cols + col];
+	return m_values[row * m_cols + col];
 }
 
 Matrix Matrix::getValueAsMatrix(unsigned int col, unsigned int row) const
@@ -129,7 +135,7 @@ float Matrix::determinant() const
 	if (m_rows == 2)
 	{
 		// Using ad - bc
-		return values[0] * values[3] - values[1] * values[2];
+		return m_values[0] * m_values[3] - m_values[1] * m_values[2];
 	}
 
 	float rollingDet = 0.f;							// Adds up the determinants of sum-matrices
@@ -147,7 +153,7 @@ float Matrix::determinant() const
 			if (j / m_cols == i / m_cols)
 				continue;
 
-			detCalculator.values[elementIndex] = values[j];
+			detCalculator.m_values[elementIndex] = m_values[j];
 
 			++elementIndex;
 		}
@@ -165,7 +171,7 @@ Matrix::operator bool() const
 
 	for (unsigned int i = m_cols * m_rows; i != 0; --i)
 	{
-		if (values[i - 1] != 0)
+		if (m_values[i - 1] != 0)
 		{
 			return true;
 		}
@@ -178,7 +184,7 @@ void Matrix::perValue(std::function<float(float)> func)
 {
 	for (unsigned int i = m_rows * m_cols - 1; --i;)
 	{
-		values[i] = func(values[i]);
+		m_values[i] = func(m_values[i]);
 	}
 }
 
@@ -289,6 +295,16 @@ Matrix chcl::operator*(Matrix lhs, const Matrix& rhs)
 	return lhs;
 }
 
+// Initializer list assignment
+
+Matrix& Matrix::operator =(std::initializer_list<float> values)
+{
+	if (m_cols * m_rows != values.size())
+		throw(std::invalid_argument("Initializer list size does not match matrix size."));
+
+	std::memcpy(m_values, values.begin(), values.size() * sizeof(float));
+}
+
 // Matrix assignment
 
 Matrix& Matrix::operator =(const Matrix& other)
@@ -296,14 +312,14 @@ Matrix& Matrix::operator =(const Matrix& other)
 	// Resize matrix if needed
 	if (m_cols != other.m_cols || m_rows != other.m_rows)
 	{
-		delete[] values;
+		delete[] m_values;
 
 		m_cols = other.m_cols;
 		m_rows = other.m_rows;
-		values = new float[m_cols * m_rows];	// Initialises to garbage, but overwritten later anyway.
+		m_values = new float[m_cols * m_rows];	// Initialises to garbage, but overwritten later anyway.
 	}
 
-	memcpy(values, other.values, m_cols * m_rows * sizeof(float));
+	memcpy(m_values, other.m_values, m_cols * m_rows * sizeof(float));
 
 	return *this;
 }
@@ -317,7 +333,7 @@ Matrix& Matrix::operator+=(const Matrix& other)
 
 	for (unsigned int i = m_rows * m_cols; i--;)
 	{
-		values[i] += other.values[i];
+		m_values[i] += other.m_values[i];
 	}
 
 	return *this;
@@ -332,7 +348,7 @@ Matrix& Matrix::operator-=(const Matrix& other)
 
 	for (unsigned int i = m_rows * m_cols; i--;)
 	{
-		values[i] -= other.values[i];
+		m_values[i] -= other.m_values[i];
 	}
 	return *this;
 }
@@ -376,7 +392,7 @@ bool Matrix::operator==(const Matrix& other) const
 
 	for (unsigned int i = m_cols * m_rows; i != 0; --i)
 	{
-		if (values[i - 1] != other.values[i - 1])
+		if (m_values[i - 1] != other.m_values[i - 1])
 		{
 			return false;
 		}

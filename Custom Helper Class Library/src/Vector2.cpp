@@ -1,195 +1,29 @@
-#include "include/Vector2.h"
+#include "Vector2.h"
 
 #include <cmath>
 
 using namespace chcl;
 
-Vector2::Vector2() :
-	x{ 0.f }, y{ 0.f } {}
-
-Vector2::Vector2(float num) :
-	x{ num }, y{ num } {}
-
-Vector2::Vector2(float x, float y) :
-	x{ x }, y{ y } {}
-
-Vector2 Vector2::xVector() const
+float Vector2::arg() const
 {
-	return Vector2(x, 0.f);
+	return atan2f(y, x);
 }
 
-Vector2 Vector2::yVector() const
+Vector2::Vector2(float x, float y)
 {
-	return Vector2(0.f, y);
+	this->x = x;
+	this->y = y;
 }
 
-Matrix Vector2::asColMatrix() const
-{
-	Matrix result{ 1, 2 };
-	result.getValue(0, 0) = x;
-	result.getValue(0, 1) = y;
+Vector2::Vector2(const VectorN<2>& vec) :
+	VectorN{ vec } {}
 
-	return result;
+Vector2 Vector2::xComponent() const
+{
+	return component(0);
 }
 
-float Vector2::magsq() const
+Vector2 Vector2::yComponent() const
 {
-	return x * x + y * y;
-}
-
-float Vector2::mag() const
-{
-	return std::sqrtf(magsq());
-}
-
-Vector2 chcl::operator+(Vector2 lhs, const Vector2& rhs)
-{
-	lhs += rhs;
-
-	return lhs;
-}
-
-Vector2 chcl::operator-(Vector2 lhs, const Vector2& rhs)
-{
-	lhs -= rhs;
-
-	return lhs;
-}
-
-Vector2 chcl::operator*(Vector2 lhs, const Vector2& rhs)
-{
-	lhs *= rhs;
-
-	return lhs;
-}
-
-Vector2 chcl::operator/(Vector2 lhs, const Vector2& rhs)
-{
-	lhs /= rhs;
-
-	return lhs;
-}
-
-Vector2 chcl::operator+(Vector2 vec, float val)
-{
-	vec.x += val;
-	vec.y += val;
-
-	return vec;
-}
-
-Vector2 chcl::operator-(Vector2 vec, float val)
-{
-	vec.x -= val;
-	vec.y -= val;
-
-	return vec;
-}
-
-Vector2 chcl::operator*(Vector2 vec, float val)
-{
-	vec.x *= val;
-	vec.y *= val;
-
-	return vec;
-}
-
-Vector2 chcl::operator/(Vector2 vec, float val)
-{
-	vec.x /= val;
-	vec.y /= val;
-
-	return vec;
-}
-
-Vector2 chcl::operator+(float val, Vector2 vec)
-{
-	vec.x += val;
-	vec.y += val;
-
-	return vec;
-}
-
-Vector2 chcl::operator-(float val, Vector2 vec)
-{
-	vec.x = val - vec.x;
-	vec.y = val - vec.y;
-
-	return vec;
-}
-
-Vector2 chcl::operator*(float val, Vector2 vec)
-{
-	vec.x *= val;
-	vec.y *= val;
-
-	return vec;
-}
-
-Vector2 chcl::operator/(float val, Vector2 vec)
-{
-	vec.x = val / vec.x;
-	vec.y = val / vec.y;
-
-	return vec;
-}
-
-Vector2& Vector2::operator =(const Vector2& other)
-{
-	x = other.x;
-	y = other.y;
-
-	return *this;
-}
-
-Vector2& Vector2::operator+=(const Vector2& other)
-{
-	x += other.x;
-	y += other.y;
-
-	return *this;
-}
-
-Vector2& Vector2::operator-=(const Vector2& other)
-{
-	x -= other.x;
-	y -= other.y;
-
-	return *this;
-}
-
-Vector2& Vector2::operator*=(const Vector2& other)
-{
-	x *= other.x;
-	y *= other.y;
-
-	return *this;
-}
-
-Vector2& Vector2::operator/=(const Vector2& other)
-{
-	x /= other.x;
-	y /= other.y;
-
-	return *this;
-}
-
-Vector2 Vector2::normalised() const
-{
-	return *this / mag();
-}
-
-float Vector2::dot(const Vector2& other) const
-{
-	return x * other.x + y * other.y;
-}
-
-bool Vector2::operator==(const Vector2& other) const
-{
-	return x == other.x && y == other.y;
-}
-
-bool Vector2::operator!=(const Vector2& other) const
-{
-	return !(*this == other);
+	return component(1);
 }
