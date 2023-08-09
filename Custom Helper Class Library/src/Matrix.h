@@ -14,8 +14,8 @@ namespace chcl
 		Matrix(const Matrix& other);
 		~Matrix();
 
-		unsigned int getCols() const;
-		unsigned int getRows() const;
+		inline unsigned int getCols() const { return m_cols; }
+		inline unsigned int getRows() const { return m_rows; }
 
 		float getValue(unsigned int col, unsigned int row) const;
 		float& getValue(unsigned int col, unsigned int row);	// Non-const variant

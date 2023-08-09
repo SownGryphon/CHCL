@@ -7,9 +7,9 @@ namespace chcl
 		OctBool();
 		OctBool(unsigned char data);
 
-		const bool operator[](unsigned char index) const;
+		inline bool operator[](unsigned char index) const { return get(index); }
 
-		const bool get(unsigned char index) const;
+		inline const bool get(unsigned char index) const { return (data & (1 << index) >> index);	}
 		const bool set(unsigned char index, const bool state);
 
 		operator bool() const;

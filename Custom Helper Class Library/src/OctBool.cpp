@@ -8,18 +8,6 @@ OctBool::OctBool() :
 OctBool::OctBool(unsigned char data) :
 	data{ data } {}
 
-const bool OctBool::operator[](unsigned char index) const
-{
-	return get(index);
-}
-
-const bool OctBool::get(unsigned char index) const
-{
-	unsigned char indexBit = 1 << index;
-
-	return ((data & indexBit) >> index);
-}
-
 const bool OctBool::set(unsigned char index, const bool state)
 {
 	unsigned char indexBit = 1 << index;

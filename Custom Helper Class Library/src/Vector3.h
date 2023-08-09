@@ -16,8 +16,8 @@ namespace chcl
 
 		Vector3(const VectorN<3>& vec);
 
-		Vector3 xComponent() const;
-		Vector3 yComponent() const;
-		Vector3 zComponent() const;
+		inline Vector3 xComponent() const { return component(0); }
+		inline Vector3 yComponent() const { return component(1); }
+		inline Vector3 zComponent() const { return component(2); }
 	};
 }

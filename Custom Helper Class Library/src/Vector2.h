@@ -15,8 +15,8 @@ namespace chcl
 
 		Vector2(const VectorN<2>& vec);
 
-		Vector2 xComponent() const;
-		Vector2 yComponent() const;
+		inline Vector2 xComponent() const { return component(0); }
+		inline Vector2 yComponent() const { return component(1); }
 
 		float arg() const;
 	};

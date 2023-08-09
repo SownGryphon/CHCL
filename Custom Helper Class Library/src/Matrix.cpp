@@ -8,7 +8,7 @@ Matrix::Matrix() :
 	m_cols{ 0 }, m_rows{ 0 }, m_values{ new float[0] } {}
 
 Matrix::Matrix(unsigned int cols, unsigned int rows, float defaultVal) :
-	m_cols{ cols }, m_rows{ rows }, m_values{ new float[cols * rows] }
+	m_cols{ cols }, m_rows{ rows }, m_values{ new float[size_t(cols) * rows] }
 {
 	for (unsigned int i = cols * rows; i != 0; --i)
 	{
@@ -19,13 +19,13 @@ Matrix::Matrix(unsigned int cols, unsigned int rows, float defaultVal) :
 Matrix::Matrix(unsigned int cols, unsigned int rows, float* values) :
 	m_cols{ cols }, m_rows{ rows }, m_values{ new float[cols * rows] }
 {
-	memcpy(this->m_values, values, cols* rows * sizeof(float));
+	memcpy(this->m_values, values, size_t(cols) * rows * sizeof(float));
 }
 
 Matrix::Matrix(unsigned int cols, unsigned int rows, std::initializer_list<float> values) :
 	Matrix(cols, rows)
 {
-	if (cols * rows != values.size())
+	if (size_t(cols) * rows != values.size())
 		std::throw_with_nested(std::invalid_argument("Initialiser lsit size does not match Matrix size."));
 
 	std::memcpy(m_values, values.begin(), values.size() * sizeof(float));
@@ -38,16 +38,6 @@ Matrix::Matrix(const Matrix& other) :
 Matrix::~Matrix()
 {
 	delete[] m_values;
-}
-
-unsigned int Matrix::getCols() const
-{
-	return m_cols;
-}
-
-unsigned int Matrix::getRows() const
-{
-	return m_rows;
 }
 
 float Matrix::getValue(unsigned int col, unsigned int row) const	// Const variant
@@ -147,9 +137,9 @@ float Matrix::determinant() const
 		unsigned int elementIndex = 0;	// Keeps track of what index of the sub-matrix should be written to
 		for (unsigned int j = 0; j < m_rows * m_cols; ++j)
 		{
+			// Skip rows and columns containing the current value
 			if (j % m_cols == i % m_cols)
 				continue;
-
 			if (j / m_cols == i / m_cols)
 				continue;
 
@@ -158,6 +148,7 @@ float Matrix::determinant() const
 			++elementIndex;
 		}
 
+		// Every other sub-determinant needs to be negative
 		rollingDet += detCalculator.determinant() * (i & 1 ? -1.f : 1.f);
 	}
 
@@ -244,35 +235,35 @@ Matrix& Matrix::operator =(float num)
 {
 	perValue([num](float val) { return num; });
 
-	return *this;
+	return (*this);
 }
 
 Matrix& Matrix::operator+=(float num)
 {
 	perValue([num](float val) { return val + num; });
 
-	return *this;
+	return (*this);
 }
 
 Matrix& Matrix::operator-=(float num)
 {
 	perValue([num](float val) { return val - num; });
 
-	return *this;
+	return (*this);
 }
 
 Matrix& Matrix::operator*=(float num)
 {
 	perValue([num](float val) { return val * num; });
 
-	return *this;
+	return (*this);
 }
 
 Matrix& Matrix::operator/=(float num)
 {
 	perValue([num](float val) { return val / num; });
 
-	return *this;
+	return (*this);
 }
 
 // Matrix arithmetic
@@ -299,10 +290,12 @@ Matrix chcl::operator*(Matrix lhs, const Matrix& rhs)
 
 Matrix& Matrix::operator =(std::initializer_list<float> values)
 {
-	if (m_cols * m_rows != values.size())
+	if (size_t(m_cols) * m_rows != values.size())
 		throw(std::invalid_argument("Initializer list size does not match matrix size."));
 
 	std::memcpy(m_values, values.begin(), values.size() * sizeof(float));
+
+	return (*this);
 }
 
 // Matrix assignment
@@ -319,9 +312,9 @@ Matrix& Matrix::operator =(const Matrix& other)
 		m_values = new float[m_cols * m_rows];	// Initialises to garbage, but overwritten later anyway.
 	}
 
-	memcpy(m_values, other.m_values, m_cols * m_rows * sizeof(float));
+	memcpy(m_values, other.m_values, size_t(m_cols) * m_rows * sizeof(float));
 
-	return *this;
+	return (*this);
 }
 
 Matrix& Matrix::operator+=(const Matrix& other)
@@ -336,7 +329,7 @@ Matrix& Matrix::operator+=(const Matrix& other)
 		m_values[i] += other.m_values[i];
 	}
 
-	return *this;
+	return (*this);
 }
 
 Matrix& Matrix::operator-=(const Matrix& other)
@@ -350,7 +343,7 @@ Matrix& Matrix::operator-=(const Matrix& other)
 	{
 		m_values[i] -= other.m_values[i];
 	}
-	return *this;
+	return (*this);
 }
 
 Matrix& Matrix::operator*=(const Matrix& other)
@@ -378,7 +371,7 @@ Matrix& Matrix::operator*=(const Matrix& other)
 	}
 
 	operator=(result);
-	return *this;
+	return (*this);
 }
 
 // Matrix comparison

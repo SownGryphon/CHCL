@@ -83,7 +83,7 @@ namespace chcl
 			return result;
 		}
 
-		VectorN component(unsigned int dimension) const
+		inline VectorN component(unsigned int dimension) const
 		{
 			VectorN result{};
 
@@ -92,15 +92,14 @@ namespace chcl
 			return result;
 		}
 
-		VectorN normalised() const
+		inline VectorN normalised() const
 		{
-			return *this / mag();
+			return (*this / mag());
 		}
 
-		Matrix toMatrix() const
+		inline Matrix toMatrix() const
 		{
-			Matrix result{ 1, dims, (float*)position };
-			return result;
+			return Matrix(1, dims, (float*)position);
 		}
 
 		float magsq() const
@@ -115,7 +114,7 @@ namespace chcl
 			return total;
 		}
 
-		float mag() const
+		inline float mag() const
 		{
 			return std::sqrtf(magsq());
 		}

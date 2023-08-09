@@ -59,18 +59,3 @@ OctBoolArray& OctBoolArray::operator=(const OctBoolArray& other)
 
 	return *this;
 }
-
-inline const bool OctBoolArray::operator[](unsigned int index) const
-{
-	return get(index);
-}
-
-inline const bool OctBoolArray::get(unsigned int index) const
-{
-	return data[index >> 3].get(index & 0b111);
-}
-
-inline const bool OctBoolArray::set(unsigned int index, const bool state)
-{
-	return data[index >> 3].set(index & 0b111, state);
-}
