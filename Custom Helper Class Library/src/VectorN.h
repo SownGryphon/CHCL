@@ -67,7 +67,7 @@ namespace chcl
 
 			for (unsigned int i = 0; i < dims; ++i)
 			{
-				result.position[i] = matrix.getValue(0, i);
+				result.position[i] = matrix.at(0, i);
 			}
 
 			return result;

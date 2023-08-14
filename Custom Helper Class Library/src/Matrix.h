@@ -17,8 +17,10 @@ namespace chcl
 		inline unsigned int getCols() const { return m_cols; }
 		inline unsigned int getRows() const { return m_rows; }
 
-		float getValue(unsigned int col, unsigned int row) const;
-		float& getValue(unsigned int col, unsigned int row);	// Non-const variant
+		inline float* const getValues() const { return m_values; }
+
+		float at(unsigned int col, unsigned int row) const;
+		float& at(unsigned int col, unsigned int row);	// Non-const variant
 
 		Matrix getValueAsMatrix(unsigned int col, unsigned int row) const;
 

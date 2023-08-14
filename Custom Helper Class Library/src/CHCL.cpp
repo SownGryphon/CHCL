@@ -10,13 +10,13 @@ using namespace chcl;
 void chcl::printMatrix(const Matrix& matrix, unsigned int places)
 {
 	std::stringstream numStream;
-	unsigned int maxLen = 0;
+	size_t maxLen = 0;
 	for (unsigned int i = 0; i < matrix.getRows(); ++i)
 	{
 		for (unsigned int j = 0; j < matrix.getCols(); ++j)
 		{
 			numStream.str(std::string());
-			numStream << std::fixed << std::setprecision(places) << matrix.getValue(j, i);
+			numStream << std::fixed << std::setprecision(places) << matrix.at(j, i);
 
 			if (numStream.str().length() > maxLen)
 				maxLen = numStream.str().length();
@@ -32,7 +32,7 @@ void chcl::printMatrix(const Matrix& matrix, unsigned int places)
 			if (j != 0)
 				std::cout << ", ";
 
-			std::cout << std::fixed << std::setw(maxLen) << std::setprecision(places) << matrix.getValue(j, i);
+			std::cout << std::fixed << std::setw(maxLen) << std::setprecision(places) << matrix.at(j, i);
 		}
 
 		std::cout << "|\n";

@@ -10,14 +10,14 @@ Matrix::Matrix() :
 Matrix::Matrix(unsigned int cols, unsigned int rows, float defaultVal) :
 	m_cols{ cols }, m_rows{ rows }, m_values{ new float[size_t(cols) * rows] }
 {
-	for (unsigned int i = cols * rows; i != 0; --i)
+	for (unsigned int i = cols * rows; i--;)
 	{
-		m_values[i - 1] = defaultVal;
+		m_values[i] = defaultVal;
 	}
 }
 
 Matrix::Matrix(unsigned int cols, unsigned int rows, float* values) :
-	m_cols{ cols }, m_rows{ rows }, m_values{ new float[cols * rows] }
+	m_cols{ cols }, m_rows{ rows }, m_values{ new float[size_t(cols) * rows] }
 {
 	memcpy(this->m_values, values, size_t(cols) * rows * sizeof(float));
 }
@@ -26,7 +26,7 @@ Matrix::Matrix(unsigned int cols, unsigned int rows, std::initializer_list<float
 	Matrix(cols, rows)
 {
 	if (size_t(cols) * rows != values.size())
-		std::throw_with_nested(std::invalid_argument("Initialiser lsit size does not match Matrix size."));
+		throw std::invalid_argument("Initialiser lsit size does not match Matrix size.");
 
 	std::memcpy(m_values, values.begin(), values.size() * sizeof(float));
 }
@@ -40,7 +40,7 @@ Matrix::~Matrix()
 	delete[] m_values;
 }
 
-float Matrix::getValue(unsigned int col, unsigned int row) const	// Const variant
+float Matrix::at(unsigned int col, unsigned int row) const	// Const variant
 {
 	if (col >= m_cols)
 		throw std::out_of_range("Column out of range.");
@@ -48,11 +48,11 @@ float Matrix::getValue(unsigned int col, unsigned int row) const	// Const varian
 	if (row >= m_rows)
 		throw std::out_of_range("Row out of range.");
 
-	return m_values[row * m_cols + col];
+	return m_values[size_t(row) * m_cols + col];
 
 }
 
-float& Matrix::getValue(unsigned int col, unsigned int row)		// Non-const variant
+float& Matrix::at(unsigned int col, unsigned int row)		// Non-const variant
 {
 	if (col >= m_cols)
 		throw std::out_of_range("Column out of range.");
@@ -60,12 +60,12 @@ float& Matrix::getValue(unsigned int col, unsigned int row)		// Non-const varian
 	if (row >= m_rows)
 		throw std::out_of_range("Row out of range.");
 
-	return m_values[row * m_cols + col];
+	return m_values[size_t(row) * m_cols + col];
 }
 
 Matrix Matrix::getValueAsMatrix(unsigned int col, unsigned int row) const
 {
-	return Matrix(1, 1, getValue(col, row));
+	return Matrix(1, 1, at(col, row));
 }
 
 void Matrix::getCol(unsigned int col, float* out) const
@@ -75,7 +75,7 @@ void Matrix::getCol(unsigned int col, float* out) const
 
 	for (unsigned int i = 0; i < m_rows; ++i)
 	{
-		out[i] = getValue(col, i);
+		out[i] = at(col, i);
 	}
 }
 
@@ -86,7 +86,7 @@ void Matrix::getRow(unsigned int row, float* out) const
 
 	for (unsigned int i = 0; i < m_cols; ++i)
 	{
-		out[i] = getValue(i, row);
+		out[i] = at(i, row);
 	}
 }
 
@@ -148,7 +148,7 @@ float Matrix::determinant() const
 		}
 
 		// Every other sub-determinant needs to be negative
-		rollingDet += getValue(i, 0) * detCalculator.determinant() * (i & 1 ? -1.f : 1.f);
+		rollingDet += at(i, 0) * detCalculator.determinant() * (i & 1 ? -1.f : 1.f);
 	}
 
 	return rollingDet;
@@ -159,9 +159,9 @@ Matrix::operator bool() const
 	if (m_cols == 0 && m_rows == 0)
 		return false;
 
-	for (unsigned int i = m_cols * m_rows; i != 0; --i)
+	for (unsigned int i = m_cols * m_rows; i--;)
 	{
-		if (m_values[i - 1] != 0)
+		if (m_values[i] != 0)
 		{
 			return true;
 		}
@@ -172,7 +172,7 @@ Matrix::operator bool() const
 
 void Matrix::perValue(std::function<float(float)> func)
 {
-	for (unsigned int i = m_rows * m_cols - 1; --i;)
+	for (unsigned int i = m_rows * m_cols; i--;)
 	{
 		m_values[i] = func(m_values[i]);
 	}
@@ -308,7 +308,7 @@ Matrix& Matrix::operator =(const Matrix& other)
 
 		m_cols = other.m_cols;
 		m_rows = other.m_rows;
-		m_values = new float[m_cols * m_rows];	// Initialises to garbage, but overwritten later anyway.
+		m_values = new float[size_t(m_cols) * m_rows];	// Initialises to garbage, but overwritten later anyway.
 	}
 
 	memcpy(m_values, other.m_values, size_t(m_cols) * m_rows * sizeof(float));
@@ -364,12 +364,12 @@ Matrix& Matrix::operator*=(const Matrix& other)
 		{
 			for (unsigned int k = 0; k < commonSize; ++k)
 			{
-				result.getValue(j, i) += getValue(k, i) * other.getValue(j, k);
+				result.at(j, i) += at(k, i) * other.at(j, k);
 			}
 		}
 	}
 
-	operator=(result);
+	(*this) = result;
 	return (*this);
 }
 
@@ -382,9 +382,9 @@ bool Matrix::operator==(const Matrix& other) const
 		return false;
 	}
 
-	for (unsigned int i = m_cols * m_rows; i != 0; --i)
+	for (unsigned int i = m_cols * m_rows; i--;)
 	{
-		if (m_values[i - 1] != other.m_values[i - 1])
+		if (m_values[i] != other.m_values[i])
 		{
 			return false;
 		}
