@@ -60,17 +60,17 @@ int main()
 
 	std::cout << "\nMatrices from initializer lists:\n";
 	chcl::Matrix matrix6(2, 3, {
-		0.5f, 0.2f,
-		0.3f, 1.3f,
+		 0.5f,   0.2f,
+		 0.3f,   1.3f,
 		-2.1f, 0.007f
 	});
 	std::cout << "Matrix6:\n"; chcl::printMatrix(matrix6);
 
 	chcl::Matrix matrix7(3, 4, {
-			0.4f, 1.4f, 4.7f,
-			0.09f, -7.5f, 11.92f,
-			-109.775f, 60.f, 31.8f,
-			12.9f, -47.f, -0.038f
+			     0.4f,   1.4f,    4.7f,
+			    0.09f,  -7.5f,  11.92f,
+			-109.775f,   60.f,   31.8f,
+			    12.9f,  -47.f, -0.038f
 		});
 	std::cout << "Matrix7:\n"; chcl::printMatrix(matrix7);
 
@@ -85,10 +85,14 @@ int main()
 	std::cout << "Determinant: " << detMatrix1.determinant() << "\n\n";
 
 	chcl::Matrix detMatrix2(3, 3, {
-			6, 1, 1,
-			4, -2, 5,
-			2, 8, 7
+			6,  1,  1,
+			4, -2,  5,
+			2,  8,  7
 		});
 	std::cout << "Matrix 2:\n"; chcl::printMatrix(detMatrix2);
 	std::cout << "Determinant: " << detMatrix2.determinant() << "\n\n";
+
+	chcl::Matrix identity5 = chcl::Matrix::Identity(5);
+	std::cout << "5x5 Identity matrix:\n";
+	chcl::printMatrix(identity5);
 }

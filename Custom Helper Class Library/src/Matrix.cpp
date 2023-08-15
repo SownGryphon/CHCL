@@ -4,11 +4,11 @@
 
 using namespace chcl;
 
-Matrix::Matrix() :
-	m_cols{ 0 }, m_rows{ 0 }, m_values{ new float[0] } {}
+Matrix::Matrix()
+	: m_cols{ 0 }, m_rows{ 0 }, m_values{ new float[0] } {}
 
-Matrix::Matrix(unsigned int cols, unsigned int rows, float defaultVal) :
-	m_cols{ cols }, m_rows{ rows }, m_values{ new float[size_t(cols) * rows] }
+Matrix::Matrix(unsigned int cols, unsigned int rows, float defaultVal)
+	: m_cols{ cols }, m_rows{ rows }, m_values{ new float[size_t(cols) * rows] }
 {
 	for (unsigned int i = cols * rows; i--;)
 	{
@@ -16,14 +16,14 @@ Matrix::Matrix(unsigned int cols, unsigned int rows, float defaultVal) :
 	}
 }
 
-Matrix::Matrix(unsigned int cols, unsigned int rows, float* values) :
-	m_cols{ cols }, m_rows{ rows }, m_values{ new float[size_t(cols) * rows] }
+Matrix::Matrix(unsigned int cols, unsigned int rows, float* values)
+	: m_cols{ cols }, m_rows{ rows }, m_values{ new float[size_t(cols) * rows] }
 {
 	memcpy(this->m_values, values, size_t(cols) * rows * sizeof(float));
 }
 
-Matrix::Matrix(unsigned int cols, unsigned int rows, std::initializer_list<float> values) :
-	Matrix(cols, rows)
+Matrix::Matrix(unsigned int cols, unsigned int rows, std::initializer_list<float> values)
+	: Matrix(cols, rows)
 {
 	if (size_t(cols) * rows != values.size())
 		throw std::invalid_argument("Initialiser lsit size does not match Matrix size.");
@@ -31,13 +31,25 @@ Matrix::Matrix(unsigned int cols, unsigned int rows, std::initializer_list<float
 	std::memcpy(m_values, values.begin(), values.size() * sizeof(float));
 }
 
-Matrix::Matrix(const Matrix& other) :
-	Matrix(other.m_cols, other.m_rows, other.m_values)
+Matrix::Matrix(const Matrix& other)
+	: Matrix(other.m_cols, other.m_rows, other.m_values)
 {}
 
 Matrix::~Matrix()
 {
 	delete[] m_values;
+}
+
+Matrix Matrix::Identity(unsigned int size)
+{
+	Matrix result(size, size);
+
+	for (unsigned int i = 0; i < size; ++i)
+	{
+		result.at(i, i) = 1.f;
+	}
+
+	return result;
 }
 
 float Matrix::at(unsigned int col, unsigned int row) const	// Const variant

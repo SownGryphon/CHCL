@@ -14,6 +14,8 @@ namespace chcl
 		Matrix(const Matrix& other);
 		~Matrix();
 
+		static Matrix Identity(unsigned int size);
+
 		inline unsigned int getCols() const { return m_cols; }
 		inline unsigned int getRows() const { return m_rows; }
 
