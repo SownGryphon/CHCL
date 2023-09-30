@@ -143,6 +143,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\geometry\Circle.cpp" />
+    <ClCompile Include="src\geometry\Rect.cpp" />
+    <ClCompile Include="src\geometry\ShapeOverlap.cpp" />
     <ClCompile Include="src\OctBool.cpp" />
     <ClCompile Include="src\CHCL.cpp" />
     <ClCompile Include="src\Matrix.cpp" />
@@ -151,6 +154,10 @@
     <ClCompile Include="src\Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\geometry\Circle.h" />
+    <ClInclude Include="src\geometry\Rect.h" />
+    <ClInclude Include="src\geometry\Shape.h" />
+    <ClInclude Include="src\geometry\ShapeOverlap.h" />
     <ClInclude Include="src\OctBool.h" />
     <ClInclude Include="src\CHCL.h" />
     <ClInclude Include="src\Matrix.h" />
