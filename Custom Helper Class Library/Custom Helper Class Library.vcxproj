@@ -154,6 +154,7 @@
     <ClCompile Include="src\Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\dataStorage\QuadTree.h" />
     <ClInclude Include="src\geometry\Circle.h" />
     <ClInclude Include="src\geometry\Rect.h" />
     <ClInclude Include="src\geometry\Shape.h" />

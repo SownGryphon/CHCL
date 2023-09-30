@@ -77,5 +77,8 @@
     <ClInclude Include="src\geometry\ShapeOverlap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\dataStorage\QuadTree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -8,6 +8,8 @@
 #include "geometry/Rect.h"
 #include "geometry/ShapeOverlap.h"
 
+#include "dataStorage/QuadTree.h"
+
 int main()
 {
 	//chcl::VectorN<2> Vector1(5.f);
@@ -117,4 +119,12 @@ int main()
 	std::cout << "Rect1 overlaps Rect2? " << chcl::checkOverlap(rect1, rect2) << '\n';
 	std::cout << "Rect1 overlaps Rect3? " << chcl::checkOverlap(rect1, rect3) << '\n';
 	std::cout << "Rect1 overlaps Rect4? " << chcl::checkOverlap(rect1, rect4) << '\n';
+
+	chcl::QuadTree<std::string> qt(chcl::Rect(0, 0, 100, 100));
+
+	qt.addElement("Test 1 at [10, 10]", { 10, 10 });
+	qt.addElement("Test 2 at [15, 9]", { 15, 9 });
+	qt.addElement("Test 3 at [70, 22]", { 70, 22 });
+	qt.addElement("Test 4 at [10, 10]", { 10, 10 });
+
 }
