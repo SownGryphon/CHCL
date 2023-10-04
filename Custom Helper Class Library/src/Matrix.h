@@ -15,6 +15,7 @@ namespace chcl
 		~Matrix();
 
 		static Matrix Identity(unsigned int size);
+		static Matrix Rotation2D(float angle);
 
 		inline unsigned int getCols() const { return m_cols; }
 		inline unsigned int getRows() const { return m_rows; }

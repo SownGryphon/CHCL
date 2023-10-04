@@ -8,16 +8,20 @@ namespace chcl
 	{
 		using VectorN::VectorN;
 
+		float &x = position[0],
+			&y = position[1];
+
 		Vector2(float x, float y);
-		Vector2(const VectorN<2>& vec);
+		Vector2(const VectorN<2> &vec);
+		Vector2(const Vector2 &vec);
 
 		static Vector2 FromAngle(float angle);
 
-		inline float x() const { return position[0]; }
-		inline float y() const { return position[1]; }
+		//inline float x() const { return position[0]; }
+		//inline float y() const { return position[1]; }
 
-		inline float& x() { return position[0]; }
-		inline float& y() { return position[1]; }
+		//inline float& x() { return position[0]; }
+		//inline float& y() { return position[1]; }
 
 		inline Vector2 xComponent() const { return component(0); }
 		inline Vector2 yComponent() const { return component(1); }

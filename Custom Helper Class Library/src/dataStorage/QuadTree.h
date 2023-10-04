@@ -34,8 +34,8 @@ namespace chcl
 						{
 							children[i] = new QTRegion(Rect(
 								Vector2(
-									area.origin.x() + area.size.x() / 2 * (i & 0b1),
-									area.origin.y() + area.size.y() / 2 * ((i & 0b10) >> 1)
+									area.origin.x + area.size.x / 2 * (i & 0b1),
+									area.origin.y + area.size.y / 2 * ((i & 0b10) >> 1)
 								),
 								area.size / 2
 							));

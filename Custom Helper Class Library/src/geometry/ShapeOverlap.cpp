@@ -17,8 +17,8 @@ bool chcl::checkOverlap(const Circle &circle, const Rect &rect)
 template <>
 bool chcl::checkOverlap(const Rect &r1, const Rect &r2)
 {
-	return r1.origin.x() + r1.size.x() > r2.origin.x()
-		&& r2.origin.x() + r2.size.x() > r1.origin.x()
-		&& r1.origin.y() + r1.size.y() > r2.origin.y()
-		&& r2.origin.y() + r2.size.y() > r1.origin.y();
+	return r1.origin.x + r1.size.x > r2.origin.x
+		&& r2.origin.x + r2.size.x > r1.origin.x
+		&& r1.origin.y + r1.size.y > r2.origin.y
+		&& r2.origin.y + r2.size.y > r1.origin.y;
 }

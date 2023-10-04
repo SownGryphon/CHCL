@@ -50,7 +50,7 @@ namespace chcl
 			std::memcpy(position, values.begin(), sizeof(float) * dims);
 		}
 
-		VectorN(const VectorN<dims>& other)
+		VectorN(const VectorN<dims> &other)
 		{
 			for (unsigned int i = 0; i < dims; ++i)
 			{
@@ -71,6 +71,18 @@ namespace chcl
 			}
 
 			return result;
+		}
+
+		static float Dot(const VectorN &vec1, const VectorN& vec2)
+		{
+			float total = 0;
+
+			for (unsigned int i = 0; i < dims; ++i)
+			{
+				total += vec1.position[i] * vec2.position[i];
+			}
+
+			return total;
 		}
 
 		template <unsigned int otherDims>
@@ -104,14 +116,7 @@ namespace chcl
 
 		float magsq() const
 		{
-			float total = 0;
-
-			for (unsigned int i = 0; i < dims; ++i)
-			{
-				total += position[i] * position[i];
-			}
-
-			return total;
+			return Dot(*this, *this);
 		}
 
 		inline float mag() const
@@ -119,19 +124,7 @@ namespace chcl
 			return std::sqrtf(magsq());
 		}
 
-		float dot(const VectorN& other) const
-		{
-			float total = 0;
-
-			for (unsigned int i = 0; i < dims; ++i)
-			{
-				total += position[i] * other.position[i];
-			}
-
-			return total;
-		}
-
-		VectorN& operator=(const VectorN& other)
+		VectorN& operator =(const VectorN& other)
 		{
 			std::memcpy(this->position, other.position, sizeof(float) * dims);
 			return *this;

@@ -52,6 +52,14 @@ Matrix Matrix::Identity(unsigned int size)
 	return result;
 }
 
+Matrix Matrix::Rotation2D(float angle)
+{
+	return Matrix(2, 2, {
+		std::cos(angle), -std::sin(angle),
+		std::sin(angle),  std::cos(angle)
+	});
+}
+
 float Matrix::at(unsigned int col, unsigned int row) const	// Const variant
 {
 	if (col >= m_cols)
