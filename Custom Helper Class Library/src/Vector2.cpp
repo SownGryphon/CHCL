@@ -17,3 +17,8 @@ Vector2::Vector2(float x, float y)
 
 Vector2::Vector2(const VectorN<2>& vec) :
 	VectorN{ vec } {}
+
+Vector2 chcl::Vector2::FromAngle(float angle)
+{
+	return Vector2(std::cosf(angle), std::sinf(angle));
+}

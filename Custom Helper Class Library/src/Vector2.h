@@ -11,6 +11,8 @@ namespace chcl
 		Vector2(float x, float y);
 		Vector2(const VectorN<2>& vec);
 
+		static Vector2 FromAngle(float angle);
+
 		inline float x() const { return position[0]; }
 		inline float y() const { return position[1]; }
 

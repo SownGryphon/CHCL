@@ -126,5 +126,4 @@ int main()
 	qt.addElement("Test 2 at [15, 9]", { 15, 9 });
 	qt.addElement("Test 3 at [70, 22]", { 70, 22 });
 	qt.addElement("Test 4 at [10, 10]", { 10, 10 });
-
 }
