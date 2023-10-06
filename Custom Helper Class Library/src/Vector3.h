@@ -16,13 +16,7 @@ namespace chcl
 		Vector3(const VectorN<3>& vec);
 		Vector3(const Vector3 &vec);
 
-		//inline float x() const { return position[0]; }
-		//inline float y() const { return position[1]; }
-		//inline float z() const { return position[2]; }
-
-		//inline float& x() { return position[0]; }
-		//inline float& y() { return position[1]; }
-		//inline float& z() { return position[2]; }
+		static Vector3 Cross(const Vector3 &vec1, const Vector3 &vec2);
 
 		inline Vector3 xComponent() const { return component(0); }
 		inline Vector3 yComponent() const { return component(1); }

@@ -14,15 +14,13 @@ int main()
 {
 	chcl::VectorN<2> Vector1(5.f);
 
-	std::cout << "Template vector: [x: " << Vector1.position[0] << ", y: " << Vector1.position[1] << "]\n";
+	std::cout << "Template vector2: [x: " << Vector1.position[0] << ", y: " << Vector1.position[1] << "]\n";
 
 	chcl::Vector2 Vector2_1(3.f), Vector2_2(5.f);
 	
-	std::cout << "Template vector2: [x: " << Vector2_1.x << ", y: " << Vector2_1.y << "]\n";
+	std::cout << "Vector2: [x: " << Vector2_1.x << ", y: " << Vector2_1.y << "]\n";
 
-	std::cout << "CHCL Vector2 print: ";
-	chcl::printVector(Vector2_2);
-	std::cout << '\n';
+	std::cout << "CHCL Vector2 print: "; chcl::printVector(Vector2_2); std::cout << '\n';
 
 	chcl::VectorN<5> Vector5_1, Vector5_2(4.2f), Vector5_3{ 0.1f, -3.7f, 17.73f, 2.957f, -175.9f };
 
@@ -105,10 +103,15 @@ int main()
 	chcl::Matrix identity5 = chcl::Matrix::Identity(5);
 	std::cout << "5x5 Identity matrix:\n";
 	chcl::printMatrix(identity5);
+	std::cout << '\n';
 
-	chcl::Matrix rotation90 = chcl::Matrix::Rotation2D(3.14159 / 2);
+	chcl::Matrix rotation90 = chcl::Matrix::Rotation2D(3.14159 / 2),
+		rotation215 = chcl::Matrix::Rotation2D(3.14159 * 1.25);
 	std::cout << "90 degree rotation matrix: \n";
 	chcl::printMatrix(rotation90);
+	std::cout << "215 degree rotation matrix:\n";
+	chcl::printMatrix(rotation215);
+	std::cout << '\n';
 
 
 	chcl::Rect rect1(3, 5, 13, 7);
@@ -134,4 +137,7 @@ int main()
 	qt.addElement("Test 2 at [15, 9]", { 15, 9 });
 	qt.addElement("Test 3 at [70, 22]", { 70, 22 });
 	qt.addElement("Test 4 at [10, 10]", { 10, 10 });
+
+	chcl::Vector3 test1(2, 3, 4);
+	chcl::VectorN<3> test2 = test1;
 }

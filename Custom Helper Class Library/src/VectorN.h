@@ -9,16 +9,7 @@
 
 namespace chcl
 {
-	VecNTemplate
-	struct VectorN;
-
-	VecNTemplate VectorN<dims> operator+(VectorN<dims> lhs, const VectorN<dims>& rhs);
-	VecNTemplate VectorN<dims> operator-(VectorN<dims> lhs, const VectorN<dims>& rhs);
-	VecNTemplate VectorN<dims> operator*(VectorN<dims> lhs, float val);
-	VecNTemplate VectorN<dims> operator/(VectorN<dims> lhs, float val);
-	VecNTemplate VectorN<dims> operator*(float val, VectorN<dims> lhs);
-
-	VecNTemplate
+	template <unsigned int dims = 2>
 	struct VectorN
 	{
 		float position[dims];
@@ -124,6 +115,26 @@ namespace chcl
 			return std::sqrtf(magsq());
 		}
 
+		inline float operator[](const unsigned int i) const
+		{
+			return position[i];
+		}
+
+		inline float& operator[](const unsigned int i)
+		{
+			return position[i];
+		}
+
+		VectorN operator-()
+		{
+			VectorN result;
+			for (unsigned int i = 0; i < dims; ++i)
+			{
+				result[i] *= -position[i];
+			}
+			return result;
+		}
+
 		VectorN& operator =(const VectorN& other)
 		{
 			std::memcpy(this->position, other.position, sizeof(float) * dims);
@@ -134,7 +145,7 @@ namespace chcl
 		{
 			for (unsigned int i = 0; i < dims; ++i)
 			{
-				this->position[i] += other.position[i];
+				this->position[i] += other[i];
 			}
 
 			return *this;
@@ -144,7 +155,7 @@ namespace chcl
 		{
 			for (unsigned int i = 0; i < dims; ++i)
 			{
-				this->position[i] -= other.position[i];
+				this->position[i] -= other[i];
 			}
 
 			return *this;
@@ -169,6 +180,20 @@ namespace chcl
 
 			return *this;
 		}
+
+		explicit operator bool()
+		{
+			for (unsigned int i = 0; i < dims; ++i)
+			{
+				if (position[i])
+					return true;
+			}
+
+			return false;
+		}
+
+		friend constexpr bool operator==(const VectorN &vec1, const VectorN &vec2) = default;
+		friend constexpr bool operator!=(const VectorN &vec1, const VectorN &vec2) = default;
 	};
 
 	VecNTemplate VectorN<dims> operator+(VectorN<dims> lhs, const VectorN<dims>& rhs)
@@ -201,3 +226,5 @@ namespace chcl
 		return vec;
 	}
 }
+
+#undef VecNTemplate
