@@ -6,6 +6,10 @@ namespace chcl
 {
 	struct Matrix
 	{
+		unsigned int m_cols,
+			m_rows;
+
+		float* m_values;
 	public:
 		Matrix();
 		Matrix(unsigned int cols, unsigned int rows, float defaultVal = 0.f);
@@ -37,15 +41,6 @@ namespace chcl
 
 		operator bool() const;
 
-		friend Matrix operator+(Matrix matrix, float val);
-		friend Matrix operator-(Matrix matrix, float val);
-		friend Matrix operator*(Matrix matrix, float val);
-		friend Matrix operator/(Matrix matrix, float val);
-
-		friend Matrix operator+(float val, Matrix matrix);
-		friend Matrix operator-(float val, Matrix matrix);
-		friend Matrix operator*(float val, Matrix matrix);
-		friend Matrix operator/(float val, Matrix matrix);
 
 		friend Matrix operator+(Matrix lhs, const Matrix& rhs);
 		friend Matrix operator-(Matrix lhs, const Matrix& rhs);
@@ -55,9 +50,6 @@ namespace chcl
 
 		Matrix& operator =(std::initializer_list<float> values);
 
-		Matrix& operator =(float val);
-		Matrix& operator+=(float val);
-		Matrix& operator-=(float val);
 		Matrix& operator*=(float val);
 		Matrix& operator/=(float val);
 
@@ -68,10 +60,5 @@ namespace chcl
 
 		bool operator==(const Matrix& other) const;
 		bool operator!=(const Matrix& other) const;
-	private:
-		unsigned int m_cols,
-			m_rows;
-
-		float* m_values;
 	};
 }

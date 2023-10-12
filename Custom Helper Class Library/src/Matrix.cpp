@@ -200,18 +200,7 @@ void Matrix::perValue(std::function<float(float)> func)
 
 // Float arithmetic
 
-Matrix chcl::operator+(Matrix matrix, float num)
 {
-	matrix += num;
-	return matrix;
-}
-
-Matrix chcl::operator-(Matrix matrix, float num)
-{
-	matrix -= num;
-	return matrix;
-}
-
 Matrix chcl::operator*(Matrix matrix, float num)
 {
 	matrix *= num;
@@ -224,16 +213,6 @@ Matrix chcl::operator/(Matrix matrix, float num)
 	return matrix;
 }
 
-Matrix chcl::operator+(float num, Matrix matrix)
-{
-	matrix += num;
-	return matrix;
-}
-
-Matrix chcl::operator-(float num, Matrix matrix)
-{
-	matrix -= num;
-	return matrix;
 }
 
 Matrix chcl::operator*(float num, Matrix matrix)
@@ -249,27 +228,6 @@ Matrix chcl::operator/(float num, Matrix matrix)
 }
 
 // Float assignment
-
-Matrix& Matrix::operator =(float num)
-{
-	perValue([num](float val) { return num; });
-
-	return (*this);
-}
-
-Matrix& Matrix::operator+=(float num)
-{
-	perValue([num](float val) { return val + num; });
-
-	return (*this);
-}
-
-Matrix& Matrix::operator-=(float num)
-{
-	perValue([num](float val) { return val - num; });
-
-	return (*this);
-}
 
 Matrix& Matrix::operator*=(float num)
 {
