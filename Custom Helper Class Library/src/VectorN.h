@@ -147,7 +147,6 @@ namespace chcl
 			{
 				this->position[i] += other[i];
 			}
-
 			return *this;
 		}
 
@@ -157,7 +156,24 @@ namespace chcl
 			{
 				this->position[i] -= other[i];
 			}
+			return *this;
+		}
 
+		VectorN& operator*=(const VectorN& other)
+		{
+			for (unsigned int i = 0; i < dims; ++i)
+			{
+				this->position[i] *= other[i];
+			}
+			return *this;
+		}
+
+		VectorN& operator/=(const VectorN& other)
+		{
+			for (unsigned int i = 0; i < dims; ++i)
+			{
+				this->position[i] /= other[i];
+			}
 			return *this;
 		}
 
@@ -167,7 +183,6 @@ namespace chcl
 			{
 				position[i] *= val;
 			}
-
 			return *this;
 		}
 
@@ -177,7 +192,6 @@ namespace chcl
 			{
 				position[i] /= val;
 			}
-
 			return *this;
 		}
 
@@ -188,7 +202,6 @@ namespace chcl
 				if (position[i])
 					return true;
 			}
-
 			return false;
 		}
 
@@ -196,34 +209,53 @@ namespace chcl
 		friend constexpr bool operator!=(const VectorN &vec1, const VectorN &vec2) = default;
 	};
 
-	VecNTemplate VectorN<dims> operator+(VectorN<dims> lhs, const VectorN<dims>& rhs)
+	VecNTemplate VectorN<dims> operator+(const VectorN<dims> &lhs, const VectorN<dims> &rhs)
 	{
-		lhs += rhs;
-		return lhs;
+		VectorN result = lhs;
+		result += rhs;
+		return result;
+	}
+	
+	VecNTemplate VectorN<dims> operator-(const VectorN<dims> &lhs, const VectorN<dims> &rhs)
+	{
+		VectorN result = lhs;
+		result -= rhs;
+		return result;
+	}
+	
+	VecNTemplate VectorN<dims> operator*(const VectorN<dims> &lhs, const VectorN<dims> &rhs)
+	{
+		VectorN result = lhs;
+		result *= rhs;
+		return result;
+	}
+	
+	VecNTemplate VectorN<dims> operator/(const VectorN<dims> &lhs, const VectorN<dims> &rhs)
+	{
+		VectorN result = lhs;
+		result /= rhs;
+		return result;
 	}
 
-	VecNTemplate VectorN<dims> operator-(VectorN<dims> lhs, const VectorN<dims>& rhs)
+	VecNTemplate VectorN<dims> operator*(const VectorN<dims> &vec, float val)
 	{
-		lhs -= rhs;
-		return lhs;
+		VectorN result = vec;
+		result *= val;
+		return result;
 	}
 
-	VecNTemplate VectorN<dims> operator*(VectorN<dims> vec, float val)
+	VecNTemplate VectorN<dims> operator*(float val, const VectorN<dims> &vec)
 	{
-		vec *= val;
-		return vec;
+		VectorN result = vec;
+		result *= val;
+		return result;
 	}
 
-	VecNTemplate VectorN<dims> operator*(float val, VectorN<dims> vec)
+	VecNTemplate VectorN<dims> operator/(const VectorN<dims> &vec, float val)
 	{
-		vec *= val;
-		return vec;
-	}
-
-	VecNTemplate VectorN<dims> operator/(VectorN<dims> vec, float val)
-	{
-		vec /= val;
-		return vec;
+		VectorN result = vec;
+		result /= val;
+		return result;
 	}
 }
 
