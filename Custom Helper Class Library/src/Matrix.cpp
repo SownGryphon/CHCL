@@ -200,31 +200,25 @@ void Matrix::perValue(std::function<float(float)> func)
 
 // Float arithmetic
 
+Matrix chcl::operator*(const Matrix &matrix, float num)
 {
-Matrix chcl::operator*(Matrix matrix, float num)
-{
-	matrix *= num;
-	return matrix;
+	Matrix result = matrix;
+	result *= num;
+	return result;
 }
 
-Matrix chcl::operator/(Matrix matrix, float num)
+Matrix chcl::operator/(const Matrix &matrix, float num)
 {
-	matrix /= num;
-	return matrix;
+	Matrix result = matrix;
+	result /= num;
+	return result;
 }
 
-}
-
-Matrix chcl::operator*(float num, Matrix matrix)
+Matrix chcl::operator*(float num, const Matrix &matrix)
 {
-	matrix *= num;
-	return matrix;
-}
-
-Matrix chcl::operator/(float num, Matrix matrix)
-{
-	matrix /= num;
-	return matrix;
+	Matrix result = matrix;
+	result *= num;
+	return result;
 }
 
 // Float assignment
@@ -245,22 +239,41 @@ Matrix& Matrix::operator/=(float num)
 
 // Matrix arithmetic
 
-Matrix chcl::operator+(Matrix lhs, const Matrix& rhs)
+Matrix chcl::operator+(const Matrix &lhs, const Matrix& rhs)
 {
-	lhs += rhs;
-	return rhs;
+	Matrix result = lhs;
+	result += rhs;
+	return result;
 }
 
-Matrix chcl::operator-(Matrix lhs, const Matrix& rhs)
+Matrix chcl::operator-(const Matrix &lhs, const Matrix& rhs)
 {
-	lhs -= rhs;
-	return lhs;
+	Matrix result = lhs;
+	result -= rhs;
+	return result;
 }
 
-Matrix chcl::operator*(Matrix lhs, const Matrix& rhs)
+Matrix chcl::operator*(const Matrix &lhs, const Matrix &rhs)
 {
-	lhs *= rhs;
-	return lhs;
+	// Abort if multiplication cannot be done.
+	if (lhs.m_cols != rhs.m_rows)
+	{
+		throw std::invalid_argument("Matrix sizes are not appropriate to execute matrix multiplication.");
+	}
+
+	Matrix result{ rhs.m_cols, lhs.m_rows };
+
+	for (unsigned int i = 0; i < lhs.m_rows; ++i)
+	{
+		for (unsigned int j = 0; j < rhs.m_cols; ++j)
+		{
+			for (unsigned int k = 0; k < lhs.m_cols; ++k)
+			{
+				result.at(j, i) += lhs.at(k, i) * rhs.at(j, k);
+			}
+		}
+	}
+	return result;
 }
 
 // Initializer list assignment
@@ -325,29 +338,7 @@ Matrix& Matrix::operator-=(const Matrix& other)
 
 Matrix& Matrix::operator*=(const Matrix& other)
 {
-	// Abort if multiplication cannot be done.
-	if (m_cols != other.m_rows)
-	{
-		throw std::invalid_argument("Matrix sizes are not appropriate to execute matrix multiplication.");
-	}
-
-	Matrix result{ other.m_cols, m_rows };
-
-	// For readability's sake in the triple for-loop.
-	const unsigned int& commonSize = m_cols;
-
-	for (unsigned int i = 0; i < m_rows; ++i)
-	{
-		for (unsigned int j = 0; j < other.m_cols; ++j)
-		{
-			for (unsigned int k = 0; k < commonSize; ++k)
-			{
-				result.at(j, i) += at(k, i) * other.at(j, k);
-			}
-		}
-	}
-
-	(*this) = result;
+	(*this) = (*this) * other;
 	return (*this);
 }
 

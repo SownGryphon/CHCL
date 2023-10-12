@@ -41,10 +41,13 @@ namespace chcl
 
 		operator bool() const;
 
+		friend Matrix operator*(const Matrix &matrix, float val);
+		friend Matrix operator/(const Matrix &matrix, float val);
+		friend Matrix operator*(float val, const Matrix &matrix);
 
-		friend Matrix operator+(Matrix lhs, const Matrix& rhs);
-		friend Matrix operator-(Matrix lhs, const Matrix& rhs);
-		friend Matrix operator*(Matrix lhs, const Matrix& rhs);
+		friend Matrix operator+(const Matrix &lhs, const Matrix& rhs);
+		friend Matrix operator-(const Matrix &lhs, const Matrix& rhs);
+		friend Matrix operator*(const Matrix &lhs, const Matrix& rhs);
 
 		void perValue(std::function<float(float)>);
 
