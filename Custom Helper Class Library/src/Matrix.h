@@ -20,6 +20,7 @@ namespace chcl
 
 		static Matrix Identity(unsigned int size);
 		static Matrix Rotation2D(float angle);
+		static Matrix Resize(const Matrix &mat, unsigned int width, unsigned int height);
 
 		inline unsigned int getCols() const { return m_cols; }
 		inline unsigned int getRows() const { return m_rows; }
@@ -53,6 +54,7 @@ namespace chcl
 
 		Matrix& operator =(std::initializer_list<float> values);
 
+		Matrix& operator =(float val);
 		Matrix& operator*=(float val);
 		Matrix& operator/=(float val);
 
