@@ -27,13 +27,18 @@ namespace chcl
 			this->z = z;
 		}
 
-		Vector3(const VectorN<3>& vec) : VectorN<3, T>(vec) {}
+		Vector3(const VectorN<3>& vec)
+		{
+			x = vec.position[0];
+			y = vec.position[1];
+			z = vec.position[2];
+		}
 
 		Vector3(const Vector3 &vec)
 		{
-			this->x = vec.x;
-			this->y = vec.y;
-			this->z = vec.z;
+			x = vec.x;
+			y = vec.y;
+			z = vec.z;
 		}
 
 		static Vector3 Cross(const Vector3 &vec1, const Vector3 &vec2)

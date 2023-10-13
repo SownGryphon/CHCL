@@ -24,7 +24,12 @@ namespace chcl
 			this->y = y;
 		}
 
-		Vector2(const VectorN<2> &vec) : VectorN<2, T>(vec) {}
+		Vector2(const VectorN<2> &vec)
+		{
+			x = vec.position[0];
+			y = vec.position[1];
+		}
+
 		Vector2(const Vector2 &vec)
 		{
 			this->x = vec.x;
@@ -42,6 +47,68 @@ namespace chcl
 		T arg() const
 		{
 			return atan2(y, x);
+		}
+
+		Vector2& operator =(T val)
+		{
+			std::fill(&x, &y, T);
+			return *this;
+		}
+
+		Vector2& operator+=(const Vector2 &other)
+		{
+			x += other.x;
+			y += other.y;
+			return *this;
+		}
+
+		Vector2& operator-=(const Vector2 &other)
+		{
+			x -= other.x;
+			y -= other.y;
+			return *this;
+		}
+
+		Vector2& operator*=(const Vector2 &other)
+		{
+			x *= other.x;
+			y *= other.y;
+			return *this;
+		}
+
+		Vector2& operator/=(const Vector2 &other)
+		{
+			x /= other.x;
+			y /= other.y;
+			return *this;
+		}
+
+		friend Vector2 operator+(const Vector2 &vec1, const Vector2 &vec2)
+		{
+			Vector2 result = vec1;
+			result += vec2;
+			return result;
+		}
+
+		friend Vector2 operator-(const Vector2 &vec1, const Vector2 &vec2)
+		{
+			Vector2 result = vec1;
+			result -= vec2;
+			return result;
+		}
+
+		friend Vector2 operator*(const Vector2 &vec1, const Vector2 &vec2)
+		{
+			Vector2 result = vec1;
+			result *= vec2;
+			return result;
+		}
+
+		friend Vector2 operator/(const Vector2 &vec1, const Vector2 &vec2)
+		{
+			Vector2 result = vec1;
+			result /= vec2;
+			return result;
 		}
 	};
 }

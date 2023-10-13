@@ -14,18 +14,12 @@ namespace chcl
 
 		VectorN()
 		{
-			for (unsigned int i = 0; i < dims; ++i)
-			{
-				position[i] = 0;
-			}
+			std::fill(position, position + dims, T(0));
 		}
 
 		VectorN(T val)
 		{
-			for (unsigned int i = 0; i < dims; ++i)
-			{
-				position[i] = val;
-			}
+			std::fill(position, position + dims, val);
 		}
 
 		VectorN(T position[dims])
@@ -51,7 +45,7 @@ namespace chcl
 		template <unsigned int otherDims>
 		VectorN(const VectorN<otherDims, T> &other)
 		{
-			std::memcpy(position, other.position, sizeof(T) * std::min(dims, otherDims);
+			std::memcpy(position, other.position, sizeof(T) * std::min(dims, otherDims));
 		}
 
 		static VectorN FromMatrix(const Matrix& matrix)
