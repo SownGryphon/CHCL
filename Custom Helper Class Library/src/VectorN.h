@@ -39,21 +39,19 @@ namespace chcl
 			std::memcpy(position, values.begin(), sizeof(T) * dims);
 		}
 
-		VectorN(const VectorN &other)
+		template <unsigned int otherDims, typename T2>
+		VectorN(const VectorN<otherDims, T2> &vec)
 		{
-			for (unsigned int i = 0; i < dims; ++i)
-			{
-				this->position[i] = other.position[i];
-			}
-		}
-
-		template <typename T2>
-		VectorN(const VectorN<dims, T2> &vec)
-		{
-			for (unsigned int i = 0; i < dims; ++i)
+			for (unsigned int i = 0; i < std::min(dims, otherDims); ++i)
 			{
 				position[i] = vec.position[i];
 			}
+		}
+
+		template <unsigned int otherDims>
+		VectorN(const VectorN<otherDims, T> &other)
+		{
+			std::memcpy(position, other.position, sizeof(T) * std::min(dims, otherDims);
 		}
 
 		static VectorN FromMatrix(const Matrix& matrix)
@@ -81,16 +79,6 @@ namespace chcl
 			}
 
 			return total;
-		}
-
-		template <unsigned int otherDims>
-		static VectorN Project(const VectorN<otherDims>& other)
-		{
-			VectorN<dims> result{};
-
-			std::memcpy(result.position, other.position, sizeof(T) * std::min(dims, otherDims));
-
-			return result;
 		}
 
 		inline VectorN component(unsigned int dimension) const
