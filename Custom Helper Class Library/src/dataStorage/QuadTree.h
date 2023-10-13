@@ -13,7 +13,7 @@ namespace chcl
 		struct QTElement
 		{
 			const T element;
-			Vector2 position;
+			Vector2<> position;
 		};
 
 		struct QTRegion
@@ -94,7 +94,7 @@ namespace chcl
 			return primaryRegion.getElements(shape);
 		}
 
-		void addElement(const T& element, const Vector2 &position)
+		void addElement(const T& element, const Vector2<> &position)
 		{
 			if (primaryRegion.area.containsPoint(position))
 				primaryRegion.addElement(QTElement(element, position));

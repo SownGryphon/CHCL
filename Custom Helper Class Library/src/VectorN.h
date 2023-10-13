@@ -7,20 +7,20 @@
 
 namespace chcl
 {
-	template <unsigned int dims = 2>
+	template <unsigned int dims = 2, typename T = float>
 	struct VectorN
 	{
-		float position[dims];
+		T position[dims];
 
 		VectorN()
 		{
 			for (unsigned int i = 0; i < dims; ++i)
 			{
-				position[i] = 0.f;
+				position[i] = 0;
 			}
 		}
 
-		VectorN(float val)
+		VectorN(T val)
 		{
 			for (unsigned int i = 0; i < dims; ++i)
 			{
@@ -28,22 +28,31 @@ namespace chcl
 			}
 		}
 
-		VectorN(float position[dims])
+		VectorN(T position[dims])
 		{
-			std::memcpy(this->position, position, sizeof(float) * dims);
+			std::memcpy(this->position, position, sizeof(T) * dims);
 		}
 
-		VectorN(std::initializer_list<float> values)
+		VectorN(std::initializer_list<T> values)
 		{
 			if (dims != values.size()) throw std::invalid_argument("Vector initializer list must match vector size.");
-			std::memcpy(position, values.begin(), sizeof(float) * dims);
+			std::memcpy(position, values.begin(), sizeof(T) * dims);
 		}
 
-		VectorN(const VectorN<dims> &other)
+		VectorN(const VectorN &other)
 		{
 			for (unsigned int i = 0; i < dims; ++i)
 			{
 				this->position[i] = other.position[i];
+			}
+		}
+
+		template <typename T2>
+		VectorN(const VectorN<dims, T2> &vec)
+		{
+			for (unsigned int i = 0; i < dims; ++i)
+			{
+				position[i] = vec.position[i];
 			}
 		}
 
@@ -62,9 +71,9 @@ namespace chcl
 			return result;
 		}
 
-		static float Dot(const VectorN &vec1, const VectorN& vec2)
+		static T Dot(const VectorN &vec1, const VectorN& vec2)
 		{
-			float total = 0;
+			T total = 0;
 
 			for (unsigned int i = 0; i < dims; ++i)
 			{
@@ -79,7 +88,7 @@ namespace chcl
 		{
 			VectorN<dims> result{};
 
-			std::memcpy(result.position, other.position, sizeof(float) * std::min(dims, otherDims));
+			std::memcpy(result.position, other.position, sizeof(T) * std::min(dims, otherDims));
 
 			return result;
 		}
@@ -100,25 +109,25 @@ namespace chcl
 
 		inline Matrix toMatrix() const
 		{
-			return Matrix(1, dims, (float*)position);
+			return Matrix(1, dims, (T*)position);
 		}
 
-		float magsq() const
+		T magsq() const
 		{
 			return Dot(*this, *this);
 		}
 
-		inline float mag() const
+		inline T mag() const
 		{
 			return std::sqrtf(magsq());
 		}
 
-		inline float operator[](const unsigned int i) const
+		inline T operator[](const unsigned int i) const
 		{
 			return position[i];
 		}
 
-		inline float& operator[](const unsigned int i)
+		inline T& operator[](const unsigned int i)
 		{
 			return position[i];
 		}
@@ -135,7 +144,7 @@ namespace chcl
 
 		VectorN& operator =(const VectorN& other)
 		{
-			std::memcpy(this->position, other.position, sizeof(float) * dims);
+			std::memcpy(this->position, other.position, sizeof(T) * dims);
 			return *this;
 		}
 

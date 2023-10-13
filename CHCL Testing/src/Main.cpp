@@ -35,7 +35,7 @@ int main()
 	chcl::printMatrix(Vector5_3.toMatrix());
 	std::cout << '\n';
 
-	chcl::Vector2 vec1, vec2(3), vec3{ 5, 1 },
+	chcl::Vector2<float> vec1, vec2(3), vec3(5, 1),
 		vec4(vec2 + vec3), vec5(vec4.normalised()), vec6(vec2.normalised());
 
 	std::cout << "Vector2 #1 (blank): "; printVector(vec1);
@@ -138,6 +138,6 @@ int main()
 	qt.addElement("Test 3 at [70, 22]", { 70, 22 });
 	qt.addElement("Test 4 at [10, 10]", { 10, 10 });
 
-	chcl::Vector3 test1(2, 3, 4);
+	chcl::Vector3<float> test1(2, 3, 4);
 	chcl::VectorN<3> test2 = test1;
 }

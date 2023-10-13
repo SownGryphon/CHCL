@@ -4,28 +4,44 @@
 
 namespace chcl
 {
-	struct Vector2 : public VectorN<2>
+	template <typename T = float>
+	struct Vector2 : public VectorN<2, T>
 	{
-		using VectorN::VectorN;
+		using VectorN<2, T>::VectorN;
 
-		float &x = position[0],
-			&y = position[1];
+		T &x = VectorN<2, T>::position[0],
+			&y = VectorN<2, T>::position[1];
 
-		Vector2(float x, float y);
-		Vector2(const VectorN<2> &vec);
-		Vector2(const Vector2 &vec);
+		Vector2()
+		{
+			x = 0;
+			y = 0;
+		}
 
-		static Vector2 FromAngle(float angle);
+		Vector2(T x, T y)
+		{
+			this->x = x;
+			this->y = y;
+		}
 
-		//inline float x() const { return position[0]; }
-		//inline float y() const { return position[1]; }
+		Vector2(const VectorN<2> &vec) : VectorN<2, T>(vec) {}
+		Vector2(const Vector2 &vec)
+		{
+			this->x = vec.x;
+			this->y = vec.y;
+		}
 
-		//inline float& x() { return position[0]; }
-		//inline float& y() { return position[1]; }
+		static Vector2 FromAngle(T angle)
+		{
+			return Vector2(std::cos(angle), std::sin(angle));
+		}
 
-		inline Vector2 xComponent() const { return component(0); }
-		inline Vector2 yComponent() const { return component(1); }
+		inline Vector2 xComponent() const { return VectorN<2, T>::component(0); }
+		inline Vector2 yComponent() const { return VectorN<2, T>::component(1); }
 
-		float arg() const;
+		T arg() const
+		{
+			return atan2(y, x);
+		}
 	};
 }

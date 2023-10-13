@@ -150,8 +150,6 @@
     <ClCompile Include="src\CHCL.cpp" />
     <ClCompile Include="src\Matrix.cpp" />
     <ClCompile Include="src\OctBoolArray.cpp" />
-    <ClCompile Include="src\Vector3.cpp" />
-    <ClCompile Include="src\Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\dataStorage\QuadTree.h" />
