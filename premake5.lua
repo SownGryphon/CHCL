@@ -14,8 +14,8 @@ project "CHCL"
 
 	files
 	{
-		"%{prj.name}src/**.h",
-		"%{prj.name}src/**.cpp"
+		"%{prj.name}/src/**.h",
+		"%{prj.name}/src/**.cpp"
 	}
 
 	filter "system:windows"
@@ -33,8 +33,8 @@ project "CHCL Testing"
 
 	files
 	{
-		"%{prj.name}src/**.h",
-		"%{prj.name}src/**.cpp"
+		"%{prj.location}/src/**.h",
+		"%{prj.location}/src/**.cpp"
 	}
 
 	includedirs
