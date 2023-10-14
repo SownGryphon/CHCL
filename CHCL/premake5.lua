@@ -1,14 +1,7 @@
-workspace "CHCL"
-	architecture "x64"
-	configurations { "Debug", "Release" }
-
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
-include "CHCL"
-
-project "CHCL Testing"
-	location "CHCL_Testing"
-	kind "ConsoleApp"
+project "CHCL"
+	kind "StaticLib"
 	language "C++"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
@@ -16,18 +9,8 @@ project "CHCL Testing"
 
 	files
 	{
-		"%{prj.location}/src/**.h",
-		"%{prj.location}/src/**.cpp"
-	}
-
-	includedirs
-	{
-		"CHCL/src"
-	}
-
-	links
-	{
-		"CHCL"
+		"src/**.h",
+		"src/**.cpp"
 	}
 
 	filter "system:windows"
