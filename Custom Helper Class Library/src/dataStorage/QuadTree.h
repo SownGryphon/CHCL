@@ -22,14 +22,21 @@ namespace chcl
 			QTRegion *children[4] = { nullptr };
 			std::vector<QTElement> elements;
 
-			QTRegion(const Rect& area)
+			QTRegion(const Rect &area)
 				: area(area) {}
+
+			~QTRegion()
+			{
+				for (QTRegion *child : children)
+					delete child;
+			}
 
 			void addElement(const QTElement &element)
 			{
 				if (elements.size() == maxElements)
 				{
 					if (children[0] == nullptr)
+					{
 						for (char i = 0; i < 4; ++i)
 						{
 							children[i] = new QTRegion(Rect(
@@ -40,13 +47,16 @@ namespace chcl
 								area.size / 2
 							));
 						}
+					}
 
 					for (QTRegion *child : children)
+					{
 						if (child->area.containsPoint(element.position))
 						{
 							child->addElement(element);
 							return;
 						}
+					}
 				}
 
 				elements.push_back(element);
@@ -64,40 +74,38 @@ namespace chcl
 				}
 
 				if (children[0])
+				{
 					for (QTRegion *child : children)
+					{
 						if (checkOverlap(shape, child->area))
 						{
 							std::vector<T> childResult = child->getElements(shape);
 							result.reserve(result.size() + childResult.size());
 							result.insert(result.end(), childResult.begin(), childResult.end());
 						}
+					}
+				}
 
 				return result;
 			}
-
-			~QTRegion()
-			{
-				for (QTRegion *child : children)
-						delete child;
-			}
 		};
 
-		QTRegion primaryRegion;
+		QTRegion m_primaryRegion;
 
 	public:
-		QuadTree(const Rect& area)
-			: primaryRegion(area) {};
+		QuadTree(const Rect &area)
+			: m_primaryRegion(area) {};
 
 		template <ShapeDerived S>
 		std::vector<T> getElements(const S &shape)
 		{
-			return primaryRegion.getElements(shape);
+			return m_primaryRegion.getElements(shape);
 		}
 
-		void addElement(const T& element, const Vector2<> &position)
+		void addElement(const T &element, const Vector2<> &position)
 		{
-			if (primaryRegion.area.containsPoint(position))
-				primaryRegion.addElement(QTElement(element, position));
+			if (m_primaryRegion.area.containsPoint(position))
+				m_primaryRegion.addElement({ element, position });
 		}
 	};
 }

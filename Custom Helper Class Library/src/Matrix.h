@@ -25,10 +25,11 @@ namespace chcl
 		inline unsigned int getCols() const { return m_cols; }
 		inline unsigned int getRows() const { return m_rows; }
 
-		inline float* const getValues() const { return m_values; }
+		inline float* values() { return m_values; }
+		inline const float* values() const { return m_values; }
 
-		float at(unsigned int col, unsigned int row) const;
-		float& at(unsigned int col, unsigned int row);	// Non-const variant
+		const float& at(unsigned int col, unsigned int row) const;
+		float& at(unsigned int col, unsigned int row);
 
 		Matrix getValueAsMatrix(unsigned int col, unsigned int row) const;
 
@@ -40,15 +41,15 @@ namespace chcl
 
 		float determinant() const;
 
-		operator bool() const;
+		explicit operator bool() const;
 
 		friend Matrix operator*(const Matrix &matrix, float val);
 		friend Matrix operator/(const Matrix &matrix, float val);
 		friend Matrix operator*(float val, const Matrix &matrix);
 
-		friend Matrix operator+(const Matrix &lhs, const Matrix& rhs);
-		friend Matrix operator-(const Matrix &lhs, const Matrix& rhs);
-		friend Matrix operator*(const Matrix &lhs, const Matrix& rhs);
+		friend Matrix operator+(const Matrix &lhs, const Matrix &rhs);
+		friend Matrix operator-(const Matrix &lhs, const Matrix &rhs);
+		friend Matrix operator*(const Matrix &lhs, const Matrix &rhs);
 
 		void perValue(std::function<float(float)>);
 
@@ -58,12 +59,12 @@ namespace chcl
 		Matrix& operator*=(float val);
 		Matrix& operator/=(float val);
 
-		Matrix& operator =(const Matrix& other);
-		Matrix& operator+=(const Matrix& other);
-		Matrix& operator-=(const Matrix& other);
-		Matrix& operator*=(const Matrix& other);
+		Matrix& operator =(const Matrix &other);
+		Matrix& operator+=(const Matrix &other);
+		Matrix& operator-=(const Matrix &other);
+		Matrix& operator*=(const Matrix &other);
 
-		bool operator==(const Matrix& other) const;
-		bool operator!=(const Matrix& other) const;
+		bool operator==(const Matrix &other) const;
+		bool operator!=(const Matrix &other) const;
 	};
 }

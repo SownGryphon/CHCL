@@ -7,7 +7,7 @@
 
 using namespace chcl;
 
-void chcl::printMatrix(const Matrix& matrix, unsigned int places)
+void chcl::printMatrix(const Matrix &matrix, unsigned int places)
 {
 	std::stringstream numStream;
 	size_t maxLen = 0;

@@ -31,7 +31,7 @@ namespace chcl
 		std::memcpy(m_values, values.begin(), values.size() * sizeof(float));
 	}
 
-	Matrix::Matrix(const Matrix& other)
+	Matrix::Matrix(const Matrix &other)
 		: Matrix(other.m_cols, other.m_rows, other.m_values)
 	{}
 
@@ -73,7 +73,7 @@ namespace chcl
 		return result;
 	}
 
-	float Matrix::at(unsigned int col, unsigned int row) const	// Const variant
+	const float& Matrix::at(unsigned int col, unsigned int row) const	// Const variant
 	{
 		if (col >= m_cols)
 			throw std::out_of_range("Column out of range.");
@@ -238,7 +238,7 @@ namespace chcl
 
 	Matrix& Matrix::operator =(float num)
 	{
-		std::fill(m_values, m_values + m_rows * m_cols, 0.f);
+		std::fill(m_values, m_values + size_t(m_rows) * m_cols, 0.f);
 		return *this;
 	}
 
@@ -258,14 +258,14 @@ namespace chcl
 
 	// Matrix arithmetic
 
-	Matrix chcl::operator+(const Matrix &lhs, const Matrix& rhs)
+	Matrix chcl::operator+(const Matrix &lhs, const Matrix &rhs)
 	{
 		Matrix result = lhs;
 		result += rhs;
 		return result;
 	}
 
-	Matrix chcl::operator-(const Matrix &lhs, const Matrix& rhs)
+	Matrix chcl::operator-(const Matrix &lhs, const Matrix &rhs)
 	{
 		Matrix result = lhs;
 		result -= rhs;
@@ -309,7 +309,7 @@ namespace chcl
 
 	// Matrix assignment
 
-	Matrix& Matrix::operator =(const Matrix& other)
+	Matrix& Matrix::operator =(const Matrix &other)
 	{
 		// Resize matrix if needed
 		if (m_cols != other.m_cols || m_rows != other.m_rows)
@@ -326,7 +326,7 @@ namespace chcl
 		return (*this);
 	}
 
-	Matrix& Matrix::operator+=(const Matrix& other)
+	Matrix& Matrix::operator+=(const Matrix &other)
 	{
 		if (m_rows != other.m_rows || m_cols != other.m_cols)
 		{
@@ -341,7 +341,7 @@ namespace chcl
 		return (*this);
 	}
 
-	Matrix& Matrix::operator-=(const Matrix& other)
+	Matrix& Matrix::operator-=(const Matrix &other)
 	{
 		if (m_rows != other.m_rows || m_cols != other.m_cols)
 		{
@@ -355,7 +355,7 @@ namespace chcl
 		return (*this);
 	}
 
-	Matrix& Matrix::operator*=(const Matrix& other)
+	Matrix& Matrix::operator*=(const Matrix &other)
 	{
 		(*this) = (*this) * other;
 		return (*this);
@@ -363,7 +363,7 @@ namespace chcl
 
 	// Matrix comparison
 
-	bool Matrix::operator==(const Matrix& other) const
+	bool Matrix::operator==(const Matrix &other) const
 	{
 		if (m_cols != other.m_cols || m_rows != other.m_rows)
 		{
@@ -381,7 +381,7 @@ namespace chcl
 		return true;
 	}
 
-	bool Matrix::operator!=(const Matrix& other) const
+	bool Matrix::operator!=(const Matrix &other) const
 	{
 		return !(*this == other);
 	}

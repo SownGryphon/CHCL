@@ -6,56 +6,56 @@
 using namespace chcl;
 
 OctBoolArray::OctBoolArray() :
-	count{ 0 }, octBoolCount{ 0 }, data{ nullptr } {}
+	m_count{ 0 }, m_octBoolCount{ 0 }, m_data{ nullptr } {}
 
 OctBoolArray::OctBoolArray(unsigned int size) :
-	count{ size }, octBoolCount{ (size - 1) / 8 + 1 }
+	m_count{ size }, m_octBoolCount{ (size - 1) / 8 + 1 }
 {
-	data = new OctBool[count];
+	m_data = new OctBool[m_count];
 }
 
 OctBoolArray::OctBoolArray(std::initializer_list<bool> list) :
 	OctBoolArray(list.size())
 {
-	for (unsigned int i = 0; i < count; ++i)
+	for (unsigned int i = 0; i < m_count; ++i)
 	{
 		set(i, *(list.begin() + i));
 	}
 }
 
-OctBoolArray::OctBoolArray(const OctBoolArray& other) :
-	OctBoolArray(other.count)
+OctBoolArray::OctBoolArray(const OctBoolArray &other) :
+	OctBoolArray(other.m_count)
 {
-	for (unsigned int i = 0; i < octBoolCount; ++i)
+	for (unsigned int i = 0; i < m_octBoolCount; ++i)
 	{
-		data[i] = other.data[i];
+		m_data[i] = other.m_data[i];
 	}
 }
 
 OctBoolArray::~OctBoolArray()
 {
-	delete[] data;
+	delete[] m_data;
 }
 
 OctBoolArray& OctBoolArray::resize(unsigned int newCount)
 {
 	unsigned int newOctBoolCount = (newCount - 1) / 8 + 1;
 	OctBool* newData = new OctBool[newOctBoolCount];
-	std::memmove(newData, data, std::min(octBoolCount, newOctBoolCount));
-	delete[] data;
-	count = newCount;
-	octBoolCount = newOctBoolCount;
-	data = newData;
+	std::memmove(newData, m_data, std::min(m_octBoolCount, newOctBoolCount));
+	delete[] m_data;
+	m_count = newCount;
+	m_octBoolCount = newOctBoolCount;
+	m_data = newData;
 
 	return *this;
 }
 
-OctBoolArray& OctBoolArray::operator=(const OctBoolArray& other)
+OctBoolArray& OctBoolArray::operator=(const OctBoolArray &other)
 {
-	if (octBoolCount != other.octBoolCount)
-		resize(other.count);
+	if (m_octBoolCount != other.m_octBoolCount)
+		resize(other.m_count);
 
-	std::memcpy(data, other.data, octBoolCount);
+	std::memcpy(m_data, other.m_data, m_octBoolCount);
 
 	return *this;
 }

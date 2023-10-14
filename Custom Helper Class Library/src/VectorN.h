@@ -75,7 +75,7 @@ namespace chcl
 			return total;
 		}
 
-		inline VectorN component(unsigned int dimension) const
+		VectorN component(unsigned int dimension) const
 		{
 			VectorN result{};
 
@@ -84,12 +84,12 @@ namespace chcl
 			return result;
 		}
 
-		inline VectorN normalised() const
+		VectorN normalised() const
 		{
 			return (*this / mag());
 		}
 
-		inline Matrix toMatrix() const
+		Matrix toMatrix() const
 		{
 			return Matrix(1, dims, (T*)position);
 		}
@@ -99,17 +99,17 @@ namespace chcl
 			return Dot(*this, *this);
 		}
 
-		inline T mag() const
+		T mag() const
 		{
 			return std::sqrtf(magsq());
 		}
 
-		inline T operator[](const unsigned int i) const
+		const T& operator[](const unsigned int i) const
 		{
 			return position[i];
 		}
 
-		inline T& operator[](const unsigned int i)
+		T& operator[](const unsigned int i)
 		{
 			return position[i];
 		}

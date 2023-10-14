@@ -3,24 +3,24 @@
 using namespace chcl;
 
 OctBool::OctBool() :
-	data{ 0 } {}
+	m_data{ 0 } {}
 
 OctBool::OctBool(unsigned char data) :
-	data{ data } {}
+	m_data{ data } {}
 
 const bool OctBool::set(unsigned char index, const bool state)
 {
 	unsigned char indexBit = 1 << index;
 
 	if (state)
-		data |= indexBit;
+		m_data |= indexBit;
 	else
-		data &= ~indexBit;
+		m_data &= ~indexBit;
 
 	return state;
 }
 
 OctBool::operator bool() const
 {
-	return data;
+	return m_data;
 }

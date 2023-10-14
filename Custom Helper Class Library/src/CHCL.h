@@ -11,7 +11,7 @@ namespace chcl
 {
 
 	template <unsigned int dims, typename T>
-	void printVector(const VectorN<dims, T>& vec)
+	void printVector(const VectorN<dims, T> &vec)
 	{
 		std::cout << '[';
 
@@ -29,16 +29,16 @@ namespace chcl
 	}
 
 	template <typename T>
-	inline void printVector(const VectorN<2, T>& vec)
+	inline void printVector(const VectorN<2, T> &vec)
 	{
 		std::cout << "[x: " << vec.position[0] << ", y: " << vec.position[1] << "]\n";
 	}
 
 	template <typename T>
-	inline void printVector(const VectorN<3, T>& vec)
+	inline void printVector(const VectorN<3, T> &vec)
 	{
 		std::cout << "[x: " << vec.position[0] << ", y: " << vec.position[1] << ", z:" << vec.position[2] << "]\n";
 	}
 
-	void printMatrix(const Matrix& matrix, unsigned int places = 2);
+	void printMatrix(const Matrix &matrix, unsigned int places = 2);
 }

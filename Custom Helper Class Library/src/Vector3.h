@@ -50,8 +50,13 @@ namespace chcl
 			);
 		}
 
-		inline Vector3 xComponent() const { return VectorN<3, T>::component(0); }
-		inline Vector3 yComponent() const { return VectorN<3, T>::component(1); }
-		inline Vector3 zComponent() const { return VectorN<3, T>::component(2); }
+		Vector3 xComponent() const { return VectorN<3, T>::component(0); }
+		Vector3 yComponent() const { return VectorN<3, T>::component(1); }
+		Vector3 zComponent() const { return VectorN<3, T>::component(2); }
+
+		operator VectorN<3, T>()
+		{
+			return VectorN<3, T>(this->position);
+		}
 	};
 }

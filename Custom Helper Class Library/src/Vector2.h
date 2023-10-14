@@ -41,17 +41,22 @@ namespace chcl
 			return Vector2(std::cos(angle), std::sin(angle));
 		}
 
-		inline Vector2 xComponent() const { return VectorN<2, T>::component(0); }
-		inline Vector2 yComponent() const { return VectorN<2, T>::component(1); }
+		Vector2 xComponent() const { return VectorN<2, T>::component(0); }
+		Vector2 yComponent() const { return VectorN<2, T>::component(1); }
 
 		T arg() const
 		{
 			return atan2(y, x);
 		}
 
+		operator VectorN<2, T>()
+		{
+			return VectorN<2, T>(this->position);
+		}
+
 		Vector2& operator =(T val)
 		{
-			std::fill(&x, &y, T);
+			std::fill(&x, &y, val);
 			return *this;
 		}
 

@@ -12,7 +12,7 @@ namespace chcl
 		Circle(float x, float y, float r);
 		Circle(const Vector2<> &origin, float r);
 
-		virtual bool containsPoint(const Vector2<> &vec) const;
-		virtual Vector2<> constrainPoint(Vector2<> vec) const;
+		virtual bool containsPoint(const Vector2<> &vec) const override;
+		virtual Vector2<> constrainPoint(Vector2<> vec) const override;
 	};
 }
