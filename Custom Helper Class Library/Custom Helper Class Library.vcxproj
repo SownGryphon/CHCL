@@ -24,6 +24,7 @@
     <ProjectGuid>{5b7f74bf-1c3f-4df4-9672-1111c1f0a58c}</ProjectGuid>
     <RootNamespace>CustomHelperClassLibrary</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>CHCL</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
