@@ -13,7 +13,7 @@ namespace chcl
 	public:
 		Matrix();
 		Matrix(unsigned int cols, unsigned int rows, float defaultVal = 0.f);
-		Matrix(unsigned int cols, unsigned int rows, float* values);
+		Matrix(unsigned int cols, unsigned int rows, const float* values);
 		Matrix(unsigned int cols, unsigned int rows, std::initializer_list<float> values);
 		Matrix(const Matrix& other);
 		~Matrix();

@@ -1,62 +1,182 @@
 #pragma once
 
 #include "VectorN.h"
+#include "Vector2.h"
 
 namespace chcl
 {
 	template <typename T = float>
-	struct Vector3 : public VectorN<3, T>
+	using Vector3 = VectorN<3, T>;
+
+	template <typename T>
+	struct VectorN<3, T> : public VectorBase<3, T, VectorN<3, T>>
 	{
-		using VectorN<3, T>::VectorN;
+		using VectorBase<3, T, VectorN<3, T>>::VectorBase;
 
-		T &x = VectorN<3, T>::position[0],
-			&y = VectorN<3, T>::position[1],
-			&z = VectorN<3, T>::position[2];
+		union
+		{
+			T position[3];
+			struct
+			{
+				T x, y, z;
+			};
+			struct
+			{
+				Vector2<T> xy;
+				T z;
+			};
+			struct
+			{
+				T x;
+				Vector2<T> yz;
+			};
+		};
 
-		Vector3()
+		VectorN()
 		{
 			x = 0;
 			y = 0;
 			z = 0;
 		}
 
-		Vector3(T x, T y, T z)
+		VectorN(T val)
+		{
+			x = val;
+			y = val;
+			z = val;
+		}
+
+		VectorN(T x, T y, T z)
 		{
 			this->x = x;
 			this->y = y;
 			this->z = z;
 		}
 
-		Vector3(const VectorN<3>& vec)
+		VectorN(const Vector2<T> &xy, T z)
 		{
-			x = vec.position[0];
-			y = vec.position[1];
-			z = vec.position[2];
+			this->xy = xy;
+			this->z = z;
 		}
 
-		Vector3(const Vector3 &vec)
+		VectorN(T x, const Vector2<T> &yz)
+		{
+			this->x = x;
+			this->yz = yz;
+		}
+
+		template <typename T2>
+		VectorN(const VectorN<3, T2> &vec)
 		{
 			x = vec.x;
 			y = vec.y;
 			z = vec.z;
 		}
 
-		static Vector3 Cross(const Vector3 &vec1, const Vector3 &vec2)
+		VectorN(const VectorN<3, T> &other)
 		{
-			return Vector3(
+			x = other.x;
+			y = other.y;
+			z = other.z;
+		}
+
+		static VectorN Cross(const VectorN &vec1, const VectorN &vec2)
+		{
+			return VectorN(
 				vec1.y * vec2.z - vec1.z * vec2.y,
 				vec1.x * vec2.z - vec1.z * vec2.x,
 				vec1.x * vec2.y - vec1.y * vec2.x
 			);
 		}
 
-		Vector3 xComponent() const { return VectorN<3, T>::component(0); }
-		Vector3 yComponent() const { return VectorN<3, T>::component(1); }
-		Vector3 zComponent() const { return VectorN<3, T>::component(2); }
+		VectorN xComponent() const { return VectorN(x, 0, 0); }
+		VectorN yComponent() const { return VectorN(0, y, 0); }
+		VectorN zComponent() const { return VectorN(0, 0, z); }
 
-		operator VectorN<3, T>()
+		//virtual const T& operator[](unsigned int n) const override { return position[n]; }
+		//virtual T& operator[](unsigned int n) override { return position[n]; }
+
+		explicit operator bool()
 		{
-			return VectorN<3, T>(this->position);
+			return x && y && z;
 		}
+
+		VectorN& operator =(T val)
+		{
+			x = val;
+			y = val;
+			z = val;
+			return *this;
+		}
+
+		VectorN& operator =(const VectorN &other)
+		{
+			std::memcpy(position, other.position, 3 * sizeof(T));
+			return *this;
+		}
+
+		VectorN& operator+=(const VectorN &other)
+		{
+			x += other.x;
+			y += other.y;
+			z += other.z;
+			return *this;
+		}
+
+		VectorN& operator-=(const VectorN &other)
+		{
+			x -= other.x;
+			y -= other.y;
+			z -= other.z;
+			return *this;
+		}
+
+		VectorN& operator*=(const VectorN &other)
+		{
+			x *= other.x;
+			y *= other.y;
+			z *= other.z;
+			return *this;
+		}
+
+		VectorN& operator/=(const VectorN &other)
+		{
+			x /= other.x;
+			y /= other.y;
+			z /= other.z;
+			return *this;
+		}
+
+		friend VectorN operator+(const VectorN &lhs, const VectorN &rhs)
+		{
+			VectorN result = lhs;
+			result += rhs;
+			return result;
+		}
+
+		friend VectorN operator-(const VectorN &lhs, const VectorN &rhs)
+		{
+			VectorN result = lhs;
+			result -= rhs;
+			return result;
+		}
+
+		friend VectorN operator*(const VectorN &lhs, const VectorN &rhs)
+		{
+			VectorN result = lhs;
+			result *= rhs;
+			return result;
+		}
+
+		friend VectorN operator/(const VectorN &lhs, const VectorN &rhs)
+		{
+			VectorN result = lhs;
+			result /= rhs;
+			return result;
+		}
+
+	//protected:
+	//	virtual T* data() override { return position; }
+	//	virtual const T* data() const override { return position; }
 	};
 }

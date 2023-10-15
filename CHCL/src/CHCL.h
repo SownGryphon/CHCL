@@ -4,8 +4,6 @@
 
 #include "Matrix.h"
 #include "VectorN.h"
-#include "Vector2.h"
-#include "Vector3.h"
 
 namespace chcl
 {
@@ -22,22 +20,22 @@ namespace chcl
 				std::cout << ", ";
 			}
 
-			std::cout << vec.position[i];
+			std::cout << vec[i];
 		}
 
 		std::cout << "]\n";
 	}
 
 	template <typename T>
-	inline void printVector(const VectorN<2, T> &vec)
+	void printVector(const VectorN<2, T> &vec)
 	{
-		std::cout << "[x: " << vec.position[0] << ", y: " << vec.position[1] << "]\n";
+		std::cout << "[x: " << vec[0] << ", y: " << vec[1] << "]\n";
 	}
 
 	template <typename T>
-	inline void printVector(const VectorN<3, T> &vec)
+	void printVector(const VectorN<3, T> &vec)
 	{
-		std::cout << "[x: " << vec.position[0] << ", y: " << vec.position[1] << ", z:" << vec.position[2] << "]\n";
+		std::cout << "[x: " << vec[0] << ", y: " << vec[1] << ", z:" << vec[2] << "]\n";
 	}
 
 	void printMatrix(const Matrix &matrix, unsigned int places = 2);

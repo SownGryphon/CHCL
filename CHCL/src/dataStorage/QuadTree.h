@@ -40,7 +40,7 @@ namespace chcl
 						for (char i = 0; i < 4; ++i)
 						{
 							children[i] = new QTRegion(Rect(
-								Vector2(
+								Vector2<>(
 									area.origin.x + area.size.x / 2 * (i & 0b1),
 									area.origin.y + area.size.y / 2 * ((i & 0b10) >> 1)
 								),

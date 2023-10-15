@@ -1,8 +1,10 @@
 #include <iostream>
+#include <vector>
 
 #include "CHCL.h"
 #include "VectorN.h"
 #include "Vector2.h"
+#include "Vector3.h"
 
 #include "geometry/Circle.h"
 #include "geometry/Rect.h"
@@ -10,14 +12,13 @@
 
 #include "dataStorage/QuadTree.h"
 
-int main()
-{
+int main() {
 	chcl::VectorN<2> Vector1(5.f);
 
-	std::cout << "Template vector2: [x: " << Vector1.position[0] << ", y: " << Vector1.position[1] << "]\n";
+	std::cout << "Template vector2: [x: " << Vector1[0] << ", y: " << Vector1[1] << "]\n";
 
-	chcl::Vector2 Vector2_1(3.f), Vector2_2(5.f);
-	
+	chcl::Vector2<> Vector2_1(3.f), Vector2_2(5.f);
+
 	std::cout << "Vector2: [x: " << Vector2_1.x << ", y: " << Vector2_1.y << "]\n";
 
 	std::cout << "CHCL Vector2 print: "; chcl::printVector(Vector2_2); std::cout << '\n';
@@ -36,7 +37,7 @@ int main()
 	std::cout << '\n';
 
 	chcl::Vector2<float> vec1, vec2(3), vec3(5, 1),
-		vec4(vec2 + vec3), vec5(vec4.normalised()), vec6(vec2.normalised());
+		vec4(vec2 + vec3), vec5(vec4.normalized()), vec6(vec2.normalized());
 
 	std::cout << "Vector2 #1 (blank): "; printVector(vec1);
 	std::cout << "Vector2 #2 (from 3): "; printVector(vec2);
@@ -115,7 +116,7 @@ int main()
 
 
 	chcl::Rect rect1(3, 5, 13, 7);
-	chcl::Vector2 rectVec1(6, 2),	// Above
+	chcl::Vector2<> rectVec1(6, 2),	// Above
 		rectVec2(29, 8),			// To the right
 		rectVec3(12, 11);			// Inside
 
@@ -137,7 +138,4 @@ int main()
 	qt.addElement("Test 2 at [15, 9]", { 15, 9 });
 	qt.addElement("Test 3 at [70, 22]", { 70, 22 });
 	qt.addElement("Test 4 at [10, 10]", { 10, 10 });
-
-	chcl::Vector3<float> test1(2, 3, 4);
-	chcl::VectorN<3> test2 = test1;
 }

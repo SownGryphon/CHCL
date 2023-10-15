@@ -16,7 +16,7 @@ namespace chcl
 		}
 	}
 
-	Matrix::Matrix(unsigned int cols, unsigned int rows, float* values)
+	Matrix::Matrix(unsigned int cols, unsigned int rows, const float* values)
 		: m_cols{ cols }, m_rows{ rows }, m_values{ new float[size_t(cols) * rows] }
 	{
 		memcpy(this->m_values, values, size_t(cols) * rows * sizeof(float));

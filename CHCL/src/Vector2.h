@@ -5,115 +5,143 @@
 namespace chcl
 {
 	template <typename T = float>
-	struct Vector2 : public VectorN<2, T>
+	using Vector2 = VectorN<2, T>;
+
+	template <typename T>
+	struct VectorN<2, T> : public VectorBase<2, T, VectorN<2, T>>
 	{
-		using VectorN<2, T>::VectorN;
+		union
+		{
+			T position[2];
+			struct
+			{
+				T x, y;
+			};
+		};
 
-		T &x = VectorN<2, T>::position[0],
-			&y = VectorN<2, T>::position[1];
-
-		Vector2()
+		VectorN()
 		{
 			x = 0;
 			y = 0;
 		}
 
-		Vector2(T x, T y)
+		VectorN(T val)
+		{
+			x = val;
+			y = val;
+		}
+
+		VectorN(T x, T y)
 		{
 			this->x = x;
 			this->y = y;
 		}
 
-		Vector2(const VectorN<2> &vec)
+		template <typename T2>
+		VectorN(const VectorN<2, T2> &other)
 		{
-			x = vec.position[0];
-			y = vec.position[1];
+			x = other.x;
+			y = other.y;
 		}
 
-		Vector2(const Vector2 &vec)
+		VectorN(const VectorN<2, T> &other)
 		{
-			this->x = vec.x;
-			this->y = vec.y;
+			x = other.x;
+			y = other.y;
 		}
 
-		static Vector2 FromAngle(T angle)
+		static VectorN<2, T> FromAngle(T angle)
 		{
-			return Vector2(std::cos(angle), std::sin(angle));
+			return VectorN<2, T>(std::cos(angle), std::sin(angle));
 		}
 
-		Vector2 xComponent() const { return VectorN<2, T>::component(0); }
-		Vector2 yComponent() const { return VectorN<2, T>::component(1); }
+		VectorN xComponent() const { return VectorN(x, 0); }
+		VectorN yComponent() const { return VectorN(0, y); }
 
 		T arg() const
 		{
 			return atan2(y, x);
 		}
 
-		operator VectorN<2, T>()
+		//virtual const T& operator[](unsigned int n) const override { return position[n]; }
+		//virtual T& operator[](unsigned int n) override { return position[n]; }
+
+		explicit operator bool()
 		{
-			return VectorN<2, T>(this->position);
+			return x && y;
 		}
 
-		Vector2& operator =(T val)
+		VectorN& operator =(T val)
 		{
-			std::fill(&x, &y, val);
+			x = val;
+			y = val;
 			return *this;
 		}
 
-		Vector2& operator+=(const Vector2 &other)
+		VectorN& operator =(const VectorN &other)
+		{
+			std::memcpy(position, other.position, 2 * sizeof(T));
+			return *this;
+		}
+
+		VectorN& operator+=(const VectorN &other)
 		{
 			x += other.x;
 			y += other.y;
 			return *this;
 		}
 
-		Vector2& operator-=(const Vector2 &other)
+		VectorN& operator-=(const VectorN &other)
 		{
 			x -= other.x;
 			y -= other.y;
 			return *this;
 		}
 
-		Vector2& operator*=(const Vector2 &other)
+		VectorN& operator*=(const VectorN &other)
 		{
 			x *= other.x;
 			y *= other.y;
 			return *this;
 		}
 
-		Vector2& operator/=(const Vector2 &other)
+		VectorN& operator/=(const VectorN &other)
 		{
 			x /= other.x;
 			y /= other.y;
 			return *this;
 		}
 
-		friend Vector2 operator+(const Vector2 &vec1, const Vector2 &vec2)
+		friend VectorN operator+(const VectorN &lhs, const VectorN &rhs)
 		{
-			Vector2 result = vec1;
-			result += vec2;
+			Vector2 result = lhs;
+			result += rhs;
 			return result;
 		}
 
-		friend Vector2 operator-(const Vector2 &vec1, const Vector2 &vec2)
+		friend VectorN operator-(const VectorN &lhs, const VectorN &rhs)
 		{
-			Vector2 result = vec1;
-			result -= vec2;
+			Vector2 result = lhs;
+			result -= rhs;
 			return result;
 		}
 
-		friend Vector2 operator*(const Vector2 &vec1, const Vector2 &vec2)
+		friend VectorN operator*(const VectorN &lhs, const VectorN &rhs)
 		{
-			Vector2 result = vec1;
-			result *= vec2;
+			Vector2 result = lhs;
+			result *= rhs;
 			return result;
 		}
 
-		friend Vector2 operator/(const Vector2 &vec1, const Vector2 &vec2)
+		friend VectorN operator/(const VectorN &lhs, const VectorN &rhs)
 		{
-			Vector2 result = vec1;
-			result /= vec2;
+			Vector2 result = lhs;
+			result /= rhs;
 			return result;
 		}
+
+	//protected:
+	//	virtual T* data() override { return position; }
+	//	virtual const T* data() const override { return position; }
 	};
 }
