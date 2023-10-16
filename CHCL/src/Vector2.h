@@ -71,6 +71,12 @@ namespace chcl
 			return x && y;
 		}
 
+		friend bool operator==(const VectorN &vec1, const VectorN &vec2)
+		{
+			return vec1.x == vec2.x
+				&& vec1.y == vec2.y;
+		}
+
 		VectorN& operator =(T val)
 		{
 			x = val;

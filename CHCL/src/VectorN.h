@@ -106,6 +106,21 @@ namespace chcl
 			return static_cast<Derived*>(this)->position[n];
 		}
 
+		explicit operator bool()
+		{
+			for (unsigned int i = 0; i < dims; ++i)
+			{
+				if ((*this)[i])
+					return true;
+			}
+			return false;
+		}
+
+		friend constexpr bool operator!=(const Derived &lhs, const Derived &rhs)
+		{
+			return !(lhs == rhs);
+		}
+
 		Derived operator-()
 		{
 			Derived result;
@@ -158,16 +173,6 @@ namespace chcl
 			return *static_cast<Derived*>(this);
 		}
 
-		explicit operator bool()
-		{
-			for (unsigned int i = 0; i < dims; ++i)
-			{
-				if ((*this)[i])
-					return true;
-			}
-			return false;
-		}
-
 	protected:
 		T* data()
 		{
@@ -189,8 +194,15 @@ namespace chcl
 		//virtual T& operator[](unsigned int n) override { return position[n]; }
 		//virtual const T& operator[](unsigned int n) const override { return position[n]; }
 
-		friend constexpr bool operator==(const VectorN &vec1, const VectorN &vec2) = default;
-		friend constexpr bool operator!=(const VectorN &vec1, const VectorN &vec2) = default;
+		friend constexpr bool operator==(const VectorN &lhs, const VectorN &rhs)
+		{
+			for (unsigned int i = 0; i < dims; ++i)
+			{
+				if (lhs[i] != rhs[i])
+					return false;
+			}
+			return true;
+		}
 
 		friend VectorN operator+(const VectorN &lhs, const VectorN &rhs)
 		{

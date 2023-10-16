@@ -12,7 +12,11 @@
 
 #include "dataStorage/QuadTree.h"
 
+#include "testing/VectorTests.h"
+
 int main() {
+	testing::vectors::all();
+
 	chcl::VectorN<2> Vector1(5.f);
 
 	std::cout << "Template vector2: [x: " << Vector1[0] << ", y: " << Vector1[1] << "]\n";

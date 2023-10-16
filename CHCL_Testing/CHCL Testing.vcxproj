@@ -84,9 +84,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\Asserts.h" />
+    <ClInclude Include="src\testing\VectorTests.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\testing\VectorTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CHCL\CHCL.vcxproj">
