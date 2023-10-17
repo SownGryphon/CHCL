@@ -1,14 +1,18 @@
 #include <iostream>
 #include <vector>
 
-#include "CHCL.h"
-#include "VectorN.h"
-#include "Vector2.h"
-#include "Vector3.h"
+#include "Prints.h"
+
+#include "geometry/VectorN.h"
+#include "geometry/Vector2.h"
+#include "geometry/Vector3.h"
 
 #include "geometry/Circle.h"
 #include "geometry/Rect.h"
 #include "geometry/ShapeOverlap.h"
+
+#include "maths/Common.h"
+#include "maths/SquareMatrix.h"
 
 #include "dataStorage/QuadTree.h"
 
@@ -65,7 +69,7 @@ int main() {
 	std::cout << "Matrix #4 * #3:\n"; chcl::printMatrix(matrix4 * matrix3);
 
 	std::cout << "\nMatrix as 6D Vector (same values as Matrix #5): ";
-	chcl::printVector(chcl::VectorN<6>::FromMatrix(chcl::Matrix{ 1, 6, vals }));
+	chcl::printVector(chcl::VectorN<6>(chcl::Matrix{ 1, 6, vals }));
 
 	std::cout << "\nMatrices from initializer lists:\n";
 	chcl::Matrix matrix6(2, 3, {
@@ -105,19 +109,24 @@ int main() {
 	chcl::printMatrix(detMatrix2);
 	std::cout << "Determinant: " << detMatrix2.determinant() << "\n\n";
 
-	chcl::Matrix identity5 = chcl::Matrix::Identity(5);
+	chcl::Matrix identity5 = chcl::SquareMatrix<5>::Identity();
 	std::cout << "5x5 Identity matrix:\n";
 	chcl::printMatrix(identity5);
 	std::cout << '\n';
 
-	chcl::Matrix rotation90 = chcl::Matrix::Rotation2D(3.14159 / 2),
-		rotation215 = chcl::Matrix::Rotation2D(3.14159 * 1.25);
+	chcl::Matrix rotation90 = chcl::Mat2::Rotation(chcl::toRadians(90.f)),
+		rotation215 = chcl::Mat2::Rotation(chcl::toRadians(215.f));
 	std::cout << "90 degree rotation matrix: \n";
 	chcl::printMatrix(rotation90);
 	std::cout << "215 degree rotation matrix:\n";
 	chcl::printMatrix(rotation215);
 	std::cout << '\n';
 
+	chcl::Mat2 rot45 = chcl::Mat2::Rotation(chcl::toRadians(45.f));
+	chcl::Vector2<> rotVec(1, 2);
+	chcl::Vector2<> result = rot45 * rotVec;
+
+	std::cout << "Rotating vector "; chcl::printVector(rotVec); std::cout << " by 45 degrees: "; chcl::printVector(result);
 
 	chcl::Rect rect1(3, 5, 13, 7);
 	chcl::Vector2<> rectVec1(6, 2),	// Above

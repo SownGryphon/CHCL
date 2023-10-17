@@ -40,32 +40,12 @@ namespace chcl
 		delete[] m_values;
 	}
 
-	Matrix Matrix::Identity(unsigned int size)
-	{
-		Matrix result(size, size);
-
-		for (unsigned int i = 0; i < size; ++i)
-		{
-			result.at(i, i) = 1.f;
-		}
-
-		return result;
-	}
-
-	Matrix Matrix::Rotation2D(float angle)
-	{
-		return Matrix(2, 2, {
-			std::cos(angle), -std::sin(angle),
-			std::sin(angle),  std::cos(angle)
-		});
-	}
-
 	Matrix Matrix::Resize(const Matrix &mat, unsigned int width, unsigned int height)
 	{
 		Matrix result(width, height);
 		for (unsigned int i = 0; i < std::min(mat.m_cols, width); ++i)
 		{
-			for (unsigned int j = 0; j < std::min(mat.m_rows, height); ++i)
+			for (unsigned int j = 0; j < std::min(mat.m_rows, height); ++j)
 			{
 				result.at(i, j) = mat.at(i, j);
 			}

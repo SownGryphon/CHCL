@@ -9,13 +9,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\CHCL.h" />
-    <ClInclude Include="src\Matrix.h" />
-    <ClInclude Include="src\OctBool.h" />
-    <ClInclude Include="src\OctBoolArray.h" />
-    <ClInclude Include="src\Vector2.h" />
-    <ClInclude Include="src\Vector3.h" />
-    <ClInclude Include="src\VectorN.h" />
+    <ClInclude Include="src\Prints.h" />
+    <ClInclude Include="src\maths\Matrix.h" />
+    <ClInclude Include="src\dataStorage\OctBool.h" />
+    <ClInclude Include="src\dataStorage\OctBoolArray.h" />
+    <ClInclude Include="src\geometry\Vector2.h" />
+    <ClInclude Include="src\geometry\Vector3.h" />
+    <ClInclude Include="src\geometry\VectorN.h" />
     <ClInclude Include="src\dataStorage\QuadTree.h">
       <Filter>dataStorage</Filter>
     </ClInclude>
@@ -31,12 +31,15 @@
     <ClInclude Include="src\geometry\ShapeOverlap.h">
       <Filter>geometry</Filter>
     </ClInclude>
+    <ClInclude Include="src\maths\Common.h" />
+    <ClInclude Include="src\maths\SquareMatrix.h" />
+    <ClInclude Include="src\maths\Continuous.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\CHCL.cpp" />
-    <ClCompile Include="src\Matrix.cpp" />
-    <ClCompile Include="src\OctBool.cpp" />
-    <ClCompile Include="src\OctBoolArray.cpp" />
+    <ClCompile Include="src\Prints.cpp" />
+    <ClCompile Include="src\maths\Matrix.cpp" />
+    <ClCompile Include="src\dataStorage\OctBool.cpp" />
+    <ClCompile Include="src\dataStorage\OctBoolArray.cpp" />
     <ClCompile Include="src\geometry\Circle.cpp">
       <Filter>geometry</Filter>
     </ClCompile>
@@ -46,5 +49,8 @@
     <ClCompile Include="src\geometry\ShapeOverlap.cpp">
       <Filter>geometry</Filter>
     </ClCompile>
+    <ClCompile Include="src\maths\Common.cpp" />
+    <ClCompile Include="src\maths\SquareMatrix.cpp" />
+    <ClCompile Include="src\maths\Continuous.cpp" />
   </ItemGroup>
 </Project>

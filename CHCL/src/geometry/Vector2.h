@@ -10,6 +10,9 @@ namespace chcl
 	template <typename T>
 	struct VectorN<2, T> : public VectorBase<2, T, VectorN<2, T>>
 	{
+		using VectorBase<2, T, VectorN<2, T>>::VectorBase;
+		using VectorBase<2, T, VectorN<2, T>>::operator=;
+
 		union
 		{
 			T position[2];
@@ -35,6 +38,12 @@ namespace chcl
 		{
 			this->x = x;
 			this->y = y;
+		}
+
+		VectorN(const Matrix &mat)
+		{
+			x = mat.at(0, 0);
+			y = mat.at(0, 1);
 		}
 
 		template <typename T2>
@@ -81,6 +90,13 @@ namespace chcl
 		{
 			x = val;
 			y = val;
+			return *this;
+		}
+
+		VectorN& operator =(const Matrix &mat)
+		{
+			x = mat.at(0, 0);
+			y = mat.at(0, 1);
 			return *this;
 		}
 

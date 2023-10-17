@@ -12,6 +12,7 @@ namespace chcl
 	struct VectorN<3, T> : public VectorBase<3, T, VectorN<3, T>>
 	{
 		using VectorBase<3, T, VectorN<3, T>>::VectorBase;
+		using VectorBase<3, T, VectorN<3, T>>::operator=;
 
 		union
 		{

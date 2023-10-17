@@ -3,7 +3,7 @@
 #include <stdexcept>
 #include <cmath>
 
-#include "Matrix.h"
+#include "../maths/SquareMatrix.h"
 
 namespace chcl
 {
@@ -29,6 +29,15 @@ namespace chcl
 		{
 			if (dims != values.size()) throw std::invalid_argument("Vector initializer list must match vector size.");
 			std::memcpy(data(), values.begin(), dims * sizeof(T));
+		}
+
+		explicit VectorBase(const Matrix &mat)
+		{
+			if (dims != mat.getRows()) throw std::invalid_argument("Vector matrix initialization requires correct matrix size.");
+			for (unsigned int i = 0; i < dims; ++i)
+			{
+				(*this)[i] = mat.at(0, i);
+			}
 		}
 
 		template <unsigned int otherDims, typename T2>
@@ -72,6 +81,11 @@ namespace chcl
 				total += vec1[i] * vec2[i];
 			}
 			return total;
+		}
+
+		static T Angle(const Derived &vec1, const Derived &vec2)
+		{
+			return std::acos(Dot(vec1, vec2) / (vec1.mag() * vec2.mag()));
 		}
 
 		Derived component(unsigned int dimension) const
@@ -131,9 +145,13 @@ namespace chcl
 			return result;
 		}
 
-		Derived& operator =(const Derived& other)
+		Derived& operator =(const Matrix &mat)
 		{
-			std::memcpy(data(), other.data(), dims * sizeof(T));
+			if (dims != mat.getRows()) throw std::invalid_argument("Vector matrix initialization requires correct matrix size.");
+			for (unsigned int i = 0; i < dims; ++i)
+			{
+				(*this)[i] = mat.at(0, i);
+			}
 			return *static_cast<Derived*>(this);
 		}
 
@@ -173,6 +191,21 @@ namespace chcl
 			return *static_cast<Derived*>(this);
 		}
 
+		friend Matrix operator*(const Matrix &mat, const Derived &vec)
+		{
+			return mat * vec.toMatrix();
+		}
+
+		friend Matrix operator*(const Derived &vec, const Matrix &mat)
+		{
+			return vec.toMatrix() * mat;
+		}
+
+		operator Matrix()
+		{
+			return toMatrix();
+		}
+
 	protected:
 		T* data()
 		{
@@ -188,6 +221,7 @@ namespace chcl
 	struct VectorN : public VectorBase<dims, T, VectorN<dims, T>>
 	{
 		using VectorBase<dims, T, VectorN<dims, T>>::VectorBase;
+		using VectorBase<dims, T, VectorN<dims, T>>::operator=;
 
 		T position[dims];
 

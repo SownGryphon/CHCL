@@ -2,8 +2,8 @@
 
 #include <iostream>
 
-#include "Matrix.h"
-#include "VectorN.h"
+#include "maths/Matrix.h"
+#include "geometry/VectorN.h"
 
 namespace chcl
 {

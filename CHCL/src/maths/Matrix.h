@@ -13,13 +13,11 @@ namespace chcl
 	public:
 		Matrix();
 		Matrix(unsigned int cols, unsigned int rows, float defaultVal = 0.f);
-		Matrix(unsigned int cols, unsigned int rows, const float* values);
+		Matrix(unsigned int cols, unsigned int rows, const float *values);
 		Matrix(unsigned int cols, unsigned int rows, std::initializer_list<float> values);
 		Matrix(const Matrix& other);
 		~Matrix();
 
-		static Matrix Identity(unsigned int size);
-		static Matrix Rotation2D(float angle);
 		static Matrix Resize(const Matrix &mat, unsigned int width, unsigned int height);
 
 		inline unsigned int getCols() const { return m_cols; }
