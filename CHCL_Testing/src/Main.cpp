@@ -16,6 +16,8 @@
 
 #include "dataStorage/QuadTree.h"
 
+#include "maths/Continuous.h"
+
 #include "testing/VectorTests.h"
 
 int main() {
@@ -151,4 +153,10 @@ int main() {
 	qt.addElement("Test 2 at [15, 9]", { 15, 9 });
 	qt.addElement("Test 3 at [70, 22]", { 70, 22 });
 	qt.addElement("Test 4 at [10, 10]", { 10, 10 });
+
+	std::cout << "Constraining 671 degrees to [0, 360): " << chcl::degreeSolver.clamp(671) << '\n';
+	std::cout << "Smallest difference between 153 and 671 degrees: " << chcl::degreeSolver.diffMin(153, 671) << '\n';
+	std::cout << "Minor average between 153 and 671 degrees: " << chcl::degreeSolver.avgMin(153, 671) << '\n';
+	std::cout << "Smallest difference between 671 and 153 degrees: " << chcl::degreeSolver.diffMin(671, 153) << '\n';
+	std::cout << "Minor average between 671 and 153 degrees: " << chcl::degreeSolver.avgMin(671, 153) << '\n';
 }
