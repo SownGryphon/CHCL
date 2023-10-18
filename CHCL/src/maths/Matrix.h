@@ -167,31 +167,31 @@ namespace chcl
 		Derived<width, height>& operator =(std::initializer_list<float> values)
 		{
 			std::memcpy(m_values, values.begin(), values.size() * sizeof(float));
-			return *this;
+			return *static_cast<Derived<width, height>*>(this);
 		}
 
 		Derived<width, height>& operator =(float num)
 		{
 			std::fill(m_values, m_values + size_t(width) * height, num);
-			return *this;
+			return *static_cast<Derived<width, height>*>(this);
 		}
 
 		Derived<width, height>& operator*=(float num)
 		{
 			perValue([num](float val) { return val * num; });
-			return *this;
+			return *static_cast<Derived<width, height>*>(this);
 		}
 
 		Derived<width, height>& operator/=(float num)
 		{
 			perValue([num](float val) { return val / num; });
-			return *this;
+			return *static_cast<Derived<width, height>*>(this);
 		}
 
 		Derived<width, height>& operator =(const Derived<width, height> &other)
 		{
 			std::memcpy(m_values, other.m_values, size_t(width) * height * sizeof(float));
-			return *this;
+			return *static_cast<Derived<width, height>*>(this);
 		}
 
 		Derived<width, height>& operator+=(const Derived<width, height> &other)
@@ -200,7 +200,7 @@ namespace chcl
 			{
 				m_values[i] += other.m_values[i];
 			}
-			return *this;
+			return *static_cast<Derived<width, height>*>(this);
 		}
 
 		Derived<width, height>& operator-=(const Derived<width, height> &other)
@@ -209,7 +209,13 @@ namespace chcl
 			{
 				m_values[i] -= other.m_values[i];
 			}
-			return *this;
+			return *static_cast<Derived<width, height>*>(this);
+		}
+
+		Derived<width, height>& operator*=(const Derived<width, width> &other)
+		{
+			(*static_cast<Derived<width, height>*>(this)) = (*static_cast<Derived<width, height>*>(this)) * other;
+			return *static_cast<Derived<width, height>*>(this);
 		}
 
 		friend bool operator==(const Derived<width, height> &lhs, const Derived<width, height> &rhs)

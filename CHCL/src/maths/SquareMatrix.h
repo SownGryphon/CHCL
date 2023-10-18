@@ -9,18 +9,23 @@ namespace chcl
 	template <unsigned int size>
 	using SquareMatrix = Matrix<size, size>;
 
-	template <unsigned int size>
-	class Matrix<size, size> : public MatrixBase<size, size, Matrix>
+	template <unsigned int size, template<unsigned int, unsigned int> typename Derived>
+	class SquareMatrixBase : public MatrixBase<size, size, Derived>
 	{
 	public:
-		using MatrixBase<size, size, Matrix>::MatrixBase;
-		using MatrixBase<size, size, Matrix>::m_values;
+		using MatrixBase<size, size, Derived>::MatrixBase;
+		using MatrixBase<size, size, Derived>::m_values;
+		using MatrixBase<size, size, Derived>::operator =;
+		using MatrixBase<size, size, Derived>::operator+=;
+		using MatrixBase<size, size, Derived>::operator-=;
+		using MatrixBase<size, size, Derived>::operator*=;
+		using MatrixBase<size, size, Derived>::operator/=;
 
-		Matrix(const MatrixBase<size, size, Matrix> &mat) : MatrixBase<size, size, Matrix>::MatrixBase(mat) {}
+		SquareMatrixBase(const MatrixBase<size, size, Derived> &mat) : MatrixBase<size, size, Derived>::MatrixBase(mat) {}
 
-		static Matrix Identity()
+		static Derived<size, size> Identity()
 		{
-			Matrix result;
+			Derived<size, size> result;
 			for (unsigned int i = 0; i < size; ++i)
 			{
 				result.at(i, i) = 1.f;
@@ -32,20 +37,20 @@ namespace chcl
 	};
 
 	template <>
-	inline float SquareMatrix<2>::determinant() const
+	inline float SquareMatrixBase<2, Matrix>::determinant() const
 	{
 		// Using ad - bc
 		return m_values[0] * m_values[3] - m_values[1] * m_values[2];
 	}
 
 	template <>
-	inline float SquareMatrix<1>::determinant() const
+	inline float SquareMatrixBase<1, Matrix>::determinant() const
 	{
 		return m_values[0];
 	}
 
-	template <unsigned int size>
-	float SquareMatrix<size>::determinant() const
+	template <unsigned int size, template <unsigned int, unsigned int> typename Derived>
+	float SquareMatrixBase<size, Derived>::determinant() const
 	{
 		float rollingDet = 0.f;						// Adds up the determinants of sum-matrices
 		SquareMatrix<size - 1> detCalculator;	// Stores each sub-matrix and calculates its determinant
@@ -73,22 +78,35 @@ namespace chcl
 		return rollingDet;
 	}
 
-	class Mat2 : public SquareMatrix<2>
+	template <unsigned int size>
+	class Matrix<size, size> : public SquareMatrixBase<size, Matrix>
 	{
 	public:
-		using SquareMatrix<2>::SquareMatrix;
+		using SquareMatrixBase<size, Matrix>::SquareMatrixBase;
+	};
 
-		Mat2(const SquareMatrix<2> &mat) : SquareMatrix<2>(mat) {}
+	using Mat2 = SquareMatrix<2>;
+
+	template <>
+	class Matrix<2, 2> : public SquareMatrixBase<2, Matrix>
+	{
+	public:
+		using SquareMatrixBase<2, Matrix>::SquareMatrixBase;
+
+		Matrix(const SquareMatrix<2> &mat) : SquareMatrixBase<2, Matrix>(mat) {}
 
 		static Mat2 Rotation(float angle);
 	};
 
-	class Mat4 : public SquareMatrix<4>
+	using Mat4 = SquareMatrix<4>;
+
+	template <>
+	class Matrix<4, 4> : public SquareMatrixBase<4, Matrix>
 	{
 	public:
-		using SquareMatrix<4>::SquareMatrix;
+		using SquareMatrixBase<4, Matrix>::SquareMatrixBase;
 
-		Mat4(const SquareMatrix<4> &mat) : SquareMatrix<4>(mat) {}
+		Matrix(const SquareMatrixBase<4, Matrix> &mat) : SquareMatrixBase<4, Matrix>(mat) {}
 
 		static Mat4 Ortho(float xMin, float xMax, float yMin, float yMax, float zMin, float zMax);
 		static Mat4 Translation(float x, float y, float z);

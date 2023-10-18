@@ -73,6 +73,14 @@ int main() {
 	std::cout << "Matrix #5 (from float array):\n"; chcl::printMatrix(matrix5, 8);
 	std::cout << "Matrix #4 * #3:\n"; chcl::printMatrix(matrix4 * matrix3);
 
+	chcl::Mat4 transform = chcl::Mat4::Identity();
+	transform *= chcl::Mat4::Translation(2, 3, 5);
+	transform *= chcl::Mat4::Rotation2D(chcl::toRadians(35.f));
+	transform *= chcl::Mat4::Scale(2, 1.5f, 0.7f);
+
+	std::cout << "\nTransform matrix to scale by [2, 1.5, 0.7], rotate by 35 degrees and translate by [2, 3, 5]:\n";
+	chcl::printMatrix(transform);
+
 	std::cout << "\nMatrix as 6D Vector (same values as Matrix #5): ";
 	chcl::printVector(chcl::VectorN<6>(chcl::Matrix<1, 6>(vals)));
 
