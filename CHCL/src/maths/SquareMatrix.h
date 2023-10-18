@@ -16,6 +16,8 @@ namespace chcl
 		using MatrixBase<size, size>::MatrixBase;
 		using MatrixBase<size, size>::m_values;
 
+		Matrix(const MatrixBase<size, size> &mat) : MatrixBase<size, size>::MatrixBase(mat) {}
+
 		static Matrix Identity()
 		{
 			Matrix result;
