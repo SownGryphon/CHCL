@@ -34,6 +34,7 @@
     <ClInclude Include="src\maths\Common.h" />
     <ClInclude Include="src\maths\SquareMatrix.h" />
     <ClInclude Include="src\maths\Continuous.h" />
+    <ClInclude Include="src\geometry\Vector4.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Prints.cpp" />

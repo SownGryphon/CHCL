@@ -79,6 +79,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\geometry\Vector4.h" />
     <ClInclude Include="src\maths\Common.h" />
     <ClInclude Include="src\maths\Continuous.h" />
     <ClInclude Include="src\Prints.h" />
