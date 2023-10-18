@@ -4,65 +4,243 @@
 
 namespace chcl
 {
-	struct Matrix
+	template <unsigned int width, unsigned int height>
+	class MatrixBase
 	{
-		unsigned int m_cols,
-			m_rows;
+	protected:
+		float m_values[width * height];
 
-		float* m_values;
 	public:
-		Matrix();
-		Matrix(unsigned int cols, unsigned int rows, float defaultVal = 0.f);
-		Matrix(unsigned int cols, unsigned int rows, const float *values);
-		Matrix(unsigned int cols, unsigned int rows, std::initializer_list<float> values);
-		Matrix(const Matrix& other);
-		~Matrix();
+		MatrixBase(float defaultVal = 0.f)
+		{
+			std::fill(m_values, m_values + width * height, defaultVal);
+		}
 
-		static Matrix Resize(const Matrix &mat, unsigned int width, unsigned int height);
+		MatrixBase(const float *values)
+		{
+			std::memcpy(m_values, values, width * height * sizeof(float));
+		}
 
-		inline unsigned int getCols() const { return m_cols; }
-		inline unsigned int getRows() const { return m_rows; }
+		MatrixBase(std::initializer_list<float> values)
+		{
+			std::memcpy(m_values, values.begin(), values.size() * sizeof(float));
+		}
 
-		inline float* values() { return m_values; }
-		inline const float* values() const { return m_values; }
+		MatrixBase(const MatrixBase& other)
+			: MatrixBase(other.m_values)
+		{
 
-		const float& at(unsigned int col, unsigned int row) const;
-		float& at(unsigned int col, unsigned int row);
+		}
 
-		Matrix getValueAsMatrix(unsigned int col, unsigned int row) const;
+		template <unsigned int otherWidth, unsigned int otherHeight>
+		static MatrixBase<otherWidth, otherHeight> Resize(const MatrixBase &mat)
+		{
+			MatrixBase<otherWidth, otherHeight> result;
+			for (unsigned int i = 0; i < std::min(width, otherWidth); ++i)
+			{
+				for (unsigned int j = 0; j < std::min(height, otherHeight); ++j)
+				{
+					result.at(i, j) = mat.at(i, j);
+				}
+			}
+			return result;
+		}
 
-		void getCol(unsigned int col, float* out) const;
-		void getRow(unsigned int row, float* out) const;
+		float* values() { return m_values; }
+		const float* values() const { return m_values; }
 
-		Matrix getColAsMatrix(unsigned int col) const;
-		Matrix getRowAsMatrix(unsigned int row) const;
+		const float& at(unsigned int col, unsigned int row) const { return m_values[size_t(row) * width + col]; }
+		float& at(unsigned int col, unsigned int row) { return m_values[size_t(row) * width + col]; }
 
-		float determinant() const;
+		MatrixBase<1, 1> getValueAsMatrix(unsigned int col, unsigned int row) const
+		{
+			return MatrixBase<1, 1>(at(col, row));
+		}
 
-		explicit operator bool() const;
+		void getCol(unsigned int col, float* out) const
+		{
+			for (unsigned int i = 0; i < height; ++i)
+			{
+				out[i] = at(col, i);
+			}
+		}
 
-		friend Matrix operator*(const Matrix &matrix, float val);
-		friend Matrix operator/(const Matrix &matrix, float val);
-		friend Matrix operator*(float val, const Matrix &matrix);
+		void getRow(unsigned int row, float* out) const
+		{
+			for (unsigned int i = 0; i < width; ++i)
+			{
+				out[i] = at(i, row);
+			}
+		}
 
-		friend Matrix operator+(const Matrix &lhs, const Matrix &rhs);
-		friend Matrix operator-(const Matrix &lhs, const Matrix &rhs);
-		friend Matrix operator*(const Matrix &lhs, const Matrix &rhs);
+		MatrixBase<1, height> getColAsMatrix(unsigned int col) const
+		{
+			MatrixBase<1, height> result;
+			for (unsigned int i = 0; i < height; ++i)
+			{
+				result.at(0, i) = at(col, i);
+			}
+			return result;
+		}
 
-		void perValue(std::function<float(float)>);
+		MatrixBase<width, 1> getRowAsMatrix(unsigned int row) const
+		{
+			return MatrixBase<width, 1>(&at(0, row));
+		}
 
-		Matrix& operator =(std::initializer_list<float> values);
+		explicit operator bool() const
+		{
+			if (width == 0 && height == 0)
+				return false;
 
-		Matrix& operator =(float val);
-		Matrix& operator*=(float val);
-		Matrix& operator/=(float val);
+			for (unsigned int i = width * height; i--;)
+			{
+				if (m_values[i] != 0)
+				{
+					return true;
+				}
+			}
 
-		Matrix& operator =(const Matrix &other);
-		Matrix& operator+=(const Matrix &other);
-		Matrix& operator-=(const Matrix &other);
-		Matrix& operator*=(const Matrix &other);
+			return false;
+		}
 
-		bool operator==(const Matrix &other) const;
-		bool operator!=(const Matrix &other) const;
+		friend MatrixBase operator*(const MatrixBase &mat, float num)
+		{
+			MatrixBase result = mat;
+			result *= num;
+			return result;
+		}
+
+		friend MatrixBase operator*(float num, const MatrixBase &mat)
+		{
+			MatrixBase result = mat;
+			result *= num;
+			return result;
+		}
+
+		friend MatrixBase operator/(const MatrixBase &mat, float num)
+		{
+			MatrixBase result = mat;
+			result /= num;
+			return result;
+		}
+
+		friend MatrixBase operator+(const MatrixBase &lhs, const MatrixBase &rhs)
+		{
+			MatrixBase result = lhs;
+			result += rhs;
+			return result;
+		}
+
+		friend MatrixBase operator-(const MatrixBase &lhs, const MatrixBase &rhs)
+		{
+			MatrixBase result = lhs;
+			result -= rhs;
+			return result;
+		}
+
+		template <unsigned int otherWidth>
+		friend MatrixBase<otherWidth, height> operator*(const MatrixBase &lhs, const MatrixBase<otherWidth, width> &rhs)
+		{
+			MatrixBase<otherWidth, height> result;
+			for (unsigned int i = 0; i < height; ++i)
+			{
+				for (unsigned int j = 0; j < width; ++j)
+				{
+					for (unsigned int k = 0; k < otherWidth; ++k)
+					{
+						result.at(j, i) += lhs.at(k, i) * rhs.at(j, k);
+					}
+				}
+			}
+			return result;
+		}
+
+		void perValue(std::function<float(float)> func)
+		{
+			for (unsigned int i = height * width; i--;)
+			{
+				m_values[i] = func(m_values[i]);
+			}
+		}
+
+		MatrixBase& operator =(std::initializer_list<float> values)
+		{
+			std::memcpy(m_values, values.begin(), values.size() * sizeof(float));
+			return *this;
+		}
+
+		MatrixBase& operator =(float num)
+		{
+			std::fill(m_values, m_values + size_t(width) * height, num);
+			return *this;
+		}
+
+		MatrixBase& operator*=(float num)
+		{
+			perValue([num](float val) { return val * num; });
+			return *this;
+		}
+
+		MatrixBase& operator/=(float num)
+		{
+			perValue([num](float val) { return val / num; });
+			return *this;
+		}
+
+		MatrixBase& operator =(const MatrixBase &other)
+		{
+			std::memcpy(m_values, other.m_values, size_t(width) * height * sizeof(float));
+			return *this;
+		}
+
+		MatrixBase& operator+=(const MatrixBase &other)
+		{
+			for (unsigned int i = height * width; i--;)
+			{
+				m_values[i] += other.m_values[i];
+			}
+			return *this;
+		}
+
+		MatrixBase& operator-=(const MatrixBase &other)
+		{
+			for (unsigned int i = height * width; i--;)
+			{
+				m_values[i] -= other.m_values[i];
+			}
+			return *this;
+		}
+
+		friend bool operator==(const MatrixBase &lhs, const MatrixBase &rhs)
+		{
+			for (unsigned int i = width * height; i--;)
+			{
+				if (lhs.m_values[i] != rhs.m_values[i])
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		friend bool operator!=(const MatrixBase &lhs, const MatrixBase &rhs)
+		{
+			return !(lhs == rhs);
+		}
+	};
+
+	template <unsigned int width, unsigned int height>
+	class Matrix : public MatrixBase<width, height>
+	{
+	public:
+		using MatrixBase<width, height>::MatrixBase;
+
+		Matrix(const MatrixBase<width, height> &other)
+			: MatrixBase<width, height>(other)
+		{
+
+		}
 	};
 }

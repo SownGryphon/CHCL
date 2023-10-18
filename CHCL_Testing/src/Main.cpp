@@ -60,28 +60,31 @@ int main() {
 	std::cout << "Vector2 #5 as Matrix:\n"; chcl::printMatrix(vec5.toMatrix());
 
 	float vals[] = { 0.482251f, -4.62f, 19, 42069, -729, 100.99f };
-	chcl::Matrix matrix1, matrix2(3, 2), matrix3(2, 4, 3.f), matrix4(4, 5, 6.f),
-		matrix5(2, 3, vals);
+	//chcl::Matrix<0, 0> matrix1;
+	chcl::Matrix<3, 2> matrix2;
+	chcl::Matrix<2, 4> matrix3(3.f);
+	chcl::Matrix<4, 5> matrix4(6.f);
+	chcl::Matrix<2, 3> matrix5(vals);
 
-	std::cout << "\nMatrix #1 (blank):\n"; chcl::printMatrix(matrix1);
-	std::cout << "Matrix #2 (3x2):\n"; chcl::printMatrix(matrix2);
+	//std::cout << "\nMatrix #1 (blank):\n"; chcl::printMatrix(matrix1);
+	std::cout << "\nMatrix #2 (3x2):\n"; chcl::printMatrix(matrix2);
 	std::cout << "Matrix #3 (2x4, default 3.f):\n"; chcl::printMatrix(matrix3);
 	std::cout << "Matrix #4 (4x5, default 6.f):\n"; chcl::printMatrix(matrix4);
 	std::cout << "Matrix #5 (from float array):\n"; chcl::printMatrix(matrix5, 8);
 	std::cout << "Matrix #4 * #3:\n"; chcl::printMatrix(matrix4 * matrix3);
 
 	std::cout << "\nMatrix as 6D Vector (same values as Matrix #5): ";
-	chcl::printVector(chcl::VectorN<6>(chcl::Matrix{ 1, 6, vals }));
+	chcl::printVector(chcl::VectorN<6>(chcl::Matrix<1, 6>(vals)));
 
 	std::cout << "\nMatrices from initializer lists:\n";
-	chcl::Matrix matrix6(2, 3, {
+	chcl::Matrix<2, 3> matrix6({
 		 0.5f,   0.2f,
 		 0.3f,   1.3f,
 		-2.1f, 0.007f
 	});
 	std::cout << "Matrix6:\n"; chcl::printMatrix(matrix6);
 
-	chcl::Matrix matrix7(3, 4, {
+	chcl::Matrix<3, 4> matrix7({
 			     0.4f,   1.4f,    4.7f,
 			    0.09f,  -7.5f,  11.92f,
 			-109.775f,   60.f,   31.8f,
@@ -94,7 +97,7 @@ int main() {
 	chcl::printMatrix(matrix7 * matrix6);
 
 	std::cout << "\nMatrix determinants:\n";
-	chcl::Matrix detMatrix1(2, 2, {
+	chcl::SquareMatrix<2> detMatrix1({
 			4, 6,
 			3, 8
 		});
@@ -102,7 +105,7 @@ int main() {
 	chcl::printMatrix(detMatrix1);
 	std::cout << "Determinant: " << detMatrix1.determinant() << "\n\n";
 
-	chcl::Matrix detMatrix2(3, 3, {
+	chcl::SquareMatrix<3> detMatrix2({
 			6,  1,  1,
 			4, -2,  5,
 			2,  8,  7

@@ -40,7 +40,7 @@ namespace chcl
 			this->y = y;
 		}
 
-		VectorN(const Matrix &mat)
+		VectorN(const MatrixBase<1, 2> &mat)
 		{
 			x = mat.at(0, 0);
 			y = mat.at(0, 1);
@@ -93,7 +93,7 @@ namespace chcl
 			return *this;
 		}
 
-		VectorN& operator =(const Matrix &mat)
+		VectorN& operator =(const MatrixBase<1, 2> &mat)
 		{
 			x = mat.at(0, 0);
 			y = mat.at(0, 1);

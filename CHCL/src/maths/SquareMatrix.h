@@ -7,29 +7,18 @@
 namespace chcl
 {
 	template <unsigned int size>
-	class SquareMatrix : public Matrix
+	using SquareMatrix = Matrix<size, size>;
+
+	template <unsigned int size>
+	class Matrix<size, size> : public MatrixBase<size, size>
 	{
 	public:
-		SquareMatrix() : Matrix(size, size) {}
-		SquareMatrix(float val) : Matrix(size, size, val) {}
-		SquareMatrix(const float *vals) : Matrix(size, size, vals) {}
-		template <unsigned int otherSize>
-		SquareMatrix(const SquareMatrix<otherSize> &other) : Matrix(Matrix::Resize(other, size, size)) {}
-		SquareMatrix(const SquareMatrix &other) : Matrix(other) {}
-		SquareMatrix(const Matrix &other) : Matrix(Matrix::Resize(other, size, size)) {}
+		using MatrixBase<size, size>::MatrixBase;
+		using MatrixBase<size, size>::m_values;
 
-		SquareMatrix(std::initializer_list<float> values)
-			: Matrix(size, size)
+		static Matrix Identity()
 		{
-			if (size_t(size) * size != values.size())
-				throw std::invalid_argument("Initialiser lsit size does not match Matrix size.");
-
-			std::memcpy(m_values, values.begin(), values.size() * sizeof(float));
-		}
-
-		static SquareMatrix Identity()
-		{
-			Matrix result(size, size);
+			Matrix result;
 			for (unsigned int i = 0; i < size; ++i)
 			{
 				result.at(i, i) = 1.f;
@@ -37,11 +26,50 @@ namespace chcl
 			return result;
 		}
 
-		operator Matrix()
-		{
-			return *this;
-		}
+		float determinant() const;
 	};
+
+	template <>
+	inline float SquareMatrix<2>::determinant() const
+	{
+		// Using ad - bc
+		return m_values[0] * m_values[3] - m_values[1] * m_values[2];
+	}
+
+	template <>
+	inline float SquareMatrix<1>::determinant() const
+	{
+		return m_values[0];
+	}
+
+	template <unsigned int size>
+	float SquareMatrix<size>::determinant() const
+	{
+		float rollingDet = 0.f;						// Adds up the determinants of sum-matrices
+		SquareMatrix<size - 1> detCalculator;	// Stores each sub-matrix and calculates its determinant
+
+		// Construct a smaller matrix for each element of the current matrix that does not contain the values in that row or column
+		for (unsigned int i = 0; i < size; ++i)
+		{
+			unsigned int elementIndex = 0;	// Keeps track of what index of the sub-matrix should be written to
+			// Skip first row
+			for (unsigned int j = size; j < size * size; ++j)
+			{
+				// Skip columns containing the current value
+				if (j % size == i % size)
+					continue;
+
+				detCalculator.m_values[elementIndex] = m_values[j];
+
+				++elementIndex;
+			}
+
+			// Every other sub-determinant needs to be negative
+			rollingDet += this->at(i, 0) * detCalculator.determinant() * (i & 1 ? -1.f : 1.f);
+		}
+
+		return rollingDet;
+	}
 
 	class Mat2 : public SquareMatrix<2>
 	{

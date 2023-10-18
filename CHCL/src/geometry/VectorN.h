@@ -3,7 +3,7 @@
 #include <stdexcept>
 #include <cmath>
 
-#include "../maths/SquareMatrix.h"
+#include "../maths/Matrix.h"
 
 namespace chcl
 {
@@ -31,9 +31,8 @@ namespace chcl
 			std::memcpy(data(), values.begin(), dims * sizeof(T));
 		}
 
-		explicit VectorBase(const Matrix &mat)
+		explicit VectorBase(const MatrixBase<1, dims> &mat)
 		{
-			if (dims != mat.getRows()) throw std::invalid_argument("Vector matrix initialization requires correct matrix size.");
 			for (unsigned int i = 0; i < dims; ++i)
 			{
 				(*this)[i] = mat.at(0, i);
@@ -55,7 +54,7 @@ namespace chcl
 			std::memcpy(data(), other.data(), std::min(dims, otherDims) * sizeof(T));
 		}
 
-		static Derived FromMatrix(const Matrix& matrix)
+		static Derived FromMatrix(const MatrixBase<1, dims> &matrix)
 		{
 			if (matrix.getCols() != 1) throw std::invalid_argument("Matrix must be a column matrix for vector conversion.");
 			if (matrix.getRows() != dims) throw std::invalid_argument("Matrix rows must match vector dimensions for vector conversion.");
@@ -68,9 +67,9 @@ namespace chcl
 			return result;
 		}
 
-		Matrix toMatrix() const
+		MatrixBase<1, dims> toMatrix() const
 		{
-			return Matrix(1, dims, data());
+			return MatrixBase<1, dims>(data());
 		}
 
 		static T Dot(const Derived &vec1, const Derived& vec2)
@@ -145,7 +144,7 @@ namespace chcl
 			return result;
 		}
 
-		Derived& operator =(const Matrix &mat)
+		Derived& operator =(const MatrixBase<1, dims> &mat)
 		{
 			if (dims != mat.getRows()) throw std::invalid_argument("Vector matrix initialization requires correct matrix size.");
 			for (unsigned int i = 0; i < dims; ++i)
@@ -219,17 +218,7 @@ namespace chcl
 			return result;
 		}
 
-		friend Matrix operator*(const Matrix &mat, const Derived &vec)
-		{
-			return mat * vec.toMatrix();
-		}
-
-		friend Matrix operator*(const Derived &vec, const Matrix &mat)
-		{
-			return vec.toMatrix() * mat;
-		}
-
-		operator Matrix()
+		operator MatrixBase<1, dims>()
 		{
 			return toMatrix();
 		}
@@ -298,4 +287,11 @@ namespace chcl
 	//	virtual T* data() override { return position; }
 	//	virtual const T* data() const override { return position; }
 	};
+
+	template <unsigned int inDims, unsigned int outDims, typename T>
+	VectorN<outDims, T> operator*(const Matrix<inDims, outDims> &mat, const VectorN<inDims, T> &vec)
+	{
+		VectorN<outDims> result = mat * (vec.toMatrix());
+		return result;
+	}
 }
