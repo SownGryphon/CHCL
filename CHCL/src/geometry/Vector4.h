@@ -51,6 +51,23 @@ namespace chcl
 			this->w = w;
 		}
 
+		template <typename T2>
+		VectorN(const VectorN<4, T2> &other)
+		{
+			x = other.x;
+			y = other.y;
+			z = other.z;
+			w = other.w;
+		}
+
+		VectorN(const VectorN<4, T> &other)
+		{
+			x = other.x;
+			y = other.y;
+			z = other.z;
+			w = other.w;
+		}
+
 		VectorN xComponent() const { return VectorN(x, 0, 0, 0); }
 		VectorN yComponent() const { return VectorN(0, y, 0, 0); }
 		VectorN zComponent() const { return VectorN(0, 0, z, 0); }
