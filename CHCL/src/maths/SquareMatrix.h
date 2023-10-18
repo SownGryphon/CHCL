@@ -10,13 +10,13 @@ namespace chcl
 	using SquareMatrix = Matrix<size, size>;
 
 	template <unsigned int size>
-	class Matrix<size, size> : public MatrixBase<size, size>
+	class Matrix<size, size> : public MatrixBase<size, size, Matrix>
 	{
 	public:
-		using MatrixBase<size, size>::MatrixBase;
-		using MatrixBase<size, size>::m_values;
+		using MatrixBase<size, size, Matrix>::MatrixBase;
+		using MatrixBase<size, size, Matrix>::m_values;
 
-		Matrix(const MatrixBase<size, size> &mat) : MatrixBase<size, size>::MatrixBase(mat) {}
+		Matrix(const MatrixBase<size, size, Matrix> &mat) : MatrixBase<size, size, Matrix>::MatrixBase(mat) {}
 
 		static Matrix Identity()
 		{
@@ -78,7 +78,6 @@ namespace chcl
 	public:
 		using SquareMatrix<2>::SquareMatrix;
 
-		Mat2(const MatrixBase<2, 2> &mat) : SquareMatrix<2>(mat) {}
 		Mat2(const SquareMatrix<2> &mat) : SquareMatrix<2>(mat) {}
 
 		static Mat2 Rotation(float angle);
@@ -89,7 +88,6 @@ namespace chcl
 	public:
 		using SquareMatrix<4>::SquareMatrix;
 
-		Mat4(const MatrixBase<4, 4> &mat) : SquareMatrix<4>(mat) {}
 		Mat4(const SquareMatrix<4> &mat) : SquareMatrix<4>(mat) {}
 
 		static Mat4 Ortho(float xMin, float xMax, float yMin, float yMax, float zMin, float zMax);

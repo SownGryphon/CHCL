@@ -4,7 +4,7 @@
 
 namespace chcl
 {
-	template <unsigned int width, unsigned int height>
+	template <unsigned int width, unsigned int height, template <unsigned int, unsigned int> typename Derived>
 	class MatrixBase
 	{
 	protected:
@@ -33,7 +33,7 @@ namespace chcl
 		}
 
 		template <unsigned int otherWidth, unsigned int otherHeight>
-		static MatrixBase<otherWidth, otherHeight> Resize(const MatrixBase &mat)
+		static Derived<otherWidth, otherHeight> Resize(const Derived<width, height> &mat)
 		{
 			MatrixBase<otherWidth, otherHeight> result;
 			for (unsigned int i = 0; i < std::min(width, otherWidth); ++i)
@@ -52,9 +52,9 @@ namespace chcl
 		const float& at(unsigned int col, unsigned int row) const { return m_values[size_t(row) * width + col]; }
 		float& at(unsigned int col, unsigned int row) { return m_values[size_t(row) * width + col]; }
 
-		MatrixBase<1, 1> getValueAsMatrix(unsigned int col, unsigned int row) const
+		Derived<1, 1> getValueAsMatrix(unsigned int col, unsigned int row) const
 		{
-			return MatrixBase<1, 1>(at(col, row));
+			return Derived<1, 1>(at(col, row));
 		}
 
 		void getCol(unsigned int col, float* out) const
@@ -73,9 +73,9 @@ namespace chcl
 			}
 		}
 
-		MatrixBase<1, height> getColAsMatrix(unsigned int col) const
+		Derived<1, height> getColAsMatrix(unsigned int col) const
 		{
-			MatrixBase<1, height> result;
+			Derived<1, height> result;
 			for (unsigned int i = 0; i < height; ++i)
 			{
 				result.at(0, i) = at(col, i);
@@ -83,9 +83,9 @@ namespace chcl
 			return result;
 		}
 
-		MatrixBase<width, 1> getRowAsMatrix(unsigned int row) const
+		Derived<width, 1> getRowAsMatrix(unsigned int row) const
 		{
-			return MatrixBase<width, 1>(&at(0, row));
+			return Derived<width, 1>(&at(0, row));
 		}
 
 		explicit operator bool() const
@@ -104,45 +104,45 @@ namespace chcl
 			return false;
 		}
 
-		friend MatrixBase operator*(const MatrixBase &mat, float num)
+		friend Derived<width, height> operator*(const Derived<width, height> &mat, float num)
 		{
-			MatrixBase result = mat;
+			Derived<width, height> result = mat;
 			result *= num;
 			return result;
 		}
 
-		friend MatrixBase operator*(float num, const MatrixBase &mat)
+		friend Derived<width, height> operator*(float num, const Derived<width, height> &mat)
 		{
-			MatrixBase result = mat;
+			Derived<width, height> result = mat;
 			result *= num;
 			return result;
 		}
 
-		friend MatrixBase operator/(const MatrixBase &mat, float num)
+		friend Derived<width, height> operator/(const Derived<width, height> &mat, float num)
 		{
-			MatrixBase result = mat;
+			Derived<width, height> result = mat;
 			result /= num;
 			return result;
 		}
 
-		friend MatrixBase operator+(const MatrixBase &lhs, const MatrixBase &rhs)
+		friend Derived<width, height> operator+(const Derived<width, height> &lhs, const Derived<width, height> &rhs)
 		{
-			MatrixBase result = lhs;
+			Derived<width, height> result = lhs;
 			result += rhs;
 			return result;
 		}
 
-		friend MatrixBase operator-(const MatrixBase &lhs, const MatrixBase &rhs)
+		friend Derived<width, height> operator-(const Derived<width, height> &lhs, const Derived<width, height> &rhs)
 		{
-			MatrixBase result = lhs;
+			Derived<width, height> result = lhs;
 			result -= rhs;
 			return result;
 		}
 
 		template <unsigned int otherWidth>
-		friend MatrixBase<otherWidth, height> operator*(const MatrixBase &lhs, const MatrixBase<otherWidth, width> &rhs)
+		friend Derived<otherWidth, height> operator*(const Derived<width, height> &lhs, const Derived<otherWidth, width> &rhs)
 		{
-			MatrixBase<otherWidth, height> result;
+			Derived<otherWidth, height> result;
 			for (unsigned int i = 0; i < height; ++i)
 			{
 				for (unsigned int j = 0; j < width; ++j)
@@ -164,37 +164,37 @@ namespace chcl
 			}
 		}
 
-		MatrixBase& operator =(std::initializer_list<float> values)
+		Derived<width, height>& operator =(std::initializer_list<float> values)
 		{
 			std::memcpy(m_values, values.begin(), values.size() * sizeof(float));
 			return *this;
 		}
 
-		MatrixBase& operator =(float num)
+		Derived<width, height>& operator =(float num)
 		{
 			std::fill(m_values, m_values + size_t(width) * height, num);
 			return *this;
 		}
 
-		MatrixBase& operator*=(float num)
+		Derived<width, height>& operator*=(float num)
 		{
 			perValue([num](float val) { return val * num; });
 			return *this;
 		}
 
-		MatrixBase& operator/=(float num)
+		Derived<width, height>& operator/=(float num)
 		{
 			perValue([num](float val) { return val / num; });
 			return *this;
 		}
 
-		MatrixBase& operator =(const MatrixBase &other)
+		Derived<width, height>& operator =(const Derived<width, height> &other)
 		{
 			std::memcpy(m_values, other.m_values, size_t(width) * height * sizeof(float));
 			return *this;
 		}
 
-		MatrixBase& operator+=(const MatrixBase &other)
+		Derived<width, height>& operator+=(const Derived<width, height> &other)
 		{
 			for (unsigned int i = height * width; i--;)
 			{
@@ -203,7 +203,7 @@ namespace chcl
 			return *this;
 		}
 
-		MatrixBase& operator-=(const MatrixBase &other)
+		Derived<width, height>& operator-=(const Derived<width, height> &other)
 		{
 			for (unsigned int i = height * width; i--;)
 			{
@@ -212,7 +212,7 @@ namespace chcl
 			return *this;
 		}
 
-		friend bool operator==(const MatrixBase &lhs, const MatrixBase &rhs)
+		friend bool operator==(const Derived<width, height> &lhs, const Derived<width, height> &rhs)
 		{
 			for (unsigned int i = width * height; i--;)
 			{
@@ -225,20 +225,20 @@ namespace chcl
 			return true;
 		}
 
-		friend bool operator!=(const MatrixBase &lhs, const MatrixBase &rhs)
+		friend bool operator!=(const Derived<width, height> &lhs, const Derived<width, height> &rhs)
 		{
 			return !(lhs == rhs);
 		}
 	};
 
 	template <unsigned int width, unsigned int height>
-	class Matrix : public MatrixBase<width, height>
+	class Matrix : public MatrixBase<width, height, Matrix>
 	{
 	public:
-		using MatrixBase<width, height>::MatrixBase;
+		using MatrixBase<width, height, Matrix>::MatrixBase;
 
-		Matrix(const MatrixBase<width, height> &other)
-			: MatrixBase<width, height>(other)
+		Matrix(const MatrixBase<width, height, Matrix> &other)
+			: MatrixBase<width, height, Matrix>(other)
 		{
 
 		}

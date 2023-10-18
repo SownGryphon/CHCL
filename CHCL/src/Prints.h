@@ -42,7 +42,7 @@ namespace chcl
 	}
 
 	template <unsigned int width, unsigned int height>
-	void printMatrix(const MatrixBase<width, height> &matrix, unsigned int places = 2)
+	void printMatrix(const Matrix<width, height> &matrix, unsigned int places = 2)
 	{
 		std::stringstream numStream;
 		size_t maxLen = 0;
