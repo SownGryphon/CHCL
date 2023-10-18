@@ -76,6 +76,8 @@ namespace chcl
 	public:
 		using SquareMatrix<2>::SquareMatrix;
 
+		Mat2(const SquareMatrix<2> &mat) : SquareMatrix<2>(mat) {}
+
 		static Mat2 Rotation(float angle);
 	};
 
@@ -83,6 +85,8 @@ namespace chcl
 	{
 	public:
 		using SquareMatrix<4>::SquareMatrix;
+
+		Mat4(const SquareMatrix<4> &mat) : SquareMatrix<4>(mat) {}
 
 		static Mat4 Ortho(float xMin, float xMax, float yMin, float yMax, float zMin, float zMax);
 		static Mat4 Translation(float x, float y, float z);
