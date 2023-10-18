@@ -59,5 +59,6 @@ namespace chcl
 		static Mat4 Ortho(float xMin, float xMax, float yMin, float yMax, float zMin, float zMax);
 		static Mat4 Translation(float x, float y, float z);
 		static Mat4 Scale(float x, float y, float z);
+		static Mat4 Rotation2D(float radians);
 	};
 }

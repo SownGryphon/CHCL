@@ -39,4 +39,14 @@ namespace chcl
 			0, 0, 0, 1
 		});
 	}
+
+	Mat4 Mat4::Rotation2D(float angle)
+	{
+		return Mat4({
+			std::cos(angle), -std::sin(angle), 0, 0,
+			std::sin(angle), std::cos(angle), 0, 0,
+			0, 0, 1, 0,
+			0, 0, 0, 1
+		});
+	}
 }
