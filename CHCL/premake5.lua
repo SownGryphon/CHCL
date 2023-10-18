@@ -17,3 +17,9 @@ project "CHCL"
 		cppdialect "C++20"
 		staticruntime "On"
 		systemversion "latest"
+
+	filter "configurations:Debug"
+		symbols "On"
+
+	filter "configurations:Release"
+		optimize "On"
