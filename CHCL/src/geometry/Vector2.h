@@ -134,33 +134,33 @@ namespace chcl
 			return *this;
 		}
 
-		friend VectorN operator+(const VectorN &lhs, const VectorN &rhs)
-		{
-			Vector2 result = lhs;
-			result += rhs;
-			return result;
-		}
+		//friend VectorN operator+(const VectorN &lhs, const VectorN &rhs)
+		//{
+		//	Vector2 result = lhs;
+		//	result += rhs;
+		//	return result;
+		//}
 
-		friend VectorN operator-(const VectorN &lhs, const VectorN &rhs)
-		{
-			Vector2 result = lhs;
-			result -= rhs;
-			return result;
-		}
+		//friend VectorN operator-(const VectorN &lhs, const VectorN &rhs)
+		//{
+		//	Vector2 result = lhs;
+		//	result -= rhs;
+		//	return result;
+		//}
 
-		friend VectorN operator*(const VectorN &lhs, const VectorN &rhs)
-		{
-			Vector2 result = lhs;
-			result *= rhs;
-			return result;
-		}
+		//friend VectorN operator*(const VectorN &lhs, const VectorN &rhs)
+		//{
+		//	Vector2 result = lhs;
+		//	result *= rhs;
+		//	return result;
+		//}
 
-		friend VectorN operator/(const VectorN &lhs, const VectorN &rhs)
-		{
-			Vector2 result = lhs;
-			result /= rhs;
-			return result;
-		}
+		//friend VectorN operator/(const VectorN &lhs, const VectorN &rhs)
+		//{
+		//	Vector2 result = lhs;
+		//	result /= rhs;
+		//	return result;
+		//}
 
 	//protected:
 	//	virtual T* data() override { return position; }

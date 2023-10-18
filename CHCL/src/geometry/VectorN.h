@@ -191,6 +191,34 @@ namespace chcl
 			return *static_cast<Derived*>(this);
 		}
 
+		friend Derived operator+(const Derived &lhs, const Derived &rhs)
+		{
+			Derived result = lhs;
+			result += rhs;
+			return result;
+		}
+
+		friend Derived operator-(const Derived &lhs, const Derived &rhs)
+		{
+			Derived result = lhs;
+			result -= rhs;
+			return result;
+		}
+
+		friend Derived operator*(const Derived &lhs, const Derived &rhs)
+		{
+			Derived result = lhs;
+			result *= rhs;
+			return result;
+		}
+
+		friend Derived operator/(const Derived &lhs, const Derived &rhs)
+		{
+			Derived result = lhs;
+			result /= rhs;
+			return result;
+		}
+
 		friend Matrix operator*(const Matrix &mat, const Derived &vec)
 		{
 			return mat * vec.toMatrix();
@@ -238,33 +266,33 @@ namespace chcl
 			return true;
 		}
 
-		friend VectorN operator+(const VectorN &lhs, const VectorN &rhs)
-		{
-			VectorN result = lhs;
-			result += rhs;
-			return result;
-		}
+		//friend VectorN operator+(const VectorN &lhs, const VectorN &rhs)
+		//{
+		//	VectorN result = lhs;
+		//	result += rhs;
+		//	return result;
+		//}
 
-		friend VectorN operator-(const VectorN &lhs, const VectorN &rhs)
-		{
-			VectorN result = lhs;
-			result -= rhs;
-			return result;
-		}
+		//friend VectorN operator-(const VectorN &lhs, const VectorN &rhs)
+		//{
+		//	VectorN result = lhs;
+		//	result -= rhs;
+		//	return result;
+		//}
 
-		friend VectorN operator*(const VectorN &lhs, const VectorN &rhs)
-		{
-			VectorN result = lhs;
-			result *= rhs;
-			return result;
-		}
+		//friend VectorN operator*(const VectorN &lhs, const VectorN &rhs)
+		//{
+		//	VectorN result = lhs;
+		//	result *= rhs;
+		//	return result;
+		//}
 
-		friend VectorN operator/(const VectorN &lhs, const VectorN &rhs)
-		{
-			VectorN result = lhs;
-			result /= rhs;
-			return result;
-		}
+		//friend VectorN operator/(const VectorN &lhs, const VectorN &rhs)
+		//{
+		//	VectorN result = lhs;
+		//	result /= rhs;
+		//	return result;
+		//}
 
 	//protected:
 	//	virtual T* data() override { return position; }

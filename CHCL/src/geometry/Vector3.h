@@ -67,11 +67,11 @@ namespace chcl
 		}
 
 		template <typename T2>
-		VectorN(const VectorN<3, T2> &vec)
+		VectorN(const VectorN<3, T2> &other)
 		{
-			x = vec.x;
-			y = vec.y;
-			z = vec.z;
+			x = other.x;
+			y = other.y;
+			z = other.z;
 		}
 
 		VectorN(const VectorN<3, T> &other)
@@ -148,33 +148,33 @@ namespace chcl
 			return *this;
 		}
 
-		friend VectorN operator+(const VectorN &lhs, const VectorN &rhs)
-		{
-			VectorN result = lhs;
-			result += rhs;
-			return result;
-		}
+		//friend VectorN operator+(const VectorN &lhs, const VectorN &rhs)
+		//{
+		//	VectorN result = lhs;
+		//	result += rhs;
+		//	return result;
+		//}
 
-		friend VectorN operator-(const VectorN &lhs, const VectorN &rhs)
-		{
-			VectorN result = lhs;
-			result -= rhs;
-			return result;
-		}
+		//friend VectorN operator-(const VectorN &lhs, const VectorN &rhs)
+		//{
+		//	VectorN result = lhs;
+		//	result -= rhs;
+		//	return result;
+		//}
 
-		friend VectorN operator*(const VectorN &lhs, const VectorN &rhs)
-		{
-			VectorN result = lhs;
-			result *= rhs;
-			return result;
-		}
+		//friend VectorN operator*(const VectorN &lhs, const VectorN &rhs)
+		//{
+		//	VectorN result = lhs;
+		//	result *= rhs;
+		//	return result;
+		//}
 
-		friend VectorN operator/(const VectorN &lhs, const VectorN &rhs)
-		{
-			VectorN result = lhs;
-			result /= rhs;
-			return result;
-		}
+		//friend VectorN operator/(const VectorN &lhs, const VectorN &rhs)
+		//{
+		//	VectorN result = lhs;
+		//	result /= rhs;
+		//	return result;
+		//}
 
 	//protected:
 	//	virtual T* data() override { return position; }
