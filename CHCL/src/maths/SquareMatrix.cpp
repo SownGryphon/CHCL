@@ -1,5 +1,7 @@
 #include "SquareMatrix.h"
 
+#include "../geometry/Vector3.h"
+
 namespace chcl
 {
 	Mat2 Mat2::Rotation(float angle)
@@ -12,10 +14,12 @@ namespace chcl
 
 	Mat4 Mat4::Ortho(float xMin, float xMax, float yMin, float yMax, float zMin, float zMax)
 	{
+		Vector3<float> scaling(2 / (xMax - xMin), 2 / (yMax - yMin), 2 / (zMax - zMin));
+
 		return Mat4({
-			2 / (xMax - xMin), 0, 0, -1,
-			0, 2 / (yMax - yMin), 0, -1,
-			0, 0, 2 / (zMax - zMin), -1,
+			scaling.x, 0, 0, -(xMin + xMax) / 2 * scaling.x,
+			0, scaling.y, 0, -(yMin + yMax) / 2 * scaling.y,
+			0, 0, scaling.z, -(zMin + zMax) / 2 * scaling.z,
 			0, 0, 0, 1
 		});
 	}
