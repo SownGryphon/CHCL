@@ -97,6 +97,7 @@ namespace chcl
 						area.size / 2
 					));
 				}
+				subdivided = true;
 			}
 		};
 
