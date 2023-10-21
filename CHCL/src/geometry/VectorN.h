@@ -94,6 +94,16 @@ namespace chcl
 			return result;
 		}
 
+		Derived parallelComponent(const Derived &vec) const
+		{
+			return Dot(*static_cast<Derived*>(this), vec) / Dot(vec, vec) * vec;
+		}
+
+		Derived perpendicularComponent(const Derived &vec) const
+		{
+			return (*static_cast<Derived*>(this)) - parallelComponent(vec);
+		}
+
 		Derived normalized()
 		{
 			return (*static_cast<Derived*>(this)) / mag();
