@@ -10,6 +10,7 @@ namespace chcl
 	template <typename T, size_t maxElements = 1>
 	class QuadTree
 	{
+	public:
 		struct QTElement
 		{
 			const T element;
@@ -21,45 +22,39 @@ namespace chcl
 			Rect area;
 			QTRegion *children[4] = { nullptr };
 			std::vector<QTElement> elements;
+			bool subdivided = false;
 
 			QTRegion(const Rect &area)
 				: area(area) {}
 
 			~QTRegion()
 			{
-				for (QTRegion *child : children)
-					delete child;
+				if (subdivided)
+					for (QTRegion *child : children)
+						delete child;
 			}
 
-			void addElement(const QTElement &element)
+			bool addElement(const QTElement &element)
 			{
+				if (!m_primaryRegion.area.containsPoint(position))
+					return false;
+
 				if (elements.size() == maxElements)
 				{
-					if (children[0] == nullptr)
+					if (!subdivided)
 					{
-						for (char i = 0; i < 4; ++i)
-						{
-							children[i] = new QTRegion(Rect(
-								Vector2<>(
-									area.origin.x + area.size.x / 2 * (i & 0b1),
-									area.origin.y + area.size.y / 2 * ((i & 0b10) >> 1)
-								),
-								area.size / 2
-							));
-						}
+						subdivide();
 					}
 
 					for (QTRegion *child : children)
 					{
-						if (child->area.containsPoint(element.position))
-						{
-							child->addElement(element);
-							return;
-						}
+						if (child->addElement(element))
+							return true;
 					}
 				}
 
 				elements.push_back(element);
+				return true;
 			}
 
 			template <ShapeDerived S>
@@ -67,32 +62,44 @@ namespace chcl
 			{
 				std::vector<T> result;
 
+				if (checkOverlap(area, shape))
+					return result;
+
 				for (const QTElement &element : elements)
 				{
 					if (shape.containsPoint(element.position))
 						result.push_back(element.element);
 				}
 
-				if (children[0])
+				if (subdivided)
 				{
 					for (QTRegion *child : children)
 					{
-						if (checkOverlap(shape, child->area))
-						{
-							std::vector<T> childResult = child->getElements(shape);
-							result.reserve(result.size() + childResult.size());
-							result.insert(result.end(), childResult.begin(), childResult.end());
-						}
+						std::vector<T> childResult = child->getElements(shape);
+						result.reserve(result.size() + childResult.size());
+						result.insert(result.end(), childResult.begin(), childResult.end());
 					}
 				}
 
 				return result;
 			}
+
+		private:
+			void subdivide()
+			{
+				for (char i = 0; i < 4; ++i)
+				{
+					children[i] = new QTRegion(Rect(
+						Vector2<>(
+							area.origin.x + area.size.x / 2 * (i & 0b1),
+							area.origin.y + area.size.y / 2 * ((i & 0b10) >> 1)
+						),
+						area.size / 2
+					));
+				}
+			}
 		};
 
-		QTRegion m_primaryRegion;
-
-	public:
 		QuadTree(const Rect &area)
 			: m_primaryRegion(area) {};
 
@@ -104,8 +111,12 @@ namespace chcl
 
 		void addElement(const T &element, const Vector2<> &position)
 		{
-			if (m_primaryRegion.area.containsPoint(position))
-				m_primaryRegion.addElement({ element, position });
+			m_primaryRegion.addElement({ element, position });
 		}
+
+		const QTRegion& getRegion() const { return m_primaryRegion; }
+
+	private:
+		QTRegion m_primaryRegion;
 	};
 }
