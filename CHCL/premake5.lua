@@ -13,6 +13,11 @@ project "CHCL"
 		"src/**.cpp"
 	}
 
+	includedirs
+	{
+		"src"
+	}
+
 	filter "system:windows"
 		cppdialect "C++20"
 		staticruntime "On"
