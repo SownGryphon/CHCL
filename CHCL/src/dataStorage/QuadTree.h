@@ -62,7 +62,7 @@ namespace chcl
 			{
 				std::vector<T> result;
 
-				if (checkOverlap(area, shape))
+				if (!checkOverlap(area, shape))
 					return result;
 
 				for (const QTElement &element : elements)
