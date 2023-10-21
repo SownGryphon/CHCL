@@ -36,7 +36,7 @@ namespace chcl
 
 			bool addElement(const QTElement &element)
 			{
-				if (!m_primaryRegion.area.containsPoint(position))
+				if (!area.containsPoint(element.position))
 					return false;
 
 				if (elements.size() == maxElements)
