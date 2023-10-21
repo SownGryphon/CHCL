@@ -20,19 +20,12 @@ namespace chcl
 		struct QTRegion
 		{
 			Rect area;
-			QTRegion *children[4] = { nullptr };
+			std::vector<QTRegion> children;
 			std::vector<QTElement> elements;
 			bool subdivided = false;
 
 			QTRegion(const Rect &area)
 				: area(area) {}
-
-			~QTRegion()
-			{
-				if (subdivided)
-					for (QTRegion *child : children)
-						delete child;
-			}
 
 			bool addElement(const QTElement &element)
 			{
@@ -46,9 +39,9 @@ namespace chcl
 						subdivide();
 					}
 
-					for (QTRegion *child : children)
+					for (QTRegion &child : children)
 					{
-						if (child->addElement(element))
+						if (child.addElement(element))
 							return true;
 					}
 				}
@@ -58,7 +51,7 @@ namespace chcl
 			}
 
 			template <ShapeDerived S>
-			std::vector<T> getElements(const S &shape)
+			std::vector<T> getElements(const S &shape) const
 			{
 				std::vector<T> result;
 
@@ -84,18 +77,41 @@ namespace chcl
 				return result;
 			}
 
+			void clear()
+			{
+				elements.clear();
+				if (subdivided)
+				{
+					bool childrenUsed = false;
+					for (QTRegion &child : children)
+					{
+						if (!child.elements.empty())
+							childrenUsed = true;
+
+						child.clear();
+					}
+
+					if (!childrenUsed)
+					{
+						children.clear();
+						subdivided = false;
+					}
+				}
+			}
+
 		private:
 			void subdivide()
 			{
+				children.reserve(4);
 				for (char i = 0; i < 4; ++i)
 				{
-					children[i] = new QTRegion(Rect(
-						Vector2<>(
+					children.push_back(QTRegion({
+						{
 							area.origin.x + area.size.x / 2 * (i & 0b1),
 							area.origin.y + area.size.y / 2 * ((i & 0b10) >> 1)
-						),
+						},
 						area.size / 2
-					));
+					}));
 				}
 				subdivided = true;
 			}
@@ -113,6 +129,11 @@ namespace chcl
 		void addElement(const T &element, const Vector2<> &position)
 		{
 			m_primaryRegion.addElement({ element, position });
+		}
+
+		void clear()
+		{
+			m_primaryRegion.clear();
 		}
 
 		const QTRegion& getRegion() const { return m_primaryRegion; }
