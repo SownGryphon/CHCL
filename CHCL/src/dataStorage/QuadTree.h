@@ -2,8 +2,8 @@
 
 #include <vector>
 
-#include "../geometry/Rect.h"
-#include "../geometry/ShapeOverlap.h"
+#include "geometry/Rect.h"
+#include "geometry/ShapeOverlap.h"
 
 namespace chcl
 {
@@ -66,7 +66,7 @@ namespace chcl
 
 				if (subdivided)
 				{
-					for (QTRegion *child : children)
+					for (QTRegion &child : children)
 					{
 						std::vector<T> childResult = child->getElements(shape);
 						result.reserve(result.size() + childResult.size());
