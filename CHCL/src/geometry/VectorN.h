@@ -233,7 +233,6 @@ namespace chcl
 			return toMatrix();
 		}
 
-	protected:
 		T* data()
 		{
 			return static_cast<Derived<dims, T>*>(this)->position;
