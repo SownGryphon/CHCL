@@ -1,7 +1,7 @@
 #pragma once
 
-#include "VectorN.h"
-#include "Vector2.h"
+#include "geometry/VectorN.h"
+#include "geometry/Vector2.h"
 
 namespace chcl
 {
@@ -9,10 +9,10 @@ namespace chcl
 	using Vector4 = VectorN<4, T>;
 
 	template <typename T>
-	struct VectorN<4, T> : public VectorBase<4, T, VectorN<4, T>>
+	struct VectorN<4, T> : public VectorBase<4, T, VectorN>
 	{
-		using VectorBase<4, T, VectorN<4, T>>::VectorBase;
-		using VectorBase<4, T, VectorN<4, T>>::operator=;
+		using VectorBase<4, T, VectorN>::VectorBase;
+		using VectorBase<4, T, VectorN>::operator=;
 
 		union
 		{
