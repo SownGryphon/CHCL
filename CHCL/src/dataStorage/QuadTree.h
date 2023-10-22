@@ -66,9 +66,9 @@ namespace chcl
 
 				if (subdivided)
 				{
-					for (QTRegion &child : children)
+					for (const QTRegion &child : children)
 					{
-						std::vector<T> childResult = child->getElements(shape);
+						std::vector<T> childResult = child.getElements(shape);
 						result.reserve(result.size() + childResult.size());
 						result.insert(result.end(), childResult.begin(), childResult.end());
 					}
