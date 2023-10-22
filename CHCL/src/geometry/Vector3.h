@@ -9,10 +9,10 @@ namespace chcl
 	using Vector3 = VectorN<3, T>;
 
 	template <typename T>
-	struct VectorN<3, T> : public VectorBase<3, T, VectorN<3, T>>
+	struct VectorN<3, T> : public VectorBase<3, T, VectorN>
 	{
-		using VectorBase<3, T, VectorN<3, T>>::VectorBase;
-		using VectorBase<3, T, VectorN<3, T>>::operator=;
+		using VectorBase<3, T, VectorN>::VectorBase;
+		using VectorBase<3, T, VectorN>::operator=;
 
 		union
 		{
