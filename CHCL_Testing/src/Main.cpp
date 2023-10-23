@@ -170,4 +170,9 @@ int main() {
 	std::cout << "Minor average between 153 and 671 degrees: " << chcl::degreeSolver.avgMin(153, 671) << '\n';
 	std::cout << "Smallest difference between 671 and 153 degrees: " << chcl::degreeSolver.diffMin(671, 153) << '\n';
 	std::cout << "Minor average between 671 and 153 degrees: " << chcl::degreeSolver.avgMin(671, 153) << '\n';
+
+	chcl::ContinuousSolver vectorSolver(chcl::Vector2<>(0.f), chcl::Vector2<>(10, 5));
+
+	std::cout << "Constraining vector [33, 17] to between [0, 0] and [10, 5] on a continuous plane: "; chcl::printVector(vectorSolver.clamp({ 33.f, 17.f }));
+	std::cout << "Distance between vectors [1, 2] and [9, 9]: "; chcl::printVector(vectorSolver.diffMin({ 1.f, 2.f }, { 9.f, 9.f }));
 }
