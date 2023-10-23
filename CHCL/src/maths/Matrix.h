@@ -145,9 +145,9 @@ namespace chcl
 			Derived<otherWidth, height> result;
 			for (unsigned int i = 0; i < height; ++i)
 			{
-				for (unsigned int j = 0; j < width; ++j)
+				for (unsigned int j = 0; j < otherWidth; ++j)
 				{
-					for (unsigned int k = 0; k < otherWidth; ++k)
+					for (unsigned int k = 0; k < width; ++k)
 					{
 						result.at(j, i) += lhs.at(k, i) * rhs.at(j, k);
 					}
