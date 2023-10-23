@@ -163,14 +163,21 @@ namespace chcl
 			}
 			return *static_cast<Derived<dims, T>*>(this);
 		}
-
+		
 		Derived<dims, T>& operator =(const Derived<dims, T> &other)
 		{
 			memcpy(data(), other.data(), dims * sizeof(T));
 			return *static_cast<Derived<dims, T>*>(this);
 		}
-		
+
 		Derived<dims, T>& operator+=(const Derived<dims, T> &other)
+		{
+			for (unsigned int i = 0; i < dims; ++i)
+			{
+				(*this)[i] += other[i];
+			}
+			return *static_cast<Derived<dims, T>*>(this);
+		}
 
 		Derived<dims, T>& operator-=(const Derived<dims, T> &other)
 		{
