@@ -111,6 +111,11 @@ namespace chcl
 			return (*static_cast<const Derived<dims, T>*>(this)) / mag();
 		}
 
+		void setMagnitude(T magnitude)
+		{
+			(*this) *= magnitude / mag();
+		}
+
 		T magsq() const
 		{
 			return Dot(*static_cast<const Derived<dims, T>*>(this), *static_cast<const Derived<dims, T>*>(this));
