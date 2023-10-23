@@ -100,12 +100,6 @@ namespace chcl
 			return *this;
 		}
 
-		VectorN& operator =(const VectorN &other)
-		{
-			std::memcpy(position, other.position, 2 * sizeof(T));
-			return *this;
-		}
-
 		VectorN& operator+=(const VectorN &other)
 		{
 			x += other.x;
