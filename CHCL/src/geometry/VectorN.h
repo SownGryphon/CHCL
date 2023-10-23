@@ -41,6 +41,7 @@ namespace chcl
 
 		template <unsigned int otherDims, typename T2>
 		VectorBase(const Derived<otherDims, T2> &other)
+			:VectorBase()
 		{
 			for (unsigned int i = 0; i < std::min(dims, otherDims); ++i)
 			{
@@ -50,6 +51,7 @@ namespace chcl
 
 		template <unsigned int otherDims>
 		VectorBase(const Derived<otherDims, T> &other)
+			: VectorBase()
 		{
 			std::memcpy(data(), other.data(), std::min(dims, otherDims) * sizeof(T));
 		}
