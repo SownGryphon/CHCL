@@ -12,6 +12,16 @@ namespace chcl
 		});
 	}
 
+	Mat3 Mat3::Rotation(float pitch, float yaw)
+	{
+		// Applying pitch then yaw
+		return Mat3({
+			std::cos(yaw), -std::cos(pitch) * std::sin(yaw), std::sin(pitch) * std::sin(yaw),
+			std::sin(yaw), std::cos(pitch) * std::cos(yaw), -std::sin(pitch) * std::cos(yaw),
+			0, std::sin(pitch), std::cos(pitch)
+		});
+	}
+
 	Mat4 Mat4::Ortho(float xMin, float xMax, float yMin, float yMax, float zMin, float zMax)
 	{
 		Vector3<float> scaling(2 / (xMax - xMin), 2 / (yMax - yMin), 2 / (zMax - zMin));

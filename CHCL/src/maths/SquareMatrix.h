@@ -86,7 +86,6 @@ namespace chcl
 	};
 
 	using Mat2 = SquareMatrix<2>;
-
 	template <>
 	class Matrix<2, 2> : public SquareMatrixBase<2, Matrix>
 	{
@@ -98,8 +97,19 @@ namespace chcl
 		static Mat2 Rotation(float angle);
 	};
 
-	using Mat4 = SquareMatrix<4>;
+	using Mat3 = SquareMatrix<3>;
+	template <>
+	class Matrix<3, 3> : public SquareMatrixBase<3, Matrix>
+	{
+	public:
+		using SquareMatrixBase<3, Matrix>::SquareMatrixBase;
 
+		Matrix(const SquareMatrixBase<3, Matrix> &mat) : SquareMatrixBase<3, Matrix>(mat) {}
+
+		static Mat3 Rotation(float pitch, float yaw);
+	};
+
+	using Mat4 = SquareMatrix<4>;
 	template <>
 	class Matrix<4, 4> : public SquareMatrixBase<4, Matrix>
 	{
