@@ -137,9 +137,15 @@ int main() {
 
 	chcl::Mat2 rot45 = chcl::Mat2::Rotation(chcl::toRadians(45.f));
 	chcl::Vector2<> rotVec(1, 2);
-	chcl::Vector2<> result = rot45 * rotVec;
+	chcl::Vector2<> rotResult = rot45 * rotVec;
 
-	std::cout << "Rotating vector "; chcl::printVector(rotVec); std::cout << " by 45 degrees: "; chcl::printVector(result);
+	std::cout << "Rotating vector "; chcl::printVector(rotVec); std::cout << " by 45 degrees: "; chcl::printVector(rotResult);
+
+	chcl::Mat3 rot30_60 = chcl::Mat3::Rotation(chcl::toRadians(30.f), chcl::toRadians(60));
+	chcl::Vector3<> rotVec3D(0, 3, 1);
+	chcl::Vector3<> rotResult3D = rot30_60 * rotVec3D;
+
+	std::cout << "Rotating vector "; chcl::printVector(rotVec3D); std::cout << " by 30 degrees pitch and 60 degrees yaw: "; chcl::printVector(rotResult3D);
 
 	chcl::Rect rect1(3, 5, 13, 7);
 	chcl::Vector2<> rectVec1(6, 2),	// Above
