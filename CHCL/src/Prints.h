@@ -10,7 +10,6 @@
 
 namespace chcl
 {
-
 	template <unsigned int dims, typename T>
 	void printVector(const VectorN<dims, T> &vec)
 	{

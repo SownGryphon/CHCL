@@ -11,36 +11,56 @@ namespace chcl
 		float m_values[width * height];
 
 	public:
+		/**
+		 * @brief Constructor for value-filled matrix
+		 * @param defaultVal Value to fill matrix with
+		 */
 		MatrixBase(float defaultVal = 0.f)
 		{
 			std::fill(m_values, m_values + width * height, defaultVal);
 		}
 
-		MatrixBase(const float *values)
+		/**
+		 * @brief Constructor using float array
+		 * @param values Float array of values. Must be the same size as matrix
+		 */
+		explicit MatrixBase(const float *values)
 		{
 			std::memcpy(m_values, values, width * height * sizeof(float));
 		}
-
+		
+		/**
+		 * @brief Constructor using initializer list
+		 * @param values Initializer list of floats
+		 */
 		MatrixBase(std::initializer_list<float> values)
 		{
 			std::memcpy(m_values, values.begin(), values.size() * sizeof(float));
 		}
 
+		/**
+		 * @brief Copy constructor
+		 */
 		MatrixBase(const MatrixBase& other)
 			: MatrixBase(other.m_values)
-		{
+		{}
 
-		}
-
-		template <unsigned int otherWidth, unsigned int otherHeight>
-		static Derived<otherWidth, otherHeight> Resize(const Derived<width, height> &mat)
+		/**
+		 * @brief Resizes a matrix to a new size by padding/cutting the bottom right corner
+		 * @tparam newWidth New matrix width
+		 * @tparam newHeight New matrix height
+		 * @param mat Matrix to resize
+		 * @return Resized matrix
+		 */
+		template <unsigned int newWidth, unsigned int newHeight>
+		static Derived<newWidth, newHeight> Resize(const Derived<width, height> &mat)
 		{
-			MatrixBase<otherWidth, otherHeight> result;
-			for (unsigned int i = 0; i < std::min(width, otherWidth); ++i)
+			MatrixBase<newWidth, newHeight> result;
+			for (unsigned int j = 0; j < std::min(height, newHeight); ++j)
 			{
-				for (unsigned int j = 0; j < std::min(height, otherHeight); ++j)
+				for (unsigned int i = 0; i < std::min(width, newWidth); ++i)
 				{
-					result.at(i, j) = mat.at(i, j);
+					result.at(j, i) = mat.at(j, i);
 				}
 			}
 			return result;
@@ -49,19 +69,19 @@ namespace chcl
 		float* values() { return m_values; }
 		const float* values() const { return m_values; }
 
-		const float& at(unsigned int col, unsigned int row) const { return m_values[size_t(row) * width + col]; }
-		float& at(unsigned int col, unsigned int row) { return m_values[size_t(row) * width + col]; }
+		const float& at(unsigned int row, unsigned int col) const { return m_values[size_t(row) * width + col]; }
+		float& at(unsigned int row, unsigned int col) { return m_values[size_t(row) * width + col]; }
 
 		Derived<1, 1> getValueAsMatrix(unsigned int col, unsigned int row) const
 		{
-			return Derived<1, 1>(at(col, row));
+			return Derived<1, 1>(at(row, col));
 		}
 
 		void getCol(unsigned int col, float* out) const
 		{
 			for (unsigned int i = 0; i < height; ++i)
 			{
-				out[i] = at(col, i);
+				out[i] = at(i, col);
 			}
 		}
 
@@ -69,7 +89,7 @@ namespace chcl
 		{
 			for (unsigned int i = 0; i < width; ++i)
 			{
-				out[i] = at(i, row);
+				out[i] = at(row, i);
 			}
 		}
 
@@ -78,19 +98,39 @@ namespace chcl
 			Derived<1, height> result;
 			for (unsigned int i = 0; i < height; ++i)
 			{
-				result.at(0, i) = at(col, i);
+				result.at(i, 0) = at(i, col);
 			}
 			return result;
 		}
 
 		Derived<width, 1> getRowAsMatrix(unsigned int row) const
 		{
-			return Derived<width, 1>(&at(0, row));
+			return Derived<width, 1>(&at(row, 0));
 		}
 
+		/**
+		 * @brief Transposes a matrix
+		 * @return The transposed matrix
+		 */
+		Derived<height, width> transpose() const
+		{
+			Derived<height, width> result;
+			for (int i = 0; i < width; ++i)
+			{
+				for (int j = 0; j < height; ++j)
+				{
+					result.at(i, j) = at(j, i);
+				}
+			}
+		}
+
+		/**
+		 * @brief Bool cast
+		 * Evaluates to false is all elements are zero
+		 */
 		explicit operator bool() const
 		{
-			if (width == 0 && height == 0)
+			if (width == 0 || height == 0)
 				return false;
 
 			for (unsigned int i = width * height; i--;)
@@ -145,17 +185,21 @@ namespace chcl
 			Derived<otherWidth, height> result;
 			for (unsigned int i = 0; i < height; ++i)
 			{
-				for (unsigned int j = 0; j < otherWidth; ++j)
+				for (unsigned int k = 0; k < width; ++k)
 				{
-					for (unsigned int k = 0; k < width; ++k)
+					for (unsigned int j = 0; j < otherWidth; ++j)
 					{
-						result.at(j, i) += lhs.at(k, i) * rhs.at(j, k);
+						result.at(i, j) += lhs.at(i, k) * rhs.at(k, j);
 					}
 				}
 			}
 			return result;
 		}
 
+		/**
+		 * @brief Applies a function to every element
+		 * @param func Function to apply to each element. Must take and return a float
+		 */
 		void perValue(std::function<float(float)> func)
 		{
 			for (unsigned int i = height * width; i--;)
@@ -245,8 +289,6 @@ namespace chcl
 
 		Matrix(const MatrixBase<width, height, Matrix> &other)
 			: MatrixBase<width, height, Matrix>(other)
-		{
-
-		}
+		{}
 	};
 }
