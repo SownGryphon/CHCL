@@ -10,7 +10,8 @@ project "CHCL"
 	files
 	{
 		"src/**.h",
-		"src/**.cpp"
+		"src/**.cpp",
+		"src/**.inl"
 	}
 
 	includedirs

@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <iostream>
 #include <vector>
 
@@ -14,6 +15,7 @@
 #include "maths/Common.h"
 #include "maths/SquareMatrix.h"
 
+#include "dataStorage/BinaryHeap.h"
 #include "dataStorage/QuadTree.h"
 
 #include "maths/Continuous.h"
@@ -124,7 +126,7 @@ int main() {
 
 	chcl::Matrix identity5 = chcl::SquareMatrix<5>::Identity();
 	std::cout << "5x5 Identity matrix:\n";
-	chcl::printMatrix(identity5);
+	chcl::printMatrix(identity5, 0);
 	std::cout << '\n';
 
 	chcl::Matrix rotation90 = chcl::Mat2::Rotation(chcl::toRadians(90.f)),
@@ -171,7 +173,7 @@ int main() {
 	qt.addElement("Test 3 at [70, 22]", { 70, 22 });
 	qt.addElement("Test 4 at [10, 10]", { 10, 10 });
 
-	std::cout << "Constraining 671 degrees to [0, 360): " << chcl::degreeSolver.clamp(671) << '\n';
+	std::cout << "\nConstraining 671 degrees to [0, 360): " << chcl::degreeSolver.clamp(671) << '\n';
 	std::cout << "Smallest difference between 153 and 671 degrees: " << chcl::degreeSolver.diffMin(153, 671) << '\n';
 	std::cout << "Minor average between 153 and 671 degrees: " << chcl::degreeSolver.avgMin(153, 671) << '\n';
 	std::cout << "Smallest difference between 671 and 153 degrees: " << chcl::degreeSolver.diffMin(671, 153) << '\n';
@@ -181,4 +183,11 @@ int main() {
 
 	std::cout << "Constraining vector [33, 17] to between [0, 0] and [10, 5] on a continuous plane: "; chcl::printVector(vectorSolver.clamp({ 33.f, 17.f }));
 	std::cout << "Distance between vectors [1, 2] and [9, 9]: "; chcl::printVector(vectorSolver.diffMin({ 1.f, 2.f }, { 9.f, 9.f }));
+
+	chcl::BinaryHeap<int, [](const int &a, const int &b) { return a < b; }> binaryHeap;
+	binaryHeap.add(10);
+	binaryHeap.add(17);
+	binaryHeap.add(9);
+	binaryHeap.add(13);
+	binaryHeap.add(2);
 }

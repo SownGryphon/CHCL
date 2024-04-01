@@ -17,7 +17,8 @@ project "CHCL Testing"
 	files
 	{
 		"%{prj.location}/src/**.h",
-		"%{prj.location}/src/**.cpp"
+		"%{prj.location}/src/**.cpp",
+		"%{prj.location}/src/**.inl"
 	}
 
 	includedirs

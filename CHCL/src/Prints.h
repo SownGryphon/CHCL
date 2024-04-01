@@ -50,7 +50,7 @@ namespace chcl
 			for (unsigned int j = 0; j < width; ++j)
 			{
 				numStream.str(std::string());
-				numStream << std::fixed << std::setprecision(places) << matrix.at(j, i);
+				numStream << std::fixed << std::setprecision(places) << matrix.at(i, j);
 
 				if (numStream.str().length() > maxLen)
 					maxLen = numStream.str().length();
@@ -66,7 +66,7 @@ namespace chcl
 				if (j != 0)
 					std::cout << ", ";
 
-				std::cout << std::fixed << std::setw(maxLen) << std::setprecision(places) << matrix.at(j, i);
+				std::cout << std::fixed << std::setw(maxLen) << std::setprecision(places) << matrix.at(i, j);
 			}
 
 			std::cout << "|\n";

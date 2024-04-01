@@ -286,9 +286,5 @@ namespace chcl
 	{
 	public:
 		using MatrixBase<width, height, Matrix>::MatrixBase;
-
-		Matrix(const MatrixBase<width, height, Matrix> &other)
-			: MatrixBase<width, height, Matrix>(other)
-		{}
 	};
 }
