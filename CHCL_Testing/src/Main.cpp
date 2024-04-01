@@ -63,15 +63,15 @@ int main() {
 
 	float vals[] = { 0.482251f, -4.62f, 19, 42069, -729, 100.99f };
 	//chcl::Matrix<0, 0> matrix1;
-	chcl::Matrix<3, 2> matrix2;
-	chcl::Matrix<2, 4> matrix3(3.f);
-	chcl::Matrix<4, 5> matrix4(6.f);
-	chcl::Matrix<2, 3> matrix5(vals);
+	chcl::Matrix<2, 3> matrix2;
+	chcl::Matrix<4, 2> matrix3(3.f);
+	chcl::Matrix<5, 4> matrix4(6.f);
+	chcl::Matrix<3, 2> matrix5(vals);
 
 	//std::cout << "\nMatrix #1 (blank):\n"; chcl::printMatrix(matrix1);
-	std::cout << "\nMatrix #2 (3x2):\n"; chcl::printMatrix(matrix2);
-	std::cout << "Matrix #3 (2x4, default 3.f):\n"; chcl::printMatrix(matrix3);
-	std::cout << "Matrix #4 (4x5, default 6.f):\n"; chcl::printMatrix(matrix4);
+	std::cout << "\nMatrix #2 (2x3):\n"; chcl::printMatrix(matrix2);
+	std::cout << "Matrix #3 (4x2, default 3.f):\n"; chcl::printMatrix(matrix3);
+	std::cout << "Matrix #4 (5x4, default 6.f):\n"; chcl::printMatrix(matrix4);
 	std::cout << "Matrix #5 (from float array):\n"; chcl::printMatrix(matrix5, 8);
 	std::cout << "Matrix #4 * #3:\n"; chcl::printMatrix(matrix4 * matrix3);
 
@@ -84,17 +84,17 @@ int main() {
 	chcl::printMatrix(transform);
 
 	std::cout << "\nMatrix as 6D Vector (same values as Matrix #5): ";
-	chcl::printVector(chcl::VectorN<6>(chcl::Matrix<1, 6>(vals)));
+	chcl::printVector<6, float>(chcl::Matrix<6, 1>(vals));
 
 	std::cout << "\nMatrices from initializer lists:\n";
-	chcl::Matrix<2, 3> matrix6({
+	chcl::Matrix<3, 2> matrix6({
 		 0.5f,   0.2f,
 		 0.3f,   1.3f,
 		-2.1f, 0.007f
 	});
 	std::cout << "Matrix6:\n"; chcl::printMatrix(matrix6);
 
-	chcl::Matrix<3, 4> matrix7({
+	chcl::Matrix<4, 3> matrix7({
 			     0.4f,   1.4f,    4.7f,
 			    0.09f,  -7.5f,  11.92f,
 			-109.775f,   60.f,   31.8f,

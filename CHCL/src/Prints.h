@@ -10,7 +10,7 @@
 
 namespace chcl
 {
-	template <unsigned int dims, typename T>
+	template <unsigned int dims, typename T = float>
 	void printVector(const VectorN<dims, T> &vec)
 	{
 		std::cout << '[';
@@ -28,20 +28,20 @@ namespace chcl
 		std::cout << "]\n";
 	}
 
-	template <typename T>
+	template <typename T = float>
 	void printVector(const VectorN<2, T> &vec)
 	{
 		std::cout << "[x: " << vec[0] << ", y: " << vec[1] << "]\n";
 	}
 
-	template <typename T>
+	template <typename T = float>
 	void printVector(const VectorN<3, T> &vec)
 	{
 		std::cout << "[x: " << vec[0] << ", y: " << vec[1] << ", z:" << vec[2] << "]\n";
 	}
 
-	template <unsigned int width, unsigned int height>
-	void printMatrix(const Matrix<width, height> &matrix, unsigned int places = 2)
+	template <unsigned int width, unsigned int height, typename T = float>
+	void printMatrix(const Matrix<width, height, T> &matrix, unsigned int places = 2)
 	{
 		std::stringstream numStream;
 		size_t maxLen = 0;

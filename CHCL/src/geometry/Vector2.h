@@ -40,10 +40,10 @@ namespace chcl
 			this->y = y;
 		}
 
-		VectorN(const Matrix<1, 2> &mat)
+		VectorN(const Matrix<2, 1> &mat)
 		{
 			x = mat.at(0, 0);
-			y = mat.at(0, 1);
+			y = mat.at(1, 0);
 		}
 
 		template <typename T2>
@@ -93,10 +93,10 @@ namespace chcl
 			return *this;
 		}
 
-		VectorN& operator =(const Matrix<1, 2> &mat)
+		VectorN& operator =(const Matrix<2, 1> &mat)
 		{
 			x = mat.at(0, 0);
-			y = mat.at(0, 1);
+			y = mat.at(1, 0);
 			return *this;
 		}
 

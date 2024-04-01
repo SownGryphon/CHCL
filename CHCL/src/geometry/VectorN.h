@@ -31,7 +31,7 @@ namespace chcl
 			std::memcpy(data(), values.begin(), dims * sizeof(T));
 		}
 
-		explicit VectorBase(const Matrix<1, dims> &mat)
+		VectorBase(const Matrix<dims, 1, T> &mat)
 		{
 			for (unsigned int i = 0; i < dims; ++i)
 			{
@@ -56,22 +56,9 @@ namespace chcl
 			std::memcpy(data(), other.data(), std::min(dims, otherDims) * sizeof(T));
 		}
 
-		static Derived<dims, T> FromMatrix(const Matrix<1, dims> &matrix)
+		Matrix<dims, 1, T> toMatrix() const
 		{
-			if (matrix.getCols() != 1) throw std::invalid_argument("Matrix must be a column matrix for vector conversion.");
-			if (matrix.getRows() != dims) throw std::invalid_argument("Matrix rows must match vector dimensions for vector conversion.");
-
-			Derived<dims, T> result;
-			for (unsigned int i = 0; i < dims; ++i)
-			{
-				result[i] = matrix.at(0, i);
-			}
-			return result;
-		}
-
-		Matrix<1, dims> toMatrix() const
-		{
-			return Matrix<1, dims>(data());
+			return Matrix<dims, 1, T>(data());
 		}
 
 		static T Dot(const Derived<dims, T> &vec1, const Derived<dims, T> &vec2)
@@ -161,7 +148,7 @@ namespace chcl
 			return result;
 		}
 
-		Derived<dims, T>& operator =(const Matrix<1, dims> &mat)
+		Derived<dims, T>& operator =(const Matrix<dims, 1, T> &mat)
 		{
 			if (dims != mat.getRows()) throw std::invalid_argument("Vector matrix initialization requires correct matrix size.");
 			for (unsigned int i = 0; i < dims; ++i)
@@ -241,7 +228,7 @@ namespace chcl
 			return result;
 		}
 
-		operator Matrix<1, dims>()
+		operator Matrix<dims, 1, T>()
 		{
 			return toMatrix();
 		}

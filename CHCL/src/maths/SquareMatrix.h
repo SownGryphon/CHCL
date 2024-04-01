@@ -6,26 +6,24 @@
 
 namespace chcl
 {
-	template <unsigned int size>
-	using SquareMatrix = Matrix<size, size>;
+	template <unsigned int size, typename T = float>
+	using SquareMatrix = Matrix<size, size, T>;
 
-	template <unsigned int size, template<unsigned int, unsigned int> typename Derived>
-	class SquareMatrixBase : public MatrixBase<size, size, Derived>
+	template <unsigned int size, typename T, template<unsigned int, unsigned int, typename> typename Derived>
+	class SquareMatrixBase : public MatrixBase<size, size, T, Derived>
 	{
 	public:
-		using MatrixBase<size, size, Derived>::MatrixBase;
-		using MatrixBase<size, size, Derived>::m_values;
-		using MatrixBase<size, size, Derived>::operator =;
-		using MatrixBase<size, size, Derived>::operator+=;
-		using MatrixBase<size, size, Derived>::operator-=;
-		using MatrixBase<size, size, Derived>::operator*=;
-		using MatrixBase<size, size, Derived>::operator/=;
+		using MatrixBase<size, size, T, Derived>::MatrixBase;
+		using MatrixBase<size, size, T, Derived>::m_values;
+		using MatrixBase<size, size, T, Derived>::operator =;
+		using MatrixBase<size, size, T, Derived>::operator+=;
+		using MatrixBase<size, size, T, Derived>::operator-=;
+		using MatrixBase<size, size, T, Derived>::operator*=;
+		using MatrixBase<size, size, T, Derived>::operator/=;
 
-		SquareMatrixBase(const MatrixBase<size, size, Derived> &mat) : MatrixBase<size, size, Derived>::MatrixBase(mat) {}
-
-		static Derived<size, size> Identity()
+		static Derived<size, size, T> Identity()
 		{
-			Derived<size, size> result;
+			Derived<size, size, T> result;
 			for (unsigned int i = 0; i < size; ++i)
 			{
 				result.at(i, i) = 1.f;
@@ -33,27 +31,27 @@ namespace chcl
 			return result;
 		}
 
-		float determinant() const;
+		T determinant() const;
 	};
 
 	template <>
-	inline float SquareMatrixBase<2, Matrix>::determinant() const
+	inline float SquareMatrixBase<2, float, Matrix>::determinant() const
 	{
 		// Using ad - bc
 		return m_values[0] * m_values[3] - m_values[1] * m_values[2];
 	}
 
 	template <>
-	inline float SquareMatrixBase<1, Matrix>::determinant() const
+	inline float SquareMatrixBase<1, float, Matrix>::determinant() const
 	{
 		return m_values[0];
 	}
 
-	template <unsigned int size, template <unsigned int, unsigned int> typename Derived>
-	float SquareMatrixBase<size, Derived>::determinant() const
+	template <unsigned int size, typename T, template <unsigned int, unsigned int, typename> typename Derived>
+	T SquareMatrixBase<size, T, Derived>::determinant() const
 	{
-		float rollingDet = 0.f;						// Adds up the determinants of sum-matrices
-		SquareMatrix<size - 1> detCalculator;	// Stores each sub-matrix and calculates its determinant
+		T rollingDet = 0.f;						// Adds up the determinants of sum-matrices
+		SquareMatrix<size - 1, T> detCalculator;	// Stores each sub-matrix and calculates its determinant
 
 		// Construct a smaller matrix for each element of the current matrix that does not contain the values in that row or column
 		for (unsigned int i = 0; i < size; ++i)
@@ -78,45 +76,39 @@ namespace chcl
 		return rollingDet;
 	}
 
-	template <unsigned int size>
-	class Matrix<size, size> : public SquareMatrixBase<size, Matrix>
+	template <unsigned int size, typename T>
+	class Matrix<size, size, T> : public SquareMatrixBase<size, T, Matrix>
 	{
 	public:
-		using SquareMatrixBase<size, Matrix>::SquareMatrixBase;
+		using SquareMatrixBase<size, T, Matrix>::SquareMatrixBase;
 	};
 
-	using Mat2 = SquareMatrix<2>;
+	using Mat2 = SquareMatrix<2, float>;
 	template <>
-	class Matrix<2, 2> : public SquareMatrixBase<2, Matrix>
+	class Matrix<2, 2, float> : public SquareMatrixBase<2, float, Matrix>
 	{
 	public:
-		using SquareMatrixBase<2, Matrix>::SquareMatrixBase;
-
-		Matrix(const SquareMatrix<2> &mat) : SquareMatrixBase<2, Matrix>(mat) {}
+		using SquareMatrixBase<2, float, Matrix>::SquareMatrixBase;
 
 		static Mat2 Rotation(float angle);
 	};
 
-	using Mat3 = SquareMatrix<3>;
+	using Mat3 = SquareMatrix<3, float>;
 	template <>
-	class Matrix<3, 3> : public SquareMatrixBase<3, Matrix>
+	class Matrix<3, 3, float> : public SquareMatrixBase<3, float, Matrix>
 	{
 	public:
-		using SquareMatrixBase<3, Matrix>::SquareMatrixBase;
-
-		Matrix(const SquareMatrixBase<3, Matrix> &mat) : SquareMatrixBase<3, Matrix>(mat) {}
+		using SquareMatrixBase<3, float, Matrix>::SquareMatrixBase;
 
 		static Mat3 Rotation(float pitch, float yaw);
 	};
 
-	using Mat4 = SquareMatrix<4>;
+	using Mat4 = SquareMatrix<4, float>;
 	template <>
-	class Matrix<4, 4> : public SquareMatrixBase<4, Matrix>
+	class Matrix<4, 4, float> : public SquareMatrixBase<4, float, Matrix>
 	{
 	public:
-		using SquareMatrixBase<4, Matrix>::SquareMatrixBase;
-
-		Matrix(const SquareMatrixBase<4, Matrix> &mat) : SquareMatrixBase<4, Matrix>(mat) {}
+		using SquareMatrixBase<4, float, Matrix>::SquareMatrixBase;
 
 		static Mat4 Ortho(float xMin, float xMax, float yMin, float yMax, float zMin, float zMax);
 		static Mat4 Translation(float x, float y, float z);
