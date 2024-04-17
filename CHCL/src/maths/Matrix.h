@@ -4,38 +4,38 @@
 
 namespace chcl
 {
-	template <unsigned int width, unsigned int height, template <unsigned int, unsigned int> typename Derived>
+	template <unsigned int rows, unsigned int cols, typename T, template <unsigned int, unsigned int, typename> typename Derived>
 	class MatrixBase
 	{
 	protected:
-		float m_values[width * height];
+		T m_values[rows * cols];
 
 	public:
 		/**
 		 * @brief Constructor for value-filled matrix
 		 * @param defaultVal Value to fill matrix with
 		 */
-		MatrixBase(float defaultVal = 0.f)
+		MatrixBase(T defaultVal = T(0))
 		{
-			std::fill(m_values, m_values + width * height, defaultVal);
+			std::fill(m_values, m_values + rows * cols, defaultVal);
 		}
 
 		/**
-		 * @brief Constructor using float array
-		 * @param values Float array of values. Must be the same size as matrix
+		 * @brief Constructor using T array
+		 * @param values T array of values. Must be the same size as matrix
 		 */
-		explicit MatrixBase(const float *values)
+		explicit MatrixBase(const T *values)
 		{
-			std::memcpy(m_values, values, width * height * sizeof(float));
+			std::memcpy(m_values, values, rows * cols * sizeof(T));
 		}
 		
 		/**
 		 * @brief Constructor using initializer list
-		 * @param values Initializer list of floats
+		 * @param values Initializer list of Ts
 		 */
-		MatrixBase(std::initializer_list<float> values)
+		MatrixBase(std::initializer_list<T> values)
 		{
-			std::memcpy(m_values, values.begin(), values.size() * sizeof(float));
+			std::memcpy(m_values, values.begin(), values.size() * sizeof(T));
 		}
 
 		/**
@@ -47,18 +47,18 @@ namespace chcl
 
 		/**
 		 * @brief Resizes a matrix to a new size by padding/cutting the bottom right corner
-		 * @tparam newWidth New matrix width
-		 * @tparam newHeight New matrix height
+		 * @tparam newRows Number of rows in new matrix
+		 * @tparam newrows Number of columns in new matrix
 		 * @param mat Matrix to resize
 		 * @return Resized matrix
 		 */
-		template <unsigned int newWidth, unsigned int newHeight>
-		static Derived<newWidth, newHeight> Resize(const Derived<width, height> &mat)
+		template <unsigned int newRows, unsigned int newCols>
+		static Derived<newRows, newCols, T> Resize(const Derived<rows, cols, T> &mat)
 		{
-			MatrixBase<newWidth, newHeight> result;
-			for (unsigned int j = 0; j < std::min(height, newHeight); ++j)
+			MatrixBase<newRows, newCols, T> result;
+			for (unsigned int j = 0; j < std::min(rows, newRows); ++j)
 			{
-				for (unsigned int i = 0; i < std::min(width, newWidth); ++i)
+				for (unsigned int i = 0; i < std::min(cols, newCols); ++i)
 				{
 					result.at(j, i) = mat.at(j, i);
 				}
@@ -66,60 +66,60 @@ namespace chcl
 			return result;
 		}
 
-		float* values() { return m_values; }
-		const float* values() const { return m_values; }
+		T* values() { return m_values; }
+		const T* values() const { return m_values; }
 
-		const float& at(unsigned int row, unsigned int col) const { return m_values[size_t(row) * width + col]; }
-		float& at(unsigned int row, unsigned int col) { return m_values[size_t(row) * width + col]; }
+		const T& at(unsigned int row, unsigned int col) const { return m_values[size_t(row) * cols + col]; }
+		T& at(unsigned int row, unsigned int col) { return m_values[size_t(row) * cols + col]; }
 
-		Derived<1, 1> getValueAsMatrix(unsigned int col, unsigned int row) const
+		Derived<1, 1, T> getValueAsMatrix(unsigned int row, unsigned int col) const
 		{
-			return Derived<1, 1>(at(row, col));
+			return Derived<1, 1, T>(at(row, col));
 		}
 
-		void getCol(unsigned int col, float* out) const
+		void getCol(unsigned int col, T* out) const
 		{
-			for (unsigned int i = 0; i < height; ++i)
+			for (unsigned int i = 0; i < rows; ++i)
 			{
 				out[i] = at(i, col);
 			}
 		}
 
-		void getRow(unsigned int row, float* out) const
+		void getRow(unsigned int row, T* out) const
 		{
-			for (unsigned int i = 0; i < width; ++i)
+			for (unsigned int i = 0; i < cols; ++i)
 			{
 				out[i] = at(row, i);
 			}
 		}
 
-		Derived<1, height> getColAsMatrix(unsigned int col) const
+		Derived<rows, 1, T> getColAsMatrix(unsigned int col) const
 		{
-			Derived<1, height> result;
-			for (unsigned int i = 0; i < height; ++i)
+			Derived<rows, 1, T> result;
+			for (unsigned int i = 0; i < rows; ++i)
 			{
 				result.at(i, 0) = at(i, col);
 			}
 			return result;
 		}
 
-		Derived<width, 1> getRowAsMatrix(unsigned int row) const
+		Derived<1, cols, T> getRowAsMatrix(unsigned int row) const
 		{
-			return Derived<width, 1>(&at(row, 0));
+			return Derived<1, cols, T>(&at(row, 0));
 		}
 
 		/**
 		 * @brief Transposes a matrix
 		 * @return The transposed matrix
 		 */
-		Derived<height, width> transpose() const
+		Derived<rows, cols, T> transpose() const
 		{
-			Derived<height, width> result;
-			for (int i = 0; i < width; ++i)
+			Derived<cols, rows, T> result;
+			for (int i = 0; i < rows; ++i)
 			{
-				for (int j = 0; j < height; ++j)
+				for (int j = 0; j < cols; ++j)
 				{
-					result.at(i, j) = at(j, i);
+					result.at(j, i) = at(i, j);
 				}
 			}
 		}
@@ -130,10 +130,10 @@ namespace chcl
 		 */
 		explicit operator bool() const
 		{
-			if (width == 0 || height == 0)
+			if (rows == 0 || cols == 0)
 				return false;
 
-			for (unsigned int i = width * height; i--;)
+			for (unsigned int i = rows * cols; i--;)
 			{
 				if (m_values[i] != 0)
 				{
@@ -144,50 +144,40 @@ namespace chcl
 			return false;
 		}
 
-		friend Derived<width, height> operator*(const Derived<width, height> &mat, float num)
+		friend Derived<rows, cols, T> operator*(Derived<rows, cols, T> mat, T num)
 		{
-			Derived<width, height> result = mat;
-			result *= num;
-			return result;
+			return mat *= num;
 		}
 
-		friend Derived<width, height> operator*(float num, const Derived<width, height> &mat)
+		friend Derived<rows, cols, T> operator*(T num, Derived<rows, cols, T> mat)
 		{
-			Derived<width, height> result = mat;
-			result *= num;
-			return result;
+			return mat *= num;
 		}
 
-		friend Derived<width, height> operator/(const Derived<width, height> &mat, float num)
+		friend Derived<rows, cols, T> operator/(Derived<rows, cols, T> mat, T num)
 		{
-			Derived<width, height> result = mat;
-			result /= num;
-			return result;
+			return mat /= num;
 		}
 
-		friend Derived<width, height> operator+(const Derived<width, height> &lhs, const Derived<width, height> &rhs)
+		friend Derived<rows, cols, T> operator+(Derived<rows, cols, T> lhs, const Derived<rows, cols, T> &rhs)
 		{
-			Derived<width, height> result = lhs;
-			result += rhs;
-			return result;
+			return lhs += rhs;
 		}
 
-		friend Derived<width, height> operator-(const Derived<width, height> &lhs, const Derived<width, height> &rhs)
+		friend Derived<rows, cols, T> operator-(Derived<rows, cols, T> lhs, const Derived<rows, cols, T> &rhs)
 		{
-			Derived<width, height> result = lhs;
-			result -= rhs;
-			return result;
+			return lhs -= rhs;
 		}
 
-		template <unsigned int otherWidth>
-		friend Derived<otherWidth, height> operator*(const Derived<width, height> &lhs, const Derived<otherWidth, width> &rhs)
+		template <unsigned int otherCols>
+		friend Derived<rows, otherCols, T> operator*(const Derived<rows, cols, T> &lhs, const Derived<cols, otherCols, T> &rhs)
 		{
-			Derived<otherWidth, height> result;
-			for (unsigned int i = 0; i < height; ++i)
+			Derived<rows, otherCols, T> result;
+			for (unsigned int i = 0; i < rows; ++i)
 			{
-				for (unsigned int k = 0; k < width; ++k)
+				for (unsigned int k = 0; k < cols; ++k)
 				{
-					for (unsigned int j = 0; j < otherWidth; ++j)
+					for (unsigned int j = 0; j < otherCols; ++j)
 					{
 						result.at(i, j) += lhs.at(i, k) * rhs.at(k, j);
 					}
@@ -198,73 +188,77 @@ namespace chcl
 
 		/**
 		 * @brief Applies a function to every element
-		 * @param func Function to apply to each element. Must take and return a float
+		 * @param func Function to apply to each element. Must take and return a T
 		 */
-		void perValue(std::function<float(float)> func)
+		void perValue(std::function<T(T)> func)
 		{
-			for (unsigned int i = height * width; i--;)
+			for (unsigned int i = rows * cols; i--;)
 			{
 				m_values[i] = func(m_values[i]);
 			}
 		}
 
-		Derived<width, height>& operator =(std::initializer_list<float> values)
+		// ===== Matrix type arithmetic =====
+
+		Derived<rows, cols, T>& operator =(std::initializer_list<T> values)
 		{
-			std::memcpy(m_values, values.begin(), values.size() * sizeof(float));
-			return *static_cast<Derived<width, height>*>(this);
+			std::memcpy(m_values, values.begin(), values.size() * sizeof(T));
+			return *static_cast<Derived<rows, cols, T>*>(this);
 		}
 
-		Derived<width, height>& operator =(float num)
+		Derived<rows, cols, T>& operator =(T num)
 		{
-			std::fill(m_values, m_values + size_t(width) * height, num);
-			return *static_cast<Derived<width, height>*>(this);
+			std::fill(m_values, m_values + size_t(cols) * rows, num);
+			return *static_cast<Derived<rows, cols, T>*>(this);
 		}
 
-		Derived<width, height>& operator*=(float num)
+		Derived<rows, cols, T>& operator*=(T num)
 		{
-			perValue([num](float val) { return val * num; });
-			return *static_cast<Derived<width, height>*>(this);
+			perValue([num](T val) { return val * num; });
+			return *static_cast<Derived<rows, cols, T>*>(this);
 		}
 
-		Derived<width, height>& operator/=(float num)
+		Derived<rows, cols, T>& operator/=(T num)
 		{
-			perValue([num](float val) { return val / num; });
-			return *static_cast<Derived<width, height>*>(this);
+			perValue([num](T val) { return val / num; });
+			return *static_cast<Derived<rows, cols, T>*>(this);
 		}
 
-		Derived<width, height>& operator =(const Derived<width, height> &other)
+		// ===== Matrix arithmetic =====
+
+		Derived<rows, cols, T>& operator =(const Derived<rows, cols, T> &other)
 		{
-			std::memcpy(m_values, other.m_values, size_t(width) * height * sizeof(float));
-			return *static_cast<Derived<width, height>*>(this);
+			std::memcpy(m_values, other.m_values, size_t(cols) * rows * sizeof(T));
+			return *static_cast<Derived<rows, cols, T>*>(this);
 		}
 
-		Derived<width, height>& operator+=(const Derived<width, height> &other)
+		Derived<rows, cols, T>& operator+=(const Derived<rows, cols, T> &other)
 		{
-			for (unsigned int i = height * width; i--;)
+			for (unsigned int i = rows * cols; i--;)
 			{
 				m_values[i] += other.m_values[i];
 			}
-			return *static_cast<Derived<width, height>*>(this);
+			return *static_cast<Derived<rows, cols, T>*>(this);
 		}
 
-		Derived<width, height>& operator-=(const Derived<width, height> &other)
+		Derived<rows, cols, T>& operator-=(const Derived<rows, cols, T> &other)
 		{
-			for (unsigned int i = height * width; i--;)
+			for (unsigned int i = rows * cols; i--;)
 			{
 				m_values[i] -= other.m_values[i];
 			}
-			return *static_cast<Derived<width, height>*>(this);
+			return *static_cast<Derived<rows, cols, T>*>(this);
 		}
 
-		Derived<width, height>& operator*=(const Derived<width, width> &other)
+		Derived<rows, cols, T>& operator*=(const Derived<cols, cols, T> &other)
 		{
-			(*static_cast<Derived<width, height>*>(this)) = (*static_cast<Derived<width, height>*>(this)) * other;
-			return *static_cast<Derived<width, height>*>(this);
+			*this = (*static_cast<Derived<rows, cols, T>*>(this)) * other;
+			return *static_cast<Derived<rows, cols, T>*>(this);
 		}
 
-		friend bool operator==(const Derived<width, height> &lhs, const Derived<width, height> &rhs)
+		friend bool operator==(const Derived<rows, cols, T> &lhs, const Derived<rows, cols, T> &rhs)
 		{
-			for (unsigned int i = width * height; i--;)
+			for (unsigned int i = cols * rows; i--;)
 			{
 				if (lhs.m_values[i] != rhs.m_values[i])
 				{
@@ -275,16 +269,17 @@ namespace chcl
 			return true;
 		}
 
-		friend bool operator!=(const Derived<width, height> &lhs, const Derived<width, height> &rhs)
+		friend bool operator!=(const Derived<rows, cols, T> &lhs, const Derived<rows, cols, T> &rhs)
 		{
 			return !(lhs == rhs);
 		}
 	};
 
-	template <unsigned int width, unsigned int height>
-	class Matrix : public MatrixBase<width, height, Matrix>
+	template <unsigned int rows, unsigned int cols, typename T = float>
+	class Matrix : public MatrixBase<rows, cols, T, Matrix>
 	{
 	public:
-		using MatrixBase<width, height, Matrix>::MatrixBase;
+		using MatrixBase<rows, cols, T, Matrix>::MatrixBase;
+		using MatrixBase<rows, cols, T, Matrix>::operator=;
 	};
 }
