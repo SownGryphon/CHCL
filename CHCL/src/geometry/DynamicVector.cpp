@@ -15,7 +15,7 @@ chcl::DynamicVector::DynamicVector(const std::vector<float> &values) :
 
 chcl::DynamicVector::DynamicVector(const DynamicMatrix &mat)
 {
-	if (mat.getWidth() != 1) throw std::invalid_argument("Invalid matrix size for vector initialization.");
+	if (mat.rows() != 1) throw std::invalid_argument("Invalid matrix size for vector initialization.");
 
 	m_elements = mat.data();
 }
@@ -28,7 +28,7 @@ chcl::DynamicVector& chcl::DynamicVector::operator=(const DynamicVector &other)
 
 chcl::DynamicVector& chcl::DynamicVector::operator+=(const DynamicVector &other)
 {
-	if (other.getSize() != getSize()) throw std::invalid_argument("Vector sizes invalid for operation.");
+	if (other.size() != size()) throw std::invalid_argument("Vector sizes invalid for operation.");
 
 	for (unsigned int i = 0; i < m_elements.size(); ++i)
 		(*this)[i] += other[i];
@@ -38,7 +38,7 @@ chcl::DynamicVector& chcl::DynamicVector::operator+=(const DynamicVector &other)
 
 chcl::DynamicVector& chcl::DynamicVector::operator-=(const DynamicVector &other)
 {
-	if (other.getSize() != getSize()) throw std::invalid_argument("Vector sizes invalid for operation.");
+	if (other.size() != size()) throw std::invalid_argument("Vector sizes invalid for operation.");
 
 	for (unsigned int i = 0; i < m_elements.size(); ++i)
 		(*this)[i] -= other[i];
@@ -48,7 +48,7 @@ chcl::DynamicVector& chcl::DynamicVector::operator-=(const DynamicVector &other)
 
 chcl::DynamicVector& chcl::DynamicVector::operator*=(const DynamicVector &other)
 {
-	if (other.getSize() != getSize()) throw std::invalid_argument("Vector sizes invalid for operation.");
+	if (other.size() != size()) throw std::invalid_argument("Vector sizes invalid for operation.");
 
 	for (unsigned int i = 0; i < m_elements.size(); ++i)
 		(*this)[i] *= other[i];
@@ -58,7 +58,7 @@ chcl::DynamicVector& chcl::DynamicVector::operator*=(const DynamicVector &other)
 
 chcl::DynamicVector& chcl::DynamicVector::operator/=(const DynamicVector &other)
 {
-	if (other.getSize() != getSize()) throw std::invalid_argument("Vector sizes invalid for operation.");
+	if (other.size() != size()) throw std::invalid_argument("Vector sizes invalid for operation.");
 
 	for (unsigned int i = 0; i < m_elements.size(); ++i)
 		(*this)[i] /= other[i];
@@ -128,14 +128,14 @@ chcl::DynamicVector chcl::operator/(DynamicVector lhs, float rhs)
 
 chcl::DynamicVector chcl::operator*(float lhs, DynamicVector rhs)
 {
-	DynamicVector lhsVec{ rhs.getSize(), lhs };
+	DynamicVector lhsVec{ rhs.size(), lhs };
 	lhsVec *= rhs;
 	return lhsVec;
 }
 
 chcl::DynamicVector chcl::operator/(float lhs, DynamicVector rhs)
 {
-	DynamicVector lhsVec{ rhs.getSize(), lhs };
+	DynamicVector lhsVec{ rhs.size(), lhs };
 	lhsVec /= rhs;
 	return lhsVec;
 }
