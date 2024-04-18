@@ -6,7 +6,10 @@
 #include <sstream>
 
 #include "maths/Matrix.h"
+#include "maths/DynamicMatrix.h"
+
 #include "geometry/VectorN.h"
+#include "geometry/DynamicVector.h"
 
 namespace chcl
 {
@@ -40,6 +43,8 @@ namespace chcl
 		std::cout << "[x: " << vec[0] << ", y: " << vec[1] << ", z:" << vec[2] << "]\n";
 	}
 
+	void printVector(const DynamicVector &vec);
+
 	template <unsigned int width, unsigned int height, typename T = float>
 	void printMatrix(const Matrix<width, height, T> &matrix, unsigned int places = 2)
 	{
@@ -72,4 +77,6 @@ namespace chcl
 			std::cout << "|\n";
 		}
 	}
+
+	void printMatrix(const DynamicMatrix &mat);
 }

@@ -14,11 +14,9 @@ namespace chcl
 	{
 	public:
 		DynamicMatrix();
-
 		DynamicMatrix(unsigned int width, unsigned int height, float defaultVal = 0.0);
-
+		DynamicMatrix(unsigned int width, unsigned int height, const std::vector<float> &values);
 		DynamicMatrix(const DynamicMatrix &other);
-
 		DynamicMatrix(DynamicMatrix &&other);
 
 		template <unsigned int width, unsigned int height>
@@ -33,6 +31,9 @@ namespace chcl
 
 		float& at(unsigned int row, unsigned int col);
 		const float& at(unsigned int row, unsigned int col) const;
+
+		inline std::vector<float>& data() { return m_elements; }
+		inline const std::vector<float>& data() const { return m_elements; }
 
 		DynamicMatrix& operator =(const DynamicMatrix &other);
 		DynamicMatrix& operator+=(const DynamicMatrix &other);

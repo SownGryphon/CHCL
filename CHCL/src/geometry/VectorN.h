@@ -263,7 +263,7 @@ namespace chcl
 	};
 
 	template <unsigned int inDims, unsigned int outDims, typename T>
-	VectorN<outDims, T> operator*(const Matrix<inDims, outDims> &mat, const VectorN<inDims, T> &vec)
+	VectorN<outDims, T> operator*(const Matrix<inDims, outDims, T> &mat, const VectorN<inDims, T> &vec)
 	{
 		return VectorN<outDims, T>(mat * vec.toMatrix());
 	}

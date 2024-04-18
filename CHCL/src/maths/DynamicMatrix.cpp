@@ -9,7 +9,16 @@ chcl::DynamicMatrix::DynamicMatrix() :
 chcl::DynamicMatrix::DynamicMatrix(unsigned int width, unsigned int height, float defaultVal) :
 	m_width(width), m_height(height)
 {
-	m_elements.resize(width * height, defaultVal);
+	m_elements.resize(size_t(width) * height, defaultVal);
+}
+
+chcl::DynamicMatrix::DynamicMatrix(unsigned int width, unsigned int height, const std::vector<float> &values)
+{
+	if (values.size() != size_t(width) * height) throw std::invalid_argument("Invalid vector size for intializing matrix.");
+
+	m_width = width;
+	m_height = height;
+	m_elements = values;
 }
 
 chcl::DynamicMatrix::DynamicMatrix(const DynamicMatrix &other) :
@@ -27,14 +36,14 @@ chcl::DynamicMatrix::DynamicMatrix(DynamicMatrix &&other) :
 
 float& chcl::DynamicMatrix::at(unsigned int row, unsigned int col)
 {
-	if (row > m_width || col > m_height) throw std::out_of_range("Matrix access location out of range.");
+	if (row > m_height || col > m_width) throw std::out_of_range("Matrix access location out of range.");
 
 	return m_elements[size_t(row) * m_width + col];
 }
 
 const float& chcl::DynamicMatrix::at(unsigned int row, unsigned int col) const
 {
-	if (row > m_width || col > m_height) throw std::out_of_range("Matrix access location out of range.");
+	if (row > m_height || col > m_width) throw std::out_of_range("Matrix access location out of range.");
 
 	return m_elements[size_t(row) * m_width + col];
 }
