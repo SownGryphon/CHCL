@@ -3,7 +3,7 @@
 void chcl::printVector(const DynamicVector &vec)
 {
 	std::cout << '[';
-	for (unsigned int i = 0; i < vec.getSize(); ++i)
+	for (unsigned int i = 0; i < vec.size(); ++i)
 	{
 		if (i)
 			std::cout << ", ";
