@@ -22,6 +22,9 @@
 
 #include "testing/VectorTests.h"
 
+#include "geometry/DynamicVector.h"
+#include "maths/DynamicMatrix.h"
+
 int main() {
 	testing::vectors::all();
 
@@ -190,4 +193,11 @@ int main() {
 	binaryHeap.add(9);
 	binaryHeap.add(13);
 	binaryHeap.add(2);
+
+	chcl::DynamicMatrix dMat1(3, 3, std::vector{ 0.5f, 1.4f, -2.2f, 7.4f, 0.03f, -13.f, 5.f, 17.f, -0.113f });
+	chcl::DynamicVector dVec1{ std::vector{ 3.7f, 1.1f, -5.2f } };
+
+	chcl::DynamicVector dVecRes = dMat1 * dVec1;
+
+	chcl::printVector(dVecRes);
 }
