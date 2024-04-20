@@ -14,7 +14,7 @@ namespace chcl
 		DynamicVector(const std::vector<float> &values);
 		DynamicVector(const DynamicMatrix &mat);
 
-		inline DynamicMatrix toMatrix() const { return DynamicMatrix(1, size(), m_elements); }
+		inline DynamicMatrix toMatrix() const { return DynamicMatrix(size(), 1, m_elements); }
 
 		operator DynamicMatrix() const { return toMatrix(); }
 

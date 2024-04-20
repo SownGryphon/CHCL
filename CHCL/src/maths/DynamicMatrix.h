@@ -19,15 +19,15 @@ namespace chcl
 		DynamicMatrix(const DynamicMatrix &other);
 		DynamicMatrix(DynamicMatrix &&other);
 
-		template <unsigned int width, unsigned int height>
-		DynamicMatrix(const Matrix<width, height> &matrix) :
-			m_cols(width), m_rows(height),
+		template <unsigned int rows, unsigned int cols>
+		DynamicMatrix(const Matrix<rows, cols> &matrix) :
+			m_rows(rows), m_cols(cols),
 			m_elements(matrix.values())
 		{}
 
-		inline unsigned int rows() const { return m_cols; }
-		inline unsigned int cols() const { return m_rows; }
-		inline Vector2<unsigned int> size() const { return { m_cols, m_rows }; }
+		inline unsigned int rows() const { return m_rows; }
+		inline unsigned int cols() const { return m_cols; }
+		inline Vector2<unsigned int> size() const { return { m_rows, m_cols }; }
 
 		float& at(unsigned int row, unsigned int col);
 		const float& at(unsigned int row, unsigned int col) const;
@@ -48,8 +48,8 @@ namespace chcl
 		friend DynamicMatrix operator-(DynamicMatrix lhs, const DynamicMatrix &rhs);
 		friend DynamicMatrix operator*(const DynamicMatrix& lhs, const DynamicMatrix &rhs);
 
-		friend DynamicMatrix operator*(float val, const DynamicMatrix &mat);
-		friend DynamicMatrix operator*(const DynamicMatrix &mat, float val);
+		friend DynamicMatrix operator*(float val, DynamicMatrix mat);
+		friend DynamicMatrix operator*(DynamicMatrix mat, float val);
 
 	private:
 		unsigned int m_rows, m_cols;

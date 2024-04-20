@@ -15,7 +15,7 @@ chcl::DynamicVector::DynamicVector(const std::vector<float> &values) :
 
 chcl::DynamicVector::DynamicVector(const DynamicMatrix &mat)
 {
-	if (mat.rows() != 1) throw std::invalid_argument("Invalid matrix size for vector initialization.");
+	if (mat.cols() != 1) throw std::invalid_argument("Invalid matrix size for vector initialization.");
 
 	m_elements = mat.data();
 }
