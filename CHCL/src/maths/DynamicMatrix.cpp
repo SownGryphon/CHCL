@@ -107,7 +107,13 @@ chcl::DynamicMatrix& chcl::DynamicMatrix::operator-=(const DynamicMatrix &other)
 chcl::DynamicMatrix& chcl::DynamicMatrix::operator*=(const DynamicMatrix &other)
 {
 	*this = *this * other;
+	return *this;
+}
 
+chcl::DynamicMatrix& chcl::DynamicMatrix::operator*=(float val)
+{
+	for (float &e : m_elements)
+		e *= val;
 	return *this;
 }
 
@@ -141,6 +147,18 @@ chcl::DynamicMatrix chcl::operator*(const DynamicMatrix& lhs, const DynamicMatri
 	}
 
 	return result;
+}
+
+chcl::DynamicMatrix chcl::operator*(float val, DynamicMatrix mat)
+{
+	mat *= val;
+	return mat;
+}
+
+chcl::DynamicMatrix chcl::operator*(DynamicMatrix mat, float val)
+{
+	mat *= val;
+	return mat;
 }
 
 void chcl::DynamicMatrix::resize(unsigned int newWidth, unsigned int newHeight)

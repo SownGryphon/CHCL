@@ -42,9 +42,14 @@ namespace chcl
 		DynamicMatrix& operator-=(const DynamicMatrix &other);
 		DynamicMatrix& operator*=(const DynamicMatrix &other);
 
+		DynamicMatrix& operator*=(float val);
+
 		friend DynamicMatrix operator+(DynamicMatrix lhs, const DynamicMatrix &rhs);
 		friend DynamicMatrix operator-(DynamicMatrix lhs, const DynamicMatrix &rhs);
 		friend DynamicMatrix operator*(const DynamicMatrix& lhs, const DynamicMatrix &rhs);
+
+		friend DynamicMatrix operator*(float val, const DynamicMatrix &mat);
+		friend DynamicMatrix operator*(const DynamicMatrix &mat, float val);
 
 	private:
 		unsigned int m_rows, m_cols;
