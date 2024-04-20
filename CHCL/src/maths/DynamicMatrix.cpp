@@ -131,15 +131,15 @@ chcl::DynamicMatrix chcl::operator-(DynamicMatrix lhs, const DynamicMatrix &rhs)
 
 chcl::DynamicMatrix chcl::operator*(const DynamicMatrix& lhs, const DynamicMatrix &rhs)
 {
-	if (lhs.rows() != rhs.cols()) throw std::invalid_argument("Invalid matrices for multiplication.");
+	if (lhs.cols() != rhs.rows()) throw std::invalid_argument("Invalid matrices for multiplication.");
 
-	DynamicMatrix result{ rhs.rows(), lhs.cols() };
+	DynamicMatrix result{ lhs.rows(), rhs.cols() };
 
-	for (unsigned int i = 0; i < lhs.cols(); ++i)
+	for (unsigned int i = 0; i < lhs.rows(); ++i)
 	{
-		for (unsigned int k = 0; k < lhs.rows(); ++k)
+		for (unsigned int k = 0; k < lhs.cols(); ++k)
 		{
-			for (unsigned int j = 0; j < rhs.rows(); ++j)
+			for (unsigned int j = 0; j < rhs.cols(); ++j)
 			{
 				result.at(i, j) += lhs.at(i, k) * rhs.at(k, j);
 			}
