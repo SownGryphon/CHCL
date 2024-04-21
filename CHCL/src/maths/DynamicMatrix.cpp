@@ -36,14 +36,14 @@ chcl::DynamicMatrix::DynamicMatrix(DynamicMatrix &&other) :
 
 float& chcl::DynamicMatrix::at(unsigned int row, unsigned int col)
 {
-	if (row > m_rows || col > m_cols) throw std::out_of_range("Matrix access location out of range.");
+	if (row >= m_rows || col >= m_cols) throw std::out_of_range("Matrix access location out of range.");
 
 	return m_elements[size_t(row) * m_cols + col];
 }
 
 const float& chcl::DynamicMatrix::at(unsigned int row, unsigned int col) const
 {
-	if (row > m_rows || col > m_cols) throw std::out_of_range("Matrix access location out of range.");
+	if (row >= m_rows || col >= m_cols) throw std::out_of_range("Matrix access location out of range.");
 
 	return m_elements[size_t(row) * m_cols + col];
 }
@@ -161,10 +161,10 @@ chcl::DynamicMatrix chcl::operator*(DynamicMatrix mat, float val)
 	return mat;
 }
 
-void chcl::DynamicMatrix::resize(unsigned int newWidth, unsigned int newHeight)
+void chcl::DynamicMatrix::resize(unsigned int newRows, unsigned int newCols)
 {
-	m_cols = newWidth;
-	m_rows = newHeight;
+	m_rows = newRows;
+	m_cols = newCols;
 
-	m_elements.resize(size_t(newWidth) * newHeight);
+	m_elements.resize(size_t(newRows) * newCols);
 }

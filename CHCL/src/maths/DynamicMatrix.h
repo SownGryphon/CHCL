@@ -55,7 +55,7 @@ namespace chcl
 		unsigned int m_rows, m_cols;
 		std::vector<float> m_elements;
 
-		void resize(unsigned int newWidth, unsigned int newHeight);
+		void resize(unsigned int newRows, unsigned int newCols);
 		inline void resize(Vector2<unsigned int> newSize) { resize(newSize.x, newSize.y); }
 	};
 }
