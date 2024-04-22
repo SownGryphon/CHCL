@@ -13,38 +13,6 @@
 
 namespace chcl
 {
-	template <unsigned int dims, typename T = float>
-	void printVector(const VectorN<dims, T> &vec)
-	{
-		std::cout << '[';
-
-		for (unsigned int i = 0; i < dims; ++i)
-		{
-			if (i)
-			{
-				std::cout << ", ";
-			}
-
-			std::cout << vec[i];
-		}
-
-		std::cout << "]\n";
-	}
-
-	template <typename T = float>
-	void printVector(const VectorN<2, T> &vec)
-	{
-		std::cout << "[x: " << vec[0] << ", y: " << vec[1] << "]\n";
-	}
-
-	template <typename T = float>
-	void printVector(const VectorN<3, T> &vec)
-	{
-		std::cout << "[x: " << vec[0] << ", y: " << vec[1] << ", z:" << vec[2] << "]\n";
-	}
-
-	void printVector(const DynamicVector &vec);
-
 	template <unsigned int width, unsigned int height, typename T = float>
 	void printMatrix(const Matrix<width, height, T> &matrix, unsigned int places = 2)
 	{
@@ -78,5 +46,9 @@ namespace chcl
 		}
 	}
 
-	void printMatrix(const DynamicMatrix &mat);
+	template <typename T>
+	void printMatrix(const DynamicMatrix<T> &mat)
+	{
+		std::cout << "Imagine a matrix printed here.\n";
+	}
 }

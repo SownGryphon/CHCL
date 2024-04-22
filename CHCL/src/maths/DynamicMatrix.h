@@ -10,52 +10,203 @@ namespace chcl
 	/**
 	 * @brief Class for dynamically sized matrices.
 	 */
+	template <typename T>
 	class DynamicMatrix
 	{
 	public:
-		DynamicMatrix();
-		DynamicMatrix(unsigned int rows, unsigned int cols, float defaultVal = 0.0);
-		DynamicMatrix(unsigned int rows, unsigned int cols, const std::vector<float> &values);
-		DynamicMatrix(const DynamicMatrix &other);
-		DynamicMatrix(DynamicMatrix &&other);
+		using ValueType = T;
 
-		template <unsigned int rows, unsigned int cols>
-		DynamicMatrix(const Matrix<rows, cols> &matrix) :
-			m_rows(rows), m_cols(cols),
-			m_elements(matrix.values())
-		{}
+		DynamicMatrix() = default;
+		DynamicMatrix(size_t rows, size_t cols, ValueType defaultVal = ValueType())
+		{
+			resize(rows, cols, defaultVal);
+		}
 
-		inline unsigned int rows() const { return m_rows; }
-		inline unsigned int cols() const { return m_cols; }
-		inline Vector2<unsigned int> size() const { return { m_rows, m_cols }; }
+		DynamicMatrix(size_t rows, size_t cols, const ValueType *values)
+		{
+			resize(rows, cols, values);
+		}
 
-		float& at(unsigned int row, unsigned int col);
-		const float& at(unsigned int row, unsigned int col) const;
+		DynamicMatrix(size_t rows, size_t cols, const std::vector<ValueType> &values)
+		{
+			resize(rows, cols, values.data());
+		}
 
-		inline std::vector<float>& data() { return m_elements; }
-		inline const std::vector<float>& data() const { return m_elements; }
+		template <size_t rows, size_t cols>
+		DynamicMatrix(const Matrix<rows, cols, ValueType> &matrix)
+		{
+			resize(rows, cols, matrix.values());
+		}
 
-		DynamicMatrix transpose() const;
+		DynamicMatrix(const DynamicMatrix &other)
+		{
+			resize(other.rows(), other.cols(), other.data());
+		}
 
-		DynamicMatrix& operator =(const DynamicMatrix &other);
-		DynamicMatrix& operator+=(const DynamicMatrix &other);
-		DynamicMatrix& operator-=(const DynamicMatrix &other);
-		DynamicMatrix& operator*=(const DynamicMatrix &other);
+		DynamicMatrix(DynamicMatrix &&other) = default;
 
-		DynamicMatrix& operator*=(float val);
+		~DynamicMatrix()
+		{
+			clear();
+		}
 
-		friend DynamicMatrix operator+(DynamicMatrix lhs, const DynamicMatrix &rhs);
-		friend DynamicMatrix operator-(DynamicMatrix lhs, const DynamicMatrix &rhs);
-		friend DynamicMatrix operator*(const DynamicMatrix& lhs, const DynamicMatrix &rhs);
+		inline size_t rows() const { return m_rows; }
+		inline size_t cols() const { return m_cols; }
+		inline size_t count() const { return m_rows * m_cols; }
+		inline Vector2<size_t> size() const { return { m_rows, m_cols }; }
 
-		friend DynamicMatrix operator*(float val, DynamicMatrix mat);
-		friend DynamicMatrix operator*(DynamicMatrix mat, float val);
+		inline ValueType& at(size_t row, size_t col) { return m_elements[row * m_cols + col]; }
+		inline const ValueType& at(size_t row, size_t col) const { return m_elements[row * m_cols + col]; }
+
+		inline ValueType* data() { return m_elements; }
+		inline const ValueType* data() const { return m_elements; }
+
+		DynamicMatrix transpose() const
+		{
+			DynamicMatrix result{ m_cols, m_rows };
+
+			for (size_t i = 0; i < m_rows; ++i)
+				for (size_t j = 0; j < m_cols; ++j)
+					result.at(j, i) = at(i, j);
+
+			return result;
+		}
+
+		DynamicMatrix& operator =(const DynamicMatrix &other)
+		{
+			if (size() != other.size()) resize(other.rows(), other.cols(), other.data());
+			else
+				for (size_t i = count(); i--;)
+					m_elements[i] = other.m_elements[i];
+			return *this;
+		}
+
+		DynamicMatrix& operator =(DynamicMatrix &&other) = default;
+
+		DynamicMatrix& operator+=(const DynamicMatrix &other)
+		{
+			for (size_t i = count(); i--;)
+				m_elements[i] += other.m_elements[i];
+			return *this;
+		}
+
+		DynamicMatrix& operator-=(const DynamicMatrix &other)
+		{
+			for (size_t i = count(); i--;)
+				m_elements[i] -= other.m_elements[i];
+			return *this;
+		}
+
+		DynamicMatrix& operator*=(const DynamicMatrix &other)
+		{
+			(*this) = (*this) * other;
+			return *this;
+		}
+
+		DynamicMatrix& operator*=(ValueType val)
+		{
+			for (size_t i = count(); i--;)
+				m_elements[i] *= val;
+			return *this;
+		}
+
+		DynamicMatrix& operator/=(ValueType val)
+		{
+			for (size_t i = count(); i--;)
+				m_elements[i] /= val;
+			return *this;
+		}
+
+		friend DynamicMatrix operator+(DynamicMatrix lhs, const DynamicMatrix &rhs)
+		{
+			lhs += rhs;
+			return lhs;
+		}
+
+		friend DynamicMatrix operator-(DynamicMatrix lhs, const DynamicMatrix &rhs)
+		{
+			lhs -= rhs;
+			return lhs;
+		}
+
+		friend DynamicMatrix operator*(const DynamicMatrix& lhs, const DynamicMatrix &rhs)
+		{
+			DynamicMatrix result{ lhs.rows(), rhs.cols() };
+
+			for (unsigned int i = 0; i < lhs.rows(); ++i)
+			{
+				for (unsigned int k = 0; k < lhs.cols(); ++k)
+				{
+					for (unsigned int j = 0; j < rhs.cols(); ++j)
+					{
+						result.at(i, j) += lhs.at(i, k) * rhs.at(k, j);
+					}
+				}
+			}
+
+			return result;
+		}
+
+		friend DynamicMatrix operator*(ValueType val, DynamicMatrix mat)
+		{
+			mat *= val;
+			return mat;
+		}
+
+		friend DynamicMatrix operator*(DynamicMatrix mat, ValueType val)
+		{
+			mat *= val;
+			return mat;
+		}
+
+		friend DynamicMatrix operator/(DynamicMatrix mat, ValueType val)
+		{
+			mat /= val;
+			return mat;
+		}
 
 	private:
-		unsigned int m_rows, m_cols;
-		std::vector<float> m_elements;
+		size_t m_rows = 0, m_cols = 0;
+		ValueType *m_elements = nullptr;
 
-		void resize(unsigned int newRows, unsigned int newCols);
-		inline void resize(Vector2<unsigned int> newSize) { resize(newSize.x, newSize.y); }
+		void clear()
+		{
+			for (size_t i = m_rows * m_cols; i--;)
+				m_elements[i].~ValueType();
+			if (m_elements)
+				::operator delete(m_elements, count() * sizeof(ValueType));
+			m_rows = 0;
+			m_cols = 0;
+			m_elements = nullptr;
+		}
+
+		void resize(size_t newRows, size_t newCols, const ValueType *newValues = nullptr)
+		{
+			ValueType *newBlock = (ValueType*)::operator new(newRows * newCols * sizeof(ValueType));
+
+			for (size_t i = newRows * newCols; i--;)
+				if (newValues)
+					new (&newBlock[i]) ValueType(newValues[i]);
+				else
+					new (&newBlock[i]) ValueType();
+
+			clear();
+			m_rows = newRows;
+			m_cols = newCols;
+			m_elements = newBlock;
+		}
+
+		void resize(size_t newRows, size_t newCols, const ValueType newValue)
+		{
+			ValueType *newBlock = (ValueType*)::operator new(newRows * newCols * sizeof(ValueType));
+
+			for (size_t i = newRows * newCols; i--;)
+				new (&newBlock[i]) ValueType(newValue);
+
+			clear();
+			m_rows = newRows;
+			m_cols = newCols;
+			m_elements = newBlock;
+		}
 	};
 }
