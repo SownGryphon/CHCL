@@ -21,10 +21,12 @@
 
 #include "maths/Continuous.h"
 
-#include "testing/VectorTests.h"
-
 #include "geometry/DynamicVector.h"
 #include "maths/DynamicMatrix.h"
+
+#include "dataStorage/JSON_Parser.h"
+
+#include "testing/VectorTests.h"
 
 class ConstructionTest
 {
@@ -84,6 +86,7 @@ private:
 
 int main()
 {
+	#if 0
 	testing::vectors::all();
 
 	chcl::VectorN<2> Vector1(5.f);
@@ -264,4 +267,29 @@ int main()
 
 	chcl::SquareMatrix<2, chcl::Vector2<float>> vecMat;
 	chcl::printMatrix(vecMat);
+	#endif
+
+	auto section = chcl::JSON_Parser::ReadFile<chcl::JSON_Object>("res/Test.json");
+	std::string name = section.readElement<std::string>("name");
+	int num = section.readElement<int>("num_test");
+	std::vector<int> numArr = section.readElement<std::vector<int>>("array_test");
+	bool jsonBool = section.readElement<bool>("bool_test");
+	auto subobject = section.readElement<chcl::JSON_Object>("object_test");
+	auto subobjArr = section.readElement<std::vector<chcl::JSON_Object>>("obj_arr");
+
+	chcl::JSON_Object writeSubObj;
+	writeSubObj.writeElement("subObj1", subobject);
+	writeSubObj.writeElement("subObj2", subobjArr[0]);
+	writeSubObj.writeElement("subObj3", subobjArr[1]);
+	writeSubObj.writeElement("subObjNum", 42069);
+
+	chcl::JSON_Object writeObj;
+	writeObj.writeElement("name", name);
+	writeObj.writeElement("float", 3.141f);
+	writeObj.writeElement("subObj", writeSubObj);
+
+	chcl::JSON_Parser::SaveToFile("res/IntWrite.json", 5);
+	chcl::JSON_Parser::SaveToFile("res/ArrWrite.json", numArr);
+	chcl::JSON_Parser::SaveToFile("res/StrWrite.json", name);
+	chcl::JSON_Parser::SaveToFile("res/FullWrite.json", writeObj);
 }
