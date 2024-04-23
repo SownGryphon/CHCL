@@ -46,6 +46,31 @@ namespace chcl
 	 */
 	namespace JSON_Parser
 	{
+		bool JumpWhitespace(const std::string &text, size_t &index);
+		bool JumpSection(const std::string &text, size_t &index);
+		bool JumpArray(const std::string &text, size_t &index);
+		bool JumpString(const std::string &text, size_t &index);
+		bool JumpElement(const std::string &text, size_t &index);
+
+		/**
+		 * @brief Converts a string representing a JSON element to the appropriate object
+		 * @tparam T Type to convert to
+		 * @param elem String representation of
+		 * @return Parsed object
+		 */
+		template <typename T>
+		static T ParseElement(const std::string &elem)
+		{
+			size_t index = 0;
+			JSON_Parser::JumpWhitespace(elem, index);
+			size_t elemBegin = index;
+			if (!JSON_Parser::JumpElement(elem, index)) return T();
+			JSON_Stream elemStream{ elem.substr(elemBegin, index - elemBegin) };
+			T result;
+			elemStream >> result;
+			return result;
+		}
+
 		/**
 		 * @brief Reads and parses the contents of a .json file
 		 * @tparam T
@@ -59,7 +84,7 @@ namespace chcl
 			std::stringstream fileString;
 			fileString << file.rdbuf();
 			file.close();
-			return ParseElement<T>(fileString.str());
+			return JSON_Parser::ParseElement<T>(fileString.str());
 		}
 
 		/**
@@ -77,31 +102,6 @@ namespace chcl
 			fileStream << formatStream.str();
 			fileStream.close();
 		}
-
-		/**
-		 * @brief Converts a string representing a JSON element to the appropriate object
-		 * @tparam T Type to convert to
-		 * @param elem String representation of
-		 * @return Parsed object
-		 */
-		template <typename T>
-		static T ParseElement(const std::string &elem)
-		{
-			size_t index = 0;
-			JumpWhitespace(elem, index);
-			size_t elemBegin = index;
-			if (!JumpElement(elem, index)) return T();
-			JSON_Stream elemStream{ elem.substr(elemBegin, index - elemBegin) };
-			T result;
-			elemStream >> result;
-			return result;
-		}
-
-		static bool JumpWhitespace(const std::string &text, size_t &index);
-		static bool JumpSection(const std::string &text, size_t &index);
-		static bool JumpArray(const std::string &text, size_t &index);
-		static bool JumpString(const std::string &text, size_t &index);
-		static bool JumpElement(const std::string &text, size_t &index);
 	};
 
 	/**
@@ -159,8 +159,10 @@ namespace chcl
 
 		size_t index = 1;
 		std::string elemStr = stream.str();
-		JSON_Parser::JumpWhitespace(elemStr, index);
 
+		if (elemStr[0] != '[') return stream;
+
+		JSON_Parser::JumpWhitespace(elemStr, index);
 		while (index < elemStr.length())
 		{
 			size_t elemStart = index;

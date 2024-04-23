@@ -41,24 +41,36 @@ namespace chcl
 			resize(other.size(), other.data());
 		}
 
-		DynamicVector(DynamicVector &&other) = default;
+		DynamicVector(DynamicVector &&other) :
+			m_size{ other.m_size },
+			m_elements{ other.m_elements }
+		{
+			other.m_size = 0;
+			other.m_elements = nullptr;
+		}
 
 		~DynamicVector()
 		{
 			clear();
 		}
 
-		inline DynamicMatrix<ValueType> toMatrix() const { return DynamicMatrix<ValueType>(size(), 1, m_elements); }
+		DynamicMatrix<ValueType> toMatrix() const { return DynamicMatrix<ValueType>(size(), 1, m_elements); }
 
 		operator DynamicMatrix<ValueType>() const { return toMatrix(); }
 
-		inline size_t size() const { return m_size; }
+		size_t size() const { return m_size; }
 
-		inline ValueType& operator[](size_t i) { return m_elements[i]; }
-		inline const ValueType& operator[](size_t i) const { return m_elements[i]; }
+		ValueType& operator[](size_t i) { return m_elements[i]; }
+		const ValueType& operator[](size_t i) const { return m_elements[i]; }
 		
-		inline ValueType* data() { return m_elements; }
-		inline const ValueType* data() const { return m_elements; }
+		ValueType* data() { return m_elements; }
+		const ValueType* data() const { return m_elements; }
+		std::vector<ValueType> toStdVector() const
+		{
+			std::vector<ValueType> result;
+			result.assign(data(), data() + size());
+			return result;
+		}
 
 		DynamicVector& operator =(const DynamicVector &other)
 		{
@@ -69,7 +81,20 @@ namespace chcl
 
 			return *this;
 		}
-		DynamicVector& operator =(DynamicVector &&other) = default;
+
+		DynamicVector& operator =(DynamicVector &&other)
+		{
+			if (this == &other)
+				return *this;
+
+			m_size = other.m_size;
+			m_elements = other.m_elements;
+
+			other.m_size = 0;
+			other.m_elements = nullptr;
+
+			return *this;
+		}
 
 		DynamicVector& operator+=(const DynamicVector &other)
 		{
@@ -191,6 +216,11 @@ namespace chcl
 		friend DynamicVector operator*(const DynamicMatrix<ValueType> &lhs, const DynamicVector &rhs)
 		{
 			return lhs * DynamicMatrix<ValueType>(rhs);
+		}
+
+		explicit operator std::vector<ValueType>() const
+		{
+			return toStdVector();
 		}
 
 		friend std::ostream& operator<<(std::ostream &stream, const DynamicVector &vec)

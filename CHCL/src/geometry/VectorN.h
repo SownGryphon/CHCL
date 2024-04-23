@@ -26,7 +26,7 @@ namespace chcl
 		using DerivedType = Derived<dims, ValueType>;
 
 		/// Size of vector.
-		constexpr size_t size() { return dims; }
+		constexpr size_t size() const { return dims; }
 
 		/**
 		 * @brief Converts the vector to a column matrix of equal size.
@@ -35,6 +35,34 @@ namespace chcl
 		Matrix<dims, 1, ValueType> toMatrix() const
 		{
 			return Matrix<dims, 1, ValueType>(data());
+		}
+
+		ValueType* data() requires (!SpecializedVec<DerivedType>)
+		{
+			return static_cast<DerivedType*>(this)->position;
+		}
+
+		ValueType* data() requires SpecializedVec<DerivedType>
+		{
+			return &static_cast<DerivedType*>(this)->x;
+		}
+
+		const ValueType* data() const requires (!SpecializedVec<DerivedType>)
+		{
+			return static_cast<const DerivedType*>(this)->position;
+		}
+
+		const ValueType* data() const requires SpecializedVec<DerivedType>
+		{
+			return &static_cast<const DerivedType*>(this)->x;
+		}
+
+		/**
+		 * @brief Returns vector components inside a std::vector
+		 */
+		std::vector<ValueType> toStdVector() const
+		{
+			return std::vector<ValueType>(data(), data() + size());
 		}
 
 		/**
@@ -133,26 +161,6 @@ namespace chcl
 		ValueType mag() const
 		{
 			return std::sqrt(magsq());
-		}
-
-		ValueType* data() requires !SpecializedVec<DerivedType>
-		{
-			return static_cast<DerivedType*>(this)->position;
-		}
-
-		ValueType* data() requires SpecializedVec<DerivedType>
-		{
-			return &static_cast<DerivedType*>(this)->x;
-		}
-
-		const ValueType* data() const requires !SpecializedVec<DerivedType>
-		{
-			return static_cast<const DerivedType*>(this)->position;
-		}
-
-		const ValueType* data() const requires SpecializedVec<DerivedType>
-		{
-			return &static_cast<const DerivedType*>(this)->x;
 		}
 
 		const ValueType& operator[](size_t n) const requires !SpecializedVec<DerivedType>
@@ -275,9 +283,14 @@ namespace chcl
 			return lhs;
 		}
 
-		operator Matrix<dims, 1, T>()
+		operator Matrix<dims, 1, T>() const
 		{
 			return toMatrix();
+		}
+
+		explicit operator std::vector<T>() const
+		{
+			return toStdVector();
 		}
 
 		friend std::ostream& operator<<(std::ostream &stream, const DerivedType &vec)

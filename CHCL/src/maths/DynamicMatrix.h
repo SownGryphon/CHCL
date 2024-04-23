@@ -43,7 +43,14 @@ namespace chcl
 			resize(other.rows(), other.cols(), other.data());
 		}
 
-		DynamicMatrix(DynamicMatrix &&other) = default;
+		DynamicMatrix(DynamicMatrix &&other) :
+			m_rows{ other.m_rows }, m_cols{ other.m_cols },
+			m_elements{ other.m_elements }
+		{
+			other.m_rows = 0;
+			other.m_cols = 0;
+			other.m_elements = nullptr;
+		}
 
 		~DynamicMatrix()
 		{
@@ -60,6 +67,12 @@ namespace chcl
 
 		inline ValueType* data() { return m_elements; }
 		inline const ValueType* data() const { return m_elements; }
+		std::vector<ValueType> dataVector() const
+		{
+			std::vector<ValueType> result;
+			result.assign(data(), data() + count());
+			return result;
+		}
 
 		DynamicMatrix transpose() const
 		{
@@ -81,7 +94,21 @@ namespace chcl
 			return *this;
 		}
 
-		DynamicMatrix& operator =(DynamicMatrix &&other) = default;
+		DynamicMatrix& operator =(DynamicMatrix &&other)
+		{
+			if (this == &other)
+				return *this;
+
+			m_rows = other.m_rows;
+			m_cols = other.m_cols;
+			m_elements = other.m_elements;
+
+			other.m_rows = 0;
+			other.m_cols = 0;
+			other.m_elements = nullptr;
+
+			return *this;
+		}
 
 		DynamicMatrix& operator+=(const DynamicMatrix &other)
 		{

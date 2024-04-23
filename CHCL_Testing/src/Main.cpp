@@ -25,6 +25,7 @@
 #include "maths/DynamicMatrix.h"
 
 #include "dataStorage/JSON_Parser.h"
+#include "dataStorage/JSON_Integration.h"
 
 #include "testing/VectorTests.h"
 
@@ -272,7 +273,7 @@ int main()
 	auto section = chcl::JSON_Parser::ReadFile<chcl::JSON_Object>("res/Test.json");
 	std::string name = section.readElement<std::string>("name");
 	int num = section.readElement<int>("num_test");
-	std::vector<int> numArr = section.readElement<std::vector<int>>("array_test");
+	auto numArr = section.readElement<std::vector<int>>("array_test");
 	bool jsonBool = section.readElement<bool>("bool_test");
 	auto subobject = section.readElement<chcl::JSON_Object>("object_test");
 	auto subobjArr = section.readElement<std::vector<chcl::JSON_Object>>("obj_arr");
@@ -292,4 +293,15 @@ int main()
 	chcl::JSON_Parser::SaveToFile("res/ArrWrite.json", numArr);
 	chcl::JSON_Parser::SaveToFile("res/StrWrite.json", name);
 	chcl::JSON_Parser::SaveToFile("res/FullWrite.json", writeObj);
+
+	chcl::Vector3 jsonVec{ 0.5f, 0.2f, 22.7f };
+	chcl::JSON_Parser::SaveToFile("res/VecWrite.json", jsonVec);
+	auto jsonVecRead = chcl::JSON_Parser::ReadFile<chcl::DynamicVector<float>>("res/VecWrite.json");
+	std::cout << "Vector read from JSON: " << jsonVecRead << '\n';
+
+	chcl::Mat2 jsonMatWrite = chcl::Mat2::Rotation(chcl::toRadians(30));
+	chcl::JSON_Parser::SaveToFile("res/MatWrite.json", jsonMatWrite);
+	auto jsonMatRead = chcl::JSON_Parser::ReadFile<chcl::DynamicMatrix<float>>("res/MatWrite.json");
+	std::cout << "Matrix read from JSON:\n";
+	chcl::printMatrix(jsonMatRead);
 }

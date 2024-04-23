@@ -72,8 +72,19 @@ namespace chcl
 			return result;
 		}
 
-		ValueType* values() { return m_values; }
-		const ValueType* values() const { return m_values; }
+		static constexpr size_t Rows() { return rows; }
+		static constexpr size_t Cols() { return rows; }
+		static constexpr size_t Count() { return rows * cols; }
+		static constexpr size_t IndexOf(size_t row, size_t col) { return row * cols + col; }
+
+		ValueType* data() { return m_values; }
+		const ValueType* data() const { return m_values; }
+		std::vector<ValueType> dataVector() const
+		{
+			std::vector<ValueType> result;
+			result.assign(data(), data() + Count());
+			return result;
+		}
 
 		const ValueType& at(size_t row, size_t col) const { return m_values[row * cols + col]; }
 		ValueType& at(size_t row, size_t col) { return m_values[row * cols + col]; }

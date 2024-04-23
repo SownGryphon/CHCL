@@ -6,6 +6,9 @@ chcl::JSON_Stream& chcl::operator>>(JSON_Stream &stream, std::string &str)
 
 	bool escapedChar = false;
 	std::string elemStr = stream.str();
+
+	if (elemStr[0] != '\"') return stream;
+
 	for (size_t i = 1; i < elemStr.length() - 1; ++i)
 	{
 		char currentChar = elemStr[i];
@@ -220,8 +223,10 @@ chcl::JSON_Stream& chcl::operator>>(JSON_Stream &stream, JSON_Object &obj)
 
 	size_t index = 1;
 	std::string elemStr = stream.str();
-	JSON_Parser::JumpWhitespace(elemStr, index);
 
+	if (elemStr[0] != '{') return stream;
+
+	JSON_Parser::JumpWhitespace(elemStr, index);
 	while (index < elemStr.length())
 	{
 		size_t labelBegin = index;
