@@ -258,16 +258,18 @@ chcl::JSON_Stream& chcl::operator>>(JSON_Stream &stream, JSON_Object &obj)
 
 chcl::JSON_Stream& chcl::operator<<(JSON_Stream &stream, const JSON_Object &obj)
 {
-	stream << "{\n";
+	stream.elemStream << "{\n";
 	bool firstLine = true;
 	for (auto const& [label, value] : obj.m_elements)
 	{
 		if (firstLine)
 			firstLine = false;
 		else
-			stream << ",\n";
+			stream.elemStream << ",\n";
 
-		stream << "\t" << label << ": ";
+		stream.elemStream << '\t';
+		stream << label;
+		stream.elemStream << ": ";
 
 		std::string valueLine;
 		std::istringstream valueStream{ value };
@@ -275,9 +277,9 @@ chcl::JSON_Stream& chcl::operator<<(JSON_Stream &stream, const JSON_Object &obj)
 		{
 			stream.elemStream << valueLine;
 			if (!valueStream.eof())
-				stream << "\n\t";
+				stream.elemStream << "\n\t";
 		}
 	}
-	stream << "\n}";
+	stream.elemStream << "\n}";
 	return stream;
 }
