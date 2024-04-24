@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <iostream>
 #include <vector>
+#include <array>
 
 #include "Prints.h"
 
@@ -20,12 +21,73 @@
 
 #include "maths/Continuous.h"
 
-#include "testing/VectorTests.h"
-
 #include "geometry/DynamicVector.h"
 #include "maths/DynamicMatrix.h"
 
-int main() {
+#include "dataStorage/JSON_Parser.h"
+#include "dataStorage/JSON_Integration.h"
+
+#include "testing/VectorTests.h"
+
+class ConstructionTest
+{
+public:
+	ConstructionTest()
+	{
+		std::cout << "Default constructed.\n";
+	}
+
+	ConstructionTest(int v) :
+		data{ v }
+	{
+		std::cout << "Initialized with value " << data << ".\n";
+	}
+
+	ConstructionTest(const ConstructionTest &other) :
+		data{ other.data }
+	{
+		std::cout << "Copy contructed (" << data << ").\n";
+	}
+
+	ConstructionTest(ConstructionTest &&other) :
+		data{ other.data }
+	{
+		other.data = 0;
+		std::cout << "Move constructed (" << data << ").\n";
+	}
+
+	~ConstructionTest()
+	{
+		std::cout << "Destroyed (" << data << ").\n";
+	}
+
+	ConstructionTest& operator=(const ConstructionTest &other)
+	{
+		data = other.data;
+		std::cout << "Copy assigned (" << data << ").\n";
+		return *this;
+	}
+
+	ConstructionTest& operator=(ConstructionTest &&other)
+	{
+		if (this != &other)
+		{
+			std::cout << "Move assigned (" << data << ").\n";
+			data = other.data;
+			other.data = 0;
+		}
+		else
+			std::cout << "Move assigned to self.\n";
+		return *this;
+	}
+
+private:
+	int data = 0;
+};
+
+int main()
+{
+	#if 0
 	testing::vectors::all();
 
 	chcl::VectorN<2> Vector1(5.f);
@@ -36,16 +98,16 @@ int main() {
 
 	std::cout << "Vector2: [x: " << Vector2_1.x << ", y: " << Vector2_1.y << "]\n";
 
-	std::cout << "CHCL Vector2 print: "; chcl::printVector(Vector2_2); std::cout << '\n';
+	std::cout << "CHCL Vector2 print: " << Vector2_2 << '\n';
 
 	chcl::VectorN<5> Vector5_1, Vector5_2(4.2f), Vector5_3{ 0.1f, -3.7f, 17.73f, 2.957f, -175.9f };
 
-	std::cout << "5D Vector #1: "; chcl::printVector(Vector5_1);
-	std::cout << "5D Vector #2: "; chcl::printVector(Vector5_2);
-	std::cout << "5D Vector #3: "; chcl::printVector(Vector5_3);
-	std::cout << "5D Vectors #2 + #3: "; chcl::printVector(Vector5_2 + Vector5_3);
-	std::cout << "5D Vector #2 x 2: "; chcl::printVector(Vector5_2 * 2);
-	std::cout << "5D Vector #3 / 3: "; chcl::printVector(Vector5_3 / 3);
+	std::cout << "5D Vector #1: " << Vector5_1 << '\n';
+	std::cout << "5D Vector #2: " << Vector5_2 << '\n';
+	std::cout << "5D Vector #3: " << Vector5_3 << '\n';
+	std::cout << "5D Vectors #2 + #3: " << (Vector5_2 + Vector5_3) << '\n';
+	std::cout << "5D Vector #2 x 2: " << (Vector5_2 * 2) << '\n';
+	std::cout << "5D Vector #3 / 3: " << (Vector5_3 / 3) << '\n';
 
 	std::cout << "5D Vector #3 as Matrix:\n";
 	chcl::printMatrix(Vector5_3.toMatrix());
@@ -54,13 +116,13 @@ int main() {
 	chcl::Vector2<float> vec1, vec2(3), vec3(5, 1),
 		vec4(vec2 + vec3), vec5(vec4.normalized()), vec6(vec2.normalized());
 
-	std::cout << "Vector2 #1 (blank): "; printVector(vec1);
-	std::cout << "Vector2 #2 (from 3): "; printVector(vec2);
-	std::cout << "Vector2 #3 (from {5, 1}): "; printVector(vec3);
-	std::cout << "Vector2 #2 + #3: "; printVector(vec2 + vec3);
-	std::cout << "Vector2 #4 (from vec2 + vec3): "; printVector(vec4);
-	std::cout << "Vector2 #5 (vec4 normalised): "; printVector(vec5);
-	std::cout << "Vector2 #6 (vec2 normalised): "; printVector(vec6);
+	std::cout << "Vector2 #1 (blank): " << vec1 << '\n';
+	std::cout << "Vector2 #2 (from 3): " << vec2 << '\n';
+	std::cout << "Vector2 #3 (from {5, 1}): " << vec3 << '\n';
+	std::cout << "Vector2 #2 + #3: " << (vec2 + vec3) << '\n';
+	std::cout << "Vector2 #4 (from vec2 + vec3): " << vec4 << '\n';
+	std::cout << "Vector2 #5 (vec4 normalised): " << vec5 << '\n';
+	std::cout << "Vector2 #6 (vec2 normalised): " << vec6 << '\n';
 
 	std::cout << "Vector2 #5 as Matrix:\n"; chcl::printMatrix(vec5.toMatrix());
 
@@ -87,7 +149,7 @@ int main() {
 	chcl::printMatrix(transform);
 
 	std::cout << "\nMatrix as 6D Vector (same values as Matrix #5): ";
-	chcl::printVector<6, float>(chcl::Matrix<6, 1>(vals));
+	std::cout << chcl::VectorN(chcl::Matrix<6, 1>(vals)) << '\n';
 
 	std::cout << "\nMatrices from initializer lists:\n";
 	chcl::Matrix<3, 2> matrix6({
@@ -144,13 +206,13 @@ int main() {
 	chcl::Vector2<> rotVec(1, 2);
 	chcl::Vector2<> rotResult = rot45 * rotVec;
 
-	std::cout << "Rotating vector "; chcl::printVector(rotVec); std::cout << " by 45 degrees: "; chcl::printVector(rotResult);
+	std::cout << "Rotating vector " << rotVec << " by 45 degrees: " << rotResult << '\n';
 
 	chcl::Mat3 rot30_60 = chcl::Mat3::Rotation(chcl::toRadians(30.f), chcl::toRadians(60));
 	chcl::Vector3<> rotVec3D(0, 3, 1);
 	chcl::Vector3<> rotResult3D = rot30_60 * rotVec3D;
 
-	std::cout << "Rotating vector "; chcl::printVector(rotVec3D); std::cout << " by 30 degrees pitch and 60 degrees yaw: "; chcl::printVector(rotResult3D);
+	std::cout << "Rotating vector " << rotVec3D << " by 30 degrees pitch and 60 degrees yaw: " << rotResult3D << '\n';
 
 	chcl::Rect rect1(3, 5, 13, 7);
 	chcl::Vector2<> rectVec1(6, 2),	// Above
@@ -184,8 +246,8 @@ int main() {
 
 	chcl::ContinuousSolver vectorSolver(chcl::Vector2<>(0.f), chcl::Vector2<>(10, 5));
 
-	std::cout << "Constraining vector [33, 17] to between [0, 0] and [10, 5] on a continuous plane: "; chcl::printVector(vectorSolver.clamp({ 33.f, 17.f }));
-	std::cout << "Distance between vectors [1, 2] and [9, 9]: "; chcl::printVector(vectorSolver.diffMin({ 1.f, 2.f }, { 9.f, 9.f }));
+	std::cout << "Constraining vector [33, 17] to between [0, 0] and [10, 5] on a continuous plane: " << vectorSolver.clamp({ 33.f, 17.f }) << '\n';
+	std::cout << "Distance between vectors [1, 2] and [9, 9]: " << vectorSolver.diffMin({ 1.f, 2.f }, { 9.f, 9.f }) << '\n';
 
 	chcl::BinaryHeap<int, [](const int &a, const int &b) { return a < b; }> binaryHeap;
 	binaryHeap.add(10);
@@ -199,5 +261,47 @@ int main() {
 
 	chcl::DynamicVector dVecRes = dMat1 * dVec1;
 
-	chcl::printVector(dVecRes);
+	std::cout << dVecRes << '\n';
+
+	chcl::Vector3<chcl::Vector2<float>> vecVec1;
+	std::cout << "Vector of vectors: " << vecVec1 << '\n';
+
+	chcl::SquareMatrix<2, chcl::Vector2<float>> vecMat;
+	chcl::printMatrix(vecMat);
+	#endif
+
+	auto section = chcl::JSON_Parser::ReadFile<chcl::JSON_Object>("res/Test.json");
+	std::string name = section.readElement<std::string>("name");
+	int num = section.readElement<int>("num_test");
+	auto numArr = section.readElement<std::vector<int>>("array_test");
+	bool jsonBool = section.readElement<bool>("bool_test");
+	auto subobject = section.readElement<chcl::JSON_Object>("object_test");
+	auto subobjArr = section.readElement<std::vector<chcl::JSON_Object>>("obj_arr");
+
+	chcl::JSON_Object writeSubObj;
+	writeSubObj.writeElement("subObj1", subobject);
+	writeSubObj.writeElement("subObj2", subobjArr[0]);
+	writeSubObj.writeElement("subObj3", subobjArr[1]);
+	writeSubObj.writeElement("subObjNum", 42069);
+
+	chcl::JSON_Object writeObj;
+	writeObj.writeElement("name", name);
+	writeObj.writeElement("float", 3.141f);
+	writeObj.writeElement("subObj", writeSubObj);
+
+	chcl::JSON_Parser::SaveToFile("res/IntWrite.json", 5);
+	chcl::JSON_Parser::SaveToFile("res/ArrWrite.json", numArr);
+	chcl::JSON_Parser::SaveToFile("res/StrWrite.json", name);
+	chcl::JSON_Parser::SaveToFile("res/FullWrite.json", writeObj);
+
+	chcl::Vector3 jsonVec{ 0.5f, 0.2f, 22.7f };
+	chcl::JSON_Parser::SaveToFile("res/VecWrite.json", jsonVec);
+	auto jsonVecRead = chcl::JSON_Parser::ReadFile<chcl::DynamicVector<float>>("res/VecWrite.json");
+	std::cout << "Vector read from JSON: " << jsonVecRead << '\n';
+
+	chcl::Mat2 jsonMatWrite = chcl::Mat2::Rotation(chcl::toRadians(30));
+	chcl::JSON_Parser::SaveToFile("res/MatWrite.json", jsonMatWrite);
+	auto jsonMatRead = chcl::JSON_Parser::ReadFile<chcl::DynamicMatrix<float>>("res/MatWrite.json");
+	std::cout << "Matrix read from JSON:\n";
+	chcl::printMatrix(jsonMatRead);
 }

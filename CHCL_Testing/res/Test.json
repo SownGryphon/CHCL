@@ -1,0 +1,21 @@
+{
+	"name": "Hello",
+	"num_test": 10,
+	"array_test": [ 5, 10, 7 ],
+	"bool_test": true,
+	"object_test": {
+		"object_1": 10,
+		"object_2": 20,
+		"object_3": [ 1, 2, 3 ]
+	},
+	"obj_arr": [
+		{
+			"subobj1_1": -10,
+			"subobj1_2": -5
+		},
+		{
+			"subobj2_1": 12,
+			"subobj2_2": 22
+		}
+	]
+}
