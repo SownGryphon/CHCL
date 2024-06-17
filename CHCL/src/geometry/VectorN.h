@@ -28,6 +28,8 @@ namespace chcl
 		/// Size of vector.
 		constexpr size_t size() const { return dims; }
 
+		VectorBase() {}
+
 		template <size_t otherDims, typename T2>
 		VectorBase(const Derived<otherDims, T2> &other)
 		{

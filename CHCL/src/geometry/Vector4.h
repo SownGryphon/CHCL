@@ -38,6 +38,10 @@ namespace chcl
 			x{ other.x }, y{ other.y }, z{ other.z }, w{ other.w }
 		{}
 
+		VectorN(const DerivedType &other) :
+			x{ other.x }, y{ other.y }, z{ other.z }, w{ other.w }
+		{}
+
 		VectorN(DerivedType &&other) :
 			x{ std::move(other.x) }, y{ std::move(other.y) }, z{ std::move(other.z) }, w{ std::move(other.w) }
 		{}
