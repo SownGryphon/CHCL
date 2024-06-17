@@ -2,7 +2,7 @@
 
 #include "Shape.h"
 #include "Circle.h"
-#include "Rect.h"
+#include "AlignedRect.h"
 
 namespace chcl
 {
@@ -26,7 +26,7 @@ namespace chcl
 	template <>
 	bool checkOverlap(const Circle &c1, const Circle &c2);
 	template <>
-	bool checkOverlap(const Circle &circle, const Rect &rect);
+	bool checkOverlap(const Circle &circle, const AlignedRect &rect);
 	template <>
-	bool checkOverlap(const Rect &r1, const Rect &r2);
+	bool checkOverlap(const AlignedRect &r1, const AlignedRect &r2);
 }

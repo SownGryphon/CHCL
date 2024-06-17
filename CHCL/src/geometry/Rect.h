@@ -1,29 +1,21 @@
 #pragma once
 
-#include "Shape.h"
+#include "geometry/Vector2.h"
+#include "geometry/Shape.h"
+#include "geometry/AlignedRect.h"
 
 namespace chcl
 {
 	struct Rect : public Shape
 	{
-		Vector2<> origin, size;
+		Rect() : m_center(), m_size(), m_rotation() {}
+		Rect(Vector2<float> center, Vector2<float> size, float rotation) : m_center(center), m_size(size), m_rotation(rotation) {}
+		Rect(const AlignedRect &rect) : m_center(rect.center()), m_size(rect.size), m_rotation(0.f) {}
 
-		Rect() {};
-		Rect(float x, float y, float width, float height);
-		Rect(const Vector2<> &origin, const Vector2<> &size);
+		virtual bool containsPoint(Vector2<float> point) const override;
+		virtual Vector2<float> constrainPoint(Vector2<float> point) const override;
 
-		inline float top() const { return origin.y + size.y; }
-		inline float bottom() const { return origin.y; }
-		inline float left() const { return origin.x; }
-		inline float right() const { return origin.x + size.x; }
-
-		inline Vector2<> bl() const { return origin; }
-		inline Vector2<> br() const { return origin + size.xComponent(); }
-		inline Vector2<> tr() const { return origin + size; }
-		inline Vector2<> tl() const { return origin + size.yComponent(); }
-		inline Vector2<> center() const { return origin + size / 2; }
-
-		virtual bool containsPoint(const Vector2<> &vec) const override;
-		virtual Vector2<> constrainPoint(Vector2<> vec) const override;
+		Vector2<float> m_center, m_size;
+		float m_rotation;
 	};
 }
