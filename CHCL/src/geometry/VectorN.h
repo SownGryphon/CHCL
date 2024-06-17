@@ -225,7 +225,7 @@ namespace chcl
 			DerivedType result;
 			for (size_t i = 0; i < dims; ++i)
 			{
-				result[i] *= -static_cast<const DerivedType*>(this)->operator[](i);
+				result[i] = -static_cast<const DerivedType*>(this)->operator[](i);
 			}
 			return result;
 		}
@@ -281,28 +281,32 @@ namespace chcl
 			return *static_cast<DerivedType*>(this);
 		}
 
-		friend DerivedType operator+(DerivedType lhs, const DerivedType &rhs)
+		friend DerivedType operator+(const DerivedType &lhs, const DerivedType &rhs)
 		{
-			lhs += rhs;
-			return lhs;
+			DerivedType result{ lhs };
+			result += rhs;
+			return result;
 		}
 
-		friend DerivedType operator-(DerivedType lhs, const DerivedType &rhs)
+		friend DerivedType operator-(const DerivedType &lhs, const DerivedType &rhs)
 		{
-			lhs -= rhs;
-			return lhs;
+			DerivedType result{ lhs };
+			result -= rhs;
+			return result;
 		}
 
-		friend DerivedType operator*(DerivedType lhs, const DerivedType &rhs)
+		friend DerivedType operator*(const DerivedType &lhs, const DerivedType &rhs)
 		{
-			lhs *= rhs;
-			return lhs;
+			DerivedType result{ lhs };
+			result *= rhs;
+			return result;
 		}
 
-		friend DerivedType operator/(DerivedType lhs, const DerivedType &rhs)
+		friend DerivedType operator/(const DerivedType &lhs, const DerivedType &rhs)
 		{
-			lhs /= rhs;
-			return lhs;
+			DerivedType result{ lhs };
+			result /= rhs;
+			return result;
 		}
 
 		operator Matrix<dims, 1, T>() const

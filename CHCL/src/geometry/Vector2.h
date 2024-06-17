@@ -41,7 +41,7 @@ namespace chcl
 			x{ other.x }, y{ other.y }
 		{}
 
-		VectorN(DerivedType &&other) :
+		VectorN(DerivedType &&other) noexcept :
 			x{ std::move(other.x) }, y{ std::move(other.y) }
 		{}
 
