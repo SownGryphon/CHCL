@@ -28,6 +28,26 @@ namespace chcl
 		/// Size of vector.
 		constexpr size_t size() const { return dims; }
 
+		template <size_t otherDims, typename T2>
+		VectorBase(const Derived<otherDims, T2> &other)
+		{
+			size_t intersection = std::min(dims, otherDims);
+			for (size_t i = 0; i < intersection; ++i)
+				this->operator[](i) = other[i];
+			for (size_t i = intersection; i < dims; ++i)
+				this->operator[](i) = ValueType();
+		}
+
+		template <size_t otherDims>
+		VectorBase(const Derived<otherDims, ValueType> &other)
+		{
+			size_t intersection = std::min(dims, otherDims);
+			for (size_t i = 0; i < intersection; ++i)
+				this->operator[](i) = other[i];
+			for (size_t i = intersection; i < dims; ++i)
+				this->operator[](i) = ValueType();
+		}
+
 		/**
 		 * @brief Converts the vector to a column matrix of equal size.
 		 * @return Column matrix containing vector elements.
@@ -37,7 +57,7 @@ namespace chcl
 			return Matrix<dims, 1, ValueType>(data());
 		}
 
-		ValueType* data() requires (!SpecializedVec<DerivedType>)
+		ValueType* data() requires !SpecializedVec<DerivedType>
 		{
 			return static_cast<DerivedType*>(this)->position;
 		}
@@ -311,6 +331,7 @@ namespace chcl
 	struct VectorN : public VectorBase<dims, T, VectorN>
 	{
 		using BaseType = VectorBase<dims, T, VectorN>;
+		using BaseType::VectorBase;
 		using BaseType::operator=;
 		using ValueType = T;
 
@@ -356,16 +377,6 @@ namespace chcl
 		{
 			for (size_t i = 0; i < dims; ++i)
 				position[i] = mat.at(i, 0);
-		}
-
-		template <size_t otherDims, typename T2>
-		VectorN(const VectorN<otherDims, T2> &other)
-		{
-			size_t intersection = std::min(dims, otherDims);
-			for (size_t i = 0; i < intersection; ++i)
-				position[i] = other[i];
-			for (size_t i = intersection; i < dims; ++i)
-				position[i] = ValueType();
 		}
 
 		VectorN(const VectorN &other)
