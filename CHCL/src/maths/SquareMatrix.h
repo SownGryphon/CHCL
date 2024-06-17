@@ -2,6 +2,8 @@
 
 #include "Matrix.h"
 
+#include "geometry/Vector3.h"
+
 #include <stdexcept>
 
 namespace chcl
@@ -87,35 +89,43 @@ namespace chcl
 	};
 
 	using Mat2 = SquareMatrix<2, float>;
+
 	template <>
 	class Matrix<2, 2, float> : public SquareMatrixBase<2, float, Matrix>
 	{
 	public:
 		using SquareMatrixBase<2, float, Matrix>::SquareMatrixBase;
 
-		static Mat2 Rotation(float angle);
+		static Matrix<2, 2, float> Rotation(float angle);
 	};
 
 	using Mat3 = SquareMatrix<3, float>;
+
 	template <>
 	class Matrix<3, 3, float> : public SquareMatrixBase<3, float, Matrix>
 	{
 	public:
 		using SquareMatrixBase<3, float, Matrix>::SquareMatrixBase;
 
-		static Mat3 Rotation(float pitch, float yaw);
+		static Matrix<3, 3, float> RotationXY(float radians);
+		static Matrix<3, 3, float> RotationXZ(float radians);
+		static Matrix<3, 3, float> RotationYZ(float radians);
+		static Matrix<3, 3, float> Rotation3D(float pitch, float yaw);
 	};
 
 	using Mat4 = SquareMatrix<4, float>;
+
 	template <>
 	class Matrix<4, 4, float> : public SquareMatrixBase<4, float, Matrix>
 	{
 	public:
 		using SquareMatrixBase<4, float, Matrix>::SquareMatrixBase;
 
-		static Mat4 Ortho(float xMin, float xMax, float yMin, float yMax, float zMin, float zMax);
-		static Mat4 Translation(float x, float y, float z);
-		static Mat4 Scale(float x, float y, float z);
-		static Mat4 Rotation2D(float radians);
+		static Matrix<4, 4, float> Ortho(float xMin, float xMax, float yMin, float yMax, float zMin, float zMax);
+		static Matrix<4, 4, float> Translation3D(float x, float y, float z);
+		static Matrix<4, 4, float> Translation3D(Vector3<float> pos);
+		static Matrix<4, 4, float> Scale3D(float x, float y, float z);
+		static Matrix<4, 4, float> Scale3D(Vector3<float> size);
+		static Matrix<4, 4, float> RotationXY(float radians);
 	};
 }
