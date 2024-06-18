@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "geometry/Rect.h"
+#include "geometry/AlignedRect.h"
 #include "geometry/ShapeOverlap.h"
 
 namespace chcl
@@ -19,7 +19,7 @@ namespace chcl
 
 		struct QTRegion
 		{
-			Rect area;
+			AlignedRect area;
 			std::vector<QTRegion> children;
 			std::vector<QTElement> elements;
 			bool subdivided = false;

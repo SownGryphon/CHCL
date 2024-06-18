@@ -38,7 +38,7 @@ namespace chcl
 			x{ other.x }, y{ other.y }, z{ other.z }, w{ other.w }
 		{}
 
-		VectorN(const VectorN<4, ValueType> &other) :
+		VectorN(const DerivedType &other) :
 			x{ other.x }, y{ other.y }, z{ other.z }, w{ other.w }
 		{}
 
@@ -53,7 +53,7 @@ namespace chcl
 
 		explicit operator bool()
 		{
-			return x && y && z && w;
+			return x || y || z || w;
 		}
 
 		VectorN& operator =(ValueType val)

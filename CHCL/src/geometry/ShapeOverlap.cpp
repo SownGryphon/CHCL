@@ -9,13 +9,13 @@ bool chcl::checkOverlap(const Circle &c1, const Circle &c2)
 }
 
 template <>
-bool chcl::checkOverlap(const Circle &circle, const Rect &rect)
+bool chcl::checkOverlap(const Circle &circle, const AlignedRect &rect)
 {
 	return circle.containsPoint(rect.constrainPoint(circle.origin));
 }
 
 template <>
-bool chcl::checkOverlap(const Rect &r1, const Rect &r2)
+bool chcl::checkOverlap(const AlignedRect &r1, const AlignedRect &r2)
 {
 	return r1.origin.x + r1.size.x > r2.origin.x
 		&& r2.origin.x + r2.size.x > r1.origin.x

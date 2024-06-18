@@ -8,15 +8,15 @@ Circle::Circle(float x, float y, float r)
 Circle::Circle(const Vector2<> &origin, float r)
 	: origin(origin), r(r) {}
 
-bool Circle::containsPoint(const Vector2<> &vec) const
+bool Circle::containsPoint(Vector2<float> point) const
 {
-	return (origin - vec).magsq() <= std::powf(r, 2);
+	return (origin - point).magsq() <= std::powf(r, 2);
 }
 
-Vector2<> Circle::constrainPoint(Vector2<> vec) const
+Vector2<float> Circle::constrainPoint(Vector2<float> point) const
 {
-	Vector2 offset = vec - origin;
-	if (offset.magsq() <= std::powf(r, 2)) return vec;
+	Vector2 offset = point - origin;
+	if (offset.magsq() <= std::powf(r, 2)) return point;
 
 	offset *= r / offset.mag();
 	return origin + offset;

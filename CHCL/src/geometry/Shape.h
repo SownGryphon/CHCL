@@ -6,7 +6,7 @@ namespace chcl
 {
 	struct Shape
 	{
-		virtual bool containsPoint(const Vector2<> &vec) const = 0;
-		virtual Vector2<> constrainPoint(Vector2<> vec) const = 0;
+		virtual bool containsPoint(Vector2<float> point) const = 0;
+		virtual Vector2<float> constrainPoint(Vector2<float> point) const = 0;
 	};
 }

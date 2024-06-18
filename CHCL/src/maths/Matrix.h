@@ -61,7 +61,7 @@ namespace chcl
 		template <size_t newRows, size_t newCols>
 		static Derived<newRows, newCols, ValueType> Resize(const DerivedType &mat)
 		{
-			MatrixBase<newRows, newCols, ValueType> result;
+			Derived<newRows, newCols, ValueType> result;
 			for (size_t j = 0; j < std::min(rows, newRows); ++j)
 			{
 				for (size_t i = 0; i < std::min(cols, newCols); ++i)

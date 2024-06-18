@@ -85,37 +85,4 @@ namespace chcl
 	public:
 		using SquareMatrixBase<size, T, Matrix>::SquareMatrixBase;
 	};
-
-	using Mat2 = SquareMatrix<2, float>;
-	template <>
-	class Matrix<2, 2, float> : public SquareMatrixBase<2, float, Matrix>
-	{
-	public:
-		using SquareMatrixBase<2, float, Matrix>::SquareMatrixBase;
-
-		static Mat2 Rotation(float angle);
-	};
-
-	using Mat3 = SquareMatrix<3, float>;
-	template <>
-	class Matrix<3, 3, float> : public SquareMatrixBase<3, float, Matrix>
-	{
-	public:
-		using SquareMatrixBase<3, float, Matrix>::SquareMatrixBase;
-
-		static Mat3 Rotation(float pitch, float yaw);
-	};
-
-	using Mat4 = SquareMatrix<4, float>;
-	template <>
-	class Matrix<4, 4, float> : public SquareMatrixBase<4, float, Matrix>
-	{
-	public:
-		using SquareMatrixBase<4, float, Matrix>::SquareMatrixBase;
-
-		static Mat4 Ortho(float xMin, float xMax, float yMin, float yMax, float zMin, float zMax);
-		static Mat4 Translation(float x, float y, float z);
-		static Mat4 Scale(float x, float y, float z);
-		static Mat4 Rotation2D(float radians);
-	};
 }

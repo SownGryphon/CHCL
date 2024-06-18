@@ -41,7 +41,7 @@ namespace chcl
 			x{ other.x }, y{ other.y }
 		{}
 
-		VectorN(DerivedType &&other) :
+		VectorN(DerivedType &&other) noexcept :
 			x{ std::move(other.x) }, y{ std::move(other.y) }
 		{}
 
@@ -69,7 +69,7 @@ namespace chcl
 
 		explicit operator bool()
 		{
-			return x && y;
+			return x || y;
 		}
 
 		friend bool operator==(const DerivedType &vec1, const DerivedType &vec2)
