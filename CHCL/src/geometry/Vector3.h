@@ -67,7 +67,7 @@ namespace chcl
 
 		explicit operator bool()
 		{
-			return x && y && z;
+			return x || y || z;
 		}
 
 		VectorN& operator =(ValueType val)

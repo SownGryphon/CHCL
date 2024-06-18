@@ -69,7 +69,7 @@ namespace chcl
 
 		explicit operator bool()
 		{
-			return x && y;
+			return x || y;
 		}
 
 		friend bool operator==(const DerivedType &vec1, const DerivedType &vec2)
