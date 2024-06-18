@@ -19,7 +19,7 @@ namespace chcl
 
 		DynamicVector() = default;
 
-		DynamicVector(size_t size, ValueType defaultVal)
+		DynamicVector(size_t size, ValueType defaultVal = ValueType())
 		{
 			resize(size, defaultVal);
 		}
@@ -87,11 +87,14 @@ namespace chcl
 			if (this == &other)
 				return *this;
 
+			size_t tempSize = m_size;
+			ValueType *tempElements = m_elements;
+
 			m_size = other.m_size;
 			m_elements = other.m_elements;
 
-			other.m_size = 0;
-			other.m_elements = nullptr;
+			other.m_size = tempSize;
+			other.m_elements = tempElements;
 
 			return *this;
 		}
@@ -172,19 +175,19 @@ namespace chcl
 
 		friend DynamicVector operator-(DynamicVector lhs, const DynamicVector &rhs)
 		{
-			lhs += rhs;
+			lhs -= rhs;
 			return lhs;
 		}
 
 		friend DynamicVector operator*(DynamicVector lhs, const DynamicVector &rhs)
 		{
-			lhs += rhs;
+			lhs *= rhs;
 			return lhs;
 		}
 
 		friend DynamicVector operator/(DynamicVector lhs, const DynamicVector &rhs)
 		{
-			lhs += rhs;
+			lhs /= rhs;
 			return lhs;
 		}
 
@@ -203,7 +206,7 @@ namespace chcl
 		friend DynamicVector operator*(ValueType lhs, DynamicVector rhs)
 		{
 			rhs *= lhs;
-			return lhs;
+			return rhs;
 		}
 
 		friend DynamicVector operator/(ValueType lhs, DynamicVector rhs)

@@ -99,13 +99,17 @@ namespace chcl
 			if (this == &other)
 				return *this;
 
+			size_t tempRows = m_rows;
+			size_t tempCols = m_cols;
+			ValueType *tempElements = m_elements;
+
 			m_rows = other.m_rows;
 			m_cols = other.m_cols;
 			m_elements = other.m_elements;
 
-			other.m_rows = 0;
-			other.m_cols = 0;
-			other.m_elements = nullptr;
+			other.m_rows = tempRows;
+			other.m_cols = tempCols;
+			other.m_elements = tempElements;
 
 			return *this;
 		}

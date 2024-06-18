@@ -99,7 +99,7 @@ namespace chcl
 			JSON_Stream formatStream;
 			formatStream << object;
 			std::ofstream fileStream{ filename };
-			fileStream << formatStream.str();
+			fileStream << formatStream.elemStream.rdbuf();
 			fileStream.close();
 		}
 	};
@@ -199,40 +199,44 @@ namespace chcl
 		{
 			formatStreams[i] << elem[i];
 
+			auto init = formatStreams[i].elemStream.tellg();
 			std::string line;
 			std::getline(formatStreams[i].elemStream, line);
 			if (!formatStreams[i].elemStream.eof())
 				multiline = true;
+			formatStreams[i].elemStream.seekg(init, std::ios_base::beg);
 		}
 
-		stream << '[';
+		stream.elemStream << '[';
 		if (multiline)
 		{
-			stream << "\n";
+			stream.elemStream << "\n";
 			for (size_t i = 0; i < elem.size(); ++i)
 			{
 				if (i)
-					stream << ",\n";
+					stream.elemStream << ",\n";
 				std::string line;
 				while (std::getline(formatStreams[i].elemStream, line))
 				{
-					stream << '\t' << line << '\n';
+					stream.elemStream << '\t' << line;
+					if (!formatStreams[i].elemStream.eof())
+						stream.elemStream << '\n';
 				}
 			}
-			stream << "\n";
+			stream.elemStream << "\n";
 		}
 		else
 		{
-			stream << ' ';
+			stream.elemStream << ' ';
 			for (size_t i = 0; i < elem.size(); ++i)
 			{
 				if (i)
-					stream << ", ";
-				stream << elem[i];
+					stream.elemStream << ", ";
+				stream.elemStream << formatStreams[i].elemStream.rdbuf();
 			}
-			stream << ' ';
+			stream.elemStream << ' ';
 		}
-		stream << ']';
+		stream.elemStream << ']';
 
 		return stream;
 	}

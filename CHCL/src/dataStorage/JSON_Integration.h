@@ -70,7 +70,7 @@ namespace chcl
 	}
 
 	template <typename T>
-	JSON_Stream& operator<<(JSON_Stream &stream, DynamicVector<T> &vec)
+	JSON_Stream& operator<<(JSON_Stream &stream, const DynamicVector<T> &vec)
 	{
 		JSON_Object vecInfo;
 		vecInfo.writeElement("size", vec.size());
