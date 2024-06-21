@@ -10,13 +10,9 @@ namespace chcl
 	template <typename T>
 	struct VectorN<2, T> : public VectorBase<2, T, VectorN>
 	{
-		using BaseType = VectorBase<2, T, VectorN>;
-		using BaseType::VectorBase;
-		using BaseType::operator=;
-		using ValueType = T;
-		using DerivedType = VectorN<2, T>;
+		VECTORN_CLASS(2, T);
 
-		T x, y;
+		ValueType x, y;
 
 		VectorN() : x{}, y{} {}
 
@@ -35,14 +31,6 @@ namespace chcl
 		template <typename T2>
 		VectorN(const VectorN<2, T2> &other) :
 			x{ other.x }, y{ other.y }
-		{}
-
-		VectorN(const DerivedType &other) :
-			x{ other.x }, y{ other.y }
-		{}
-
-		VectorN(DerivedType &&other) noexcept :
-			x{ std::move(other.x) }, y{ std::move(other.y) }
 		{}
 
 		/**
@@ -82,20 +70,6 @@ namespace chcl
 		{
 			x = val;
 			y = val;
-			return *this;
-		}
-
-		VectorN& operator =(const DerivedType &other)
-		{
-			x = other.x;
-			y = other.y;
-			return *this;
-		}
-
-		VectorN& operator =(DerivedType &&other)
-		{
-			x = std::move(other.x);
-			y = std::move(other.y);
 			return *this;
 		}
 

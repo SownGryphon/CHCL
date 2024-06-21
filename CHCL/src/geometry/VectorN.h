@@ -28,7 +28,10 @@ namespace chcl
 		/// Size of vector.
 		constexpr size_t size() const { return dims; }
 
-		VectorBase() {}
+		VectorBase() = default;
+
+		VectorBase(const VectorBase &other) = default;
+		VectorBase(VectorBase &&other) = default;
 
 		template <size_t otherDims, typename T2>
 		VectorBase(const Derived<otherDims, T2> &other)
@@ -238,20 +241,8 @@ namespace chcl
 			return *static_cast<DerivedType*>(this);
 		}
 		
-		DerivedType& operator =(const DerivedType &other)
-		{
-			for (size_t i = 0; i < dims; ++i)
-				static_cast<DerivedType*>(this)->operator[](i) = other[i];
-			return *static_cast<DerivedType*>(this);
-		}
-		
-		DerivedType& operator =(DerivedType &&other)
-		{
-			if (static_cast<DerivedType*>(this) != &other)
-				for (size_t i = 0; i < dims; ++i)
-					std::swap(static_cast<DerivedType*>(this)->operator[](i), other[i]);
-			return *static_cast<DerivedType*>(this);
-		}
+		VectorBase& operator =(const VectorBase &other) = default;
+		VectorBase& operator =(VectorBase &&other) = default;
 
 		DerivedType& operator+=(const DerivedType &other)
 		{
@@ -333,25 +324,31 @@ namespace chcl
 		}
 	};
 
+	#define VECTORN_CLASS(dims, T) using BaseType = VectorBase<dims, T, VectorN>;\
+		using BaseType::VectorBase;\
+		using ValueType = T;\
+		using DerivedType = VectorN<dims, T>;\
+		VectorN(const DerivedType &other) = default;\
+		VectorN(DerivedType &&other) = default;\
+		VectorN& operator=(const DerivedType &other) = default;\
+		VectorN& operator=(DerivedType &&other) = default;
+
 	template <size_t dims = 2, typename T = float>
 	struct VectorN : public VectorBase<dims, T, VectorN>
 	{
-		using BaseType = VectorBase<dims, T, VectorN>;
-		using BaseType::VectorBase;
-		using BaseType::operator=;
-		using ValueType = T;
+		VECTORN_CLASS(dims, T);
 
 		ValueType position[dims];
 
 		/**
 		 * @brief Default constructor.
-		 * 
+		 *
 		 * Default initializes all components.
 		 */
 		VectorN() : position{} {}
 
 		/**
-		 * @brief Scalar construction.
+		 * @brief Scalar constructor.
 		 * 
 		 * Initializes all components to given scalar value.
 		 * 
@@ -373,7 +370,7 @@ namespace chcl
 				position[i] = values[i];
 		}
 
-		VectorN(std::initializer_list <ValueType> values)
+		VectorN(std::initializer_list<ValueType> values)
 		{
 			for (size_t i = 0; i < dims; ++i)
 				position[i] = *(values.begin() + i);
@@ -385,19 +382,7 @@ namespace chcl
 				position[i] = mat.at(i, 0);
 		}
 
-		VectorN(const VectorN &other)
-		{
-			for (size_t i = 0; i < dims; ++i)
-				position[i] = other[i];
-		}
-
-		VectorN(VectorN &&other)
-		{
-			for (size_t i = 0; i < dims; ++i)
-				position[i] = std::move(other[i]);
-		}
-
-		friend constexpr bool operator==(const VectorN &lhs, const VectorN &rhs)
+		friend constexpr bool operator==(const DerivedType &lhs, const DerivedType &rhs)
 		{
 			for (size_t i = 0; i < dims; ++i)
 			{
