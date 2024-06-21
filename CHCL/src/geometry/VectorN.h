@@ -399,3 +399,18 @@ namespace chcl
 		return VectorN<outDims, T>(mat * vec.toMatrix());
 	}
 }
+
+template <size_t dims, typename T>
+struct std::hash<chcl::VectorN<dims, T>>
+{
+	size_t operator()(const chcl::VectorN<dims, T> &vec) const noexcept
+	{
+		size_t hash = std::hash<size_t>{}(dims);
+		for (size_t i = 0; i < dims; ++i)
+		{
+			hash <<= 1;
+			hash ^= std::hash<T>{}(vec[i]);
+		}
+		return hash;
+	}
+};
