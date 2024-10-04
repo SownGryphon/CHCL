@@ -30,7 +30,7 @@ namespace chcl
 
 		template <typename T2>
 		VectorN(const VectorN<2, T2> &other) :
-			x{ other.x }, y{ other.y }
+			x{ T(other.x) }, y{ T(other.y) }
 		{}
 
 		/**

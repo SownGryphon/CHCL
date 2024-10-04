@@ -38,7 +38,7 @@ namespace chcl
 		{
 			size_t intersection = std::min(dims, otherDims);
 			for (size_t i = 0; i < intersection; ++i)
-				this->operator[](i) = other[i];
+				this->operator[](i) = ValueType(other[i]);
 			for (size_t i = intersection; i < dims; ++i)
 				this->operator[](i) = ValueType();
 		}

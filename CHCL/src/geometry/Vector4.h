@@ -30,8 +30,13 @@ namespace chcl
 		{}
 
 		template <typename T2>
+		VectorN(const Matrix<4, 1, T2> &mat) :
+			x{ T(mat.at(0, 0)) }, y{ T(mat.at(1, 0)) }, z{ T(mat.at(2, 0)) }, w{ T(mat.at(3, 0)) }
+		{}
+
+		template <typename T2>
 		VectorN(const VectorN<4, T2> &other) :
-			x{ other.x }, y{ other.y }, z{ other.z }, w{ other.w }
+			x{ T(other.x) }, y{ T(other.y) }, z{ T(other.z) }, w{ T(other.w) }
 		{}
 
 		DerivedType xComponent() const { return DerivedType(x, 0, 0, 0); }
