@@ -41,7 +41,7 @@ namespace chcl
 			resize(other.size(), other.data());
 		}
 
-		DynamicVector(DynamicVector &&other) :
+		DynamicVector(DynamicVector &&other) noexcept :
 			m_size{ other.m_size },
 			m_elements{ other.m_elements }
 		{
@@ -82,7 +82,7 @@ namespace chcl
 			return *this;
 		}
 
-		DynamicVector& operator =(DynamicVector &&other)
+		DynamicVector& operator =(DynamicVector &&other) noexcept
 		{
 			if (this == &other)
 				return *this;

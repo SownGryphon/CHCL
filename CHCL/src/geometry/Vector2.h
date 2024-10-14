@@ -4,6 +4,10 @@
 
 namespace chcl
 {
+	/**
+	 * @brief Class for two-dimensional vectors
+	 * @tparam T Underlying data type
+	 */
 	template <typename T = float>
 	using Vector2 = VectorN<2, T>;
 
@@ -43,7 +47,15 @@ namespace chcl
 			return DerivedType(std::cos(angle), std::sin(angle));
 		}
 
+		/**
+		 * @brief Gets the x-component as a vector
+		 * @return Vector2
+		 */
 		DerivedType xComponent() const { return DerivedType(x, 0); }
+		/**
+		 * @brief Gets the y-component as a vector
+		 * @return Vector2
+		 */
 		DerivedType yComponent() const { return DerivedType(0, y); }
 
 		/**

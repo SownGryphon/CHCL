@@ -33,6 +33,12 @@ namespace chcl
 		VectorBase(const VectorBase &other) = default;
 		VectorBase(VectorBase &&other) = default;
 
+		/**
+		 * @brief Constructor from other vector
+		 * @tparam T2 
+		 * @tparam otherDims 
+		 * @param other 
+		 */
 		template <size_t otherDims, typename T2>
 		VectorBase(const Derived<otherDims, T2> &other)
 		{
@@ -62,21 +68,37 @@ namespace chcl
 			return Matrix<dims, 1, ValueType>(data());
 		}
 
+		/**
+		 * @brief Get pointer to underlying data
+		 * @return Pointer to underlying data
+		 */
 		ValueType* data() requires !SpecializedVec<DerivedType>
 		{
 			return static_cast<DerivedType*>(this)->position;
 		}
 
+		/**
+		 * @brief Get pointer to underlying data
+		 * @return Pointer to underlying data
+		 */
 		ValueType* data() requires SpecializedVec<DerivedType>
 		{
 			return &static_cast<DerivedType*>(this)->x;
 		}
 
+		/**
+		 * @brief Get pointer to underlying data
+		 * @return Pointer to underlying data
+		 */
 		const ValueType* data() const requires (!SpecializedVec<DerivedType>)
 		{
 			return static_cast<const DerivedType*>(this)->position;
 		}
 
+		/**
+		 * @brief Get pointer to underlying data
+		 * @return Pointer to underlying data
+		 */
 		const ValueType* data() const requires SpecializedVec<DerivedType>
 		{
 			return &static_cast<const DerivedType*>(this)->x;
@@ -208,7 +230,12 @@ namespace chcl
 			return *(&static_cast<DerivedType*>(this)->x + n);
 		}
 
-		explicit operator bool()
+		/**
+		 * @brief Bool operator
+		 * 
+		 * Returns false if all vector components evaluate to false
+		 */
+		explicit operator bool() const
 		{
 			for (size_t i = 0; i < dims; ++i)
 			{
@@ -241,8 +268,8 @@ namespace chcl
 			return *static_cast<DerivedType*>(this);
 		}
 		
-		VectorBase& operator =(const VectorBase &other) = default;
-		VectorBase& operator =(VectorBase &&other) = default;
+		VectorBase& operator=(const VectorBase &other) = default;
+		VectorBase& operator=(VectorBase &&other) = default;
 
 		DerivedType& operator+=(const DerivedType &other)
 		{
@@ -324,6 +351,7 @@ namespace chcl
 		}
 	};
 
+	// Macro for the base body of a derived vector class
 	#define VECTORN_CLASS(dims, T) using BaseType = VectorBase<dims, T, VectorN>;\
 		using BaseType::VectorBase;\
 		using ValueType = T;\
@@ -333,6 +361,11 @@ namespace chcl
 		VectorN& operator=(const DerivedType &other) = default;\
 		VectorN& operator=(DerivedType &&other) = default;
 
+	/**
+	 * @brief Generic class for a mathematical vector
+	 * @tparam T Type of component data
+	 * @tparam dims Vector dimensions
+	 */
 	template <size_t dims = 2, typename T = float>
 	struct VectorN : public VectorBase<dims, T, VectorN>
 	{
