@@ -35,3 +35,9 @@ project "CHCL Testing"
 
 	filter "system:windows"
 		systemversion "latest"
+
+	filter "configurations:Debug"
+		symbols "On"
+
+	filter "configurations:Release"
+		optimize "On"
