@@ -1,7 +1,8 @@
 #include <algorithm>
-#include <iostream>
-#include <vector>
 #include <array>
+#include <iostream>
+#include <numbers>
+#include <vector>
 
 #include "Prints.h"
 
@@ -9,12 +10,17 @@
 #include "geometry/Vector2.h"
 #include "geometry/Vector3.h"
 
+#include "geometry/Quaternion.h"
+
 #include "geometry/Circle.h"
 #include "geometry/Rect.h"
 #include "geometry/ShapeOverlap.h"
 
 #include "maths/Common.h"
 #include "maths/SquareMatrix.h"
+#include "maths/Mat2.h"
+#include "maths/Mat3.h"
+#include "maths/Mat4.h"
 
 #include "dataStorage/BinaryHeap.h"
 #include "dataStorage/QuadTree.h"
@@ -49,7 +55,7 @@ public:
 		std::cout << "Copy contructed (" << data << ").\n";
 	}
 
-	ConstructionTest(ConstructionTest &&other) :
+	ConstructionTest(ConstructionTest &&other) noexcept :
 		data{ other.data }
 	{
 		other.data = 0;
@@ -68,7 +74,7 @@ public:
 		return *this;
 	}
 
-	ConstructionTest& operator=(ConstructionTest &&other)
+	ConstructionTest& operator=(ConstructionTest &&other) noexcept
 	{
 		if (this != &other)
 		{
@@ -304,4 +310,9 @@ int main()
 	auto jsonMatRead = chcl::JSON_Parser::ReadFile<chcl::DynamicMatrix<float>>("res/MatWrite.json");
 	std::cout << "Matrix read from JSON:\n";
 	chcl::printMatrix(jsonMatRead);
+
+	chcl::Quaternion rotQuat(chcl::Vector3<float>{ 1.f, 1.f, 1.f }, std::numbers::pi * 2.f / 3.f);
+	chcl::Vector3<float> rotQuatVector(1.f, 2.f, 3.f);
+	chcl::Vector3<float> rotQuatResult = rotQuat * (chcl::Quaternion)rotQuatVector * rotQuat.conj();
+	std::cout << "Rotating vector using quaternions: " << rotQuatResult << '\n';
 }
