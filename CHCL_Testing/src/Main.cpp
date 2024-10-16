@@ -33,7 +33,7 @@
 #include "dataStorage/JSON_Parser.h"
 #include "dataStorage/JSON_Integration.h"
 
-#include "testing/VectorTests.h"
+#include "tests/VectorTests.h"
 
 class ConstructionTest
 {
@@ -93,9 +93,9 @@ private:
 
 int main()
 {
-	#if 0
 	testing::vectors::all();
 
+	#if 0
 	chcl::VectorN<2> Vector1(5.f);
 
 	std::cout << "Template vector2: [x: " << Vector1[0] << ", y: " << Vector1[1] << "]\n";

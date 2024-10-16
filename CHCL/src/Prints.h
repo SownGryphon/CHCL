@@ -49,7 +49,7 @@ namespace chcl
 	template <typename T>
 	void printMatrix(const DynamicMatrix<T> &mat)
 	{
-		std::cout << "Imagine a matrix nicely printed here:\n";
+		std::cout << "Imagine this is nicely printed:\n";
 		for (size_t i = 0; i < mat.rows(); ++i)
 		{
 			std::cout << "| ";
