@@ -43,7 +43,7 @@ namespace chcl
 			resize(other.rows(), other.cols(), other.data());
 		}
 
-		DynamicMatrix(DynamicMatrix &&other) :
+		DynamicMatrix(DynamicMatrix &&other) noexcept :
 			m_rows{ other.m_rows }, m_cols{ other.m_cols },
 			m_elements{ other.m_elements }
 		{
@@ -94,7 +94,7 @@ namespace chcl
 			return *this;
 		}
 
-		DynamicMatrix& operator =(DynamicMatrix &&other)
+		DynamicMatrix& operator =(DynamicMatrix &&other) noexcept
 		{
 			if (this == &other)
 				return *this;

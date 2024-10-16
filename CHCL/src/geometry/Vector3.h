@@ -11,13 +11,9 @@ namespace chcl
 	template <typename T>
 	struct VectorN<3, T> : public VectorBase<3, T, VectorN>
 	{
-		using BaseType = VectorBase<3, T, VectorN>;
-		using BaseType::VectorBase;
-		using BaseType::operator=;
-		using ValueType = T;
-		using DerivedType = VectorN<3, T>;
+		VECTORN_CLASS(3, T);
 
-		T x, y, z;
+		ValueType x, y, z;
 
 		VectorN() : x{}, y{}, z{} {}
 
@@ -35,15 +31,7 @@ namespace chcl
 
 		template <typename T2>
 		VectorN(const VectorN<3, T2> &other) :
-			x{ other.x }, y{ other.y }, z{ other.z }
-		{}
-
-		VectorN(const DerivedType &other) :
-			x{ other.x }, y{ other.y }, z{ other.z }
-		{}
-
-		VectorN(DerivedType &&other) :
-			x{ std::move(other.x) }, y{ std::move(other.y) }, z{ std::move(other.z) }
+			x{ T(other.x) }, y{ T(other.y) }, z{ T(other.z) }
 		{}
 
 		/**
@@ -70,27 +58,18 @@ namespace chcl
 			return x || y || z;
 		}
 
+		friend bool operator==(const DerivedType &lhs, const DerivedType &rhs)
+		{
+			return lhs.x == rhs.x
+				&& lhs.y == rhs.y
+				&& lhs.z == rhs.z;
+		}
+
 		VectorN& operator =(ValueType val)
 		{
 			x = val;
 			y = val;
 			z = val;
-			return *this;
-		}
-
-		VectorN& operator =(const DerivedType &other)
-		{
-			x = other.x;
-			y = other.y;
-			z = other.z;
-			return *this;
-		}
-
-		VectorN& operator =(DerivedType &&other)
-		{
-			x = std::move(other.x);
-			y = std::move(other.y);
-			z = std::move(other.z);
 			return *this;
 		}
 

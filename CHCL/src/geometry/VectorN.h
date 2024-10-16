@@ -28,14 +28,23 @@ namespace chcl
 		/// Size of vector.
 		constexpr size_t size() const { return dims; }
 
-		VectorBase() {}
+		VectorBase() = default;
 
+		VectorBase(const VectorBase &other) = default;
+		VectorBase(VectorBase &&other) = default;
+
+		/**
+		 * @brief Constructor from other vector
+		 * @tparam T2 
+		 * @tparam otherDims 
+		 * @param other 
+		 */
 		template <size_t otherDims, typename T2>
 		VectorBase(const Derived<otherDims, T2> &other)
 		{
 			size_t intersection = std::min(dims, otherDims);
 			for (size_t i = 0; i < intersection; ++i)
-				this->operator[](i) = other[i];
+				this->operator[](i) = ValueType(other[i]);
 			for (size_t i = intersection; i < dims; ++i)
 				this->operator[](i) = ValueType();
 		}
@@ -59,21 +68,37 @@ namespace chcl
 			return Matrix<dims, 1, ValueType>(data());
 		}
 
+		/**
+		 * @brief Get pointer to underlying data
+		 * @return Pointer to underlying data
+		 */
 		ValueType* data() requires !SpecializedVec<DerivedType>
 		{
 			return static_cast<DerivedType*>(this)->position;
 		}
 
+		/**
+		 * @brief Get pointer to underlying data
+		 * @return Pointer to underlying data
+		 */
 		ValueType* data() requires SpecializedVec<DerivedType>
 		{
 			return &static_cast<DerivedType*>(this)->x;
 		}
 
+		/**
+		 * @brief Get pointer to underlying data
+		 * @return Pointer to underlying data
+		 */
 		const ValueType* data() const requires (!SpecializedVec<DerivedType>)
 		{
 			return static_cast<const DerivedType*>(this)->position;
 		}
 
+		/**
+		 * @brief Get pointer to underlying data
+		 * @return Pointer to underlying data
+		 */
 		const ValueType* data() const requires SpecializedVec<DerivedType>
 		{
 			return &static_cast<const DerivedType*>(this)->x;
@@ -205,7 +230,12 @@ namespace chcl
 			return *(&static_cast<DerivedType*>(this)->x + n);
 		}
 
-		explicit operator bool()
+		/**
+		 * @brief Bool operator
+		 * 
+		 * Returns false if all vector components evaluate to false
+		 */
+		explicit operator bool() const
 		{
 			for (size_t i = 0; i < dims; ++i)
 			{
@@ -238,20 +268,8 @@ namespace chcl
 			return *static_cast<DerivedType*>(this);
 		}
 		
-		DerivedType& operator =(const DerivedType &other)
-		{
-			for (size_t i = 0; i < dims; ++i)
-				static_cast<DerivedType*>(this)->operator[](i) = other[i];
-			return *static_cast<DerivedType*>(this);
-		}
-		
-		DerivedType& operator =(DerivedType &&other)
-		{
-			if (static_cast<DerivedType*>(this) != &other)
-				for (size_t i = 0; i < dims; ++i)
-					std::swap(static_cast<DerivedType*>(this)->operator[](i), other[i]);
-			return *static_cast<DerivedType*>(this);
-		}
+		VectorBase& operator=(const VectorBase &other) = default;
+		VectorBase& operator=(VectorBase &&other) = default;
 
 		DerivedType& operator+=(const DerivedType &other)
 		{
@@ -333,25 +351,37 @@ namespace chcl
 		}
 	};
 
+	// Macro for the base body of a derived vector class
+	#define VECTORN_CLASS(dims, T) using BaseType = VectorBase<dims, T, VectorN>;\
+		using BaseType::VectorBase;\
+		using ValueType = T;\
+		using DerivedType = VectorN<dims, T>;\
+		VectorN(const DerivedType &other) = default;\
+		VectorN(DerivedType &&other) = default;\
+		VectorN& operator=(const DerivedType &other) = default;\
+		VectorN& operator=(DerivedType &&other) = default;
+
+	/**
+	 * @brief Generic class for a mathematical vector
+	 * @tparam T Type of component data
+	 * @tparam dims Vector dimensions
+	 */
 	template <size_t dims = 2, typename T = float>
 	struct VectorN : public VectorBase<dims, T, VectorN>
 	{
-		using BaseType = VectorBase<dims, T, VectorN>;
-		using BaseType::VectorBase;
-		using BaseType::operator=;
-		using ValueType = T;
+		VECTORN_CLASS(dims, T);
 
 		ValueType position[dims];
 
 		/**
 		 * @brief Default constructor.
-		 * 
+		 *
 		 * Default initializes all components.
 		 */
 		VectorN() : position{} {}
 
 		/**
-		 * @brief Scalar construction.
+		 * @brief Scalar constructor.
 		 * 
 		 * Initializes all components to given scalar value.
 		 * 
@@ -373,7 +403,7 @@ namespace chcl
 				position[i] = values[i];
 		}
 
-		VectorN(std::initializer_list <ValueType> values)
+		VectorN(std::initializer_list<ValueType> values)
 		{
 			for (size_t i = 0; i < dims; ++i)
 				position[i] = *(values.begin() + i);
@@ -385,19 +415,7 @@ namespace chcl
 				position[i] = mat.at(i, 0);
 		}
 
-		VectorN(const VectorN &other)
-		{
-			for (size_t i = 0; i < dims; ++i)
-				position[i] = other[i];
-		}
-
-		VectorN(VectorN &&other)
-		{
-			for (size_t i = 0; i < dims; ++i)
-				position[i] = std::move(other[i]);
-		}
-
-		friend constexpr bool operator==(const VectorN &lhs, const VectorN &rhs)
+		friend constexpr bool operator==(const DerivedType &lhs, const DerivedType &rhs)
 		{
 			for (size_t i = 0; i < dims; ++i)
 			{
@@ -414,3 +432,18 @@ namespace chcl
 		return VectorN<outDims, T>(mat * vec.toMatrix());
 	}
 }
+
+template <size_t dims, typename T>
+struct std::hash<chcl::VectorN<dims, T>>
+{
+	size_t operator()(const chcl::VectorN<dims, T> &vec) const noexcept
+	{
+		size_t hash = std::hash<size_t>{}(dims);
+		for (size_t i = 0; i < dims; ++i)
+		{
+			hash <<= 1;
+			hash ^= std::hash<T>{}(vec[i]);
+		}
+		return hash;
+	}
+};

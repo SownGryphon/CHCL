@@ -11,13 +11,9 @@ namespace chcl
 	template <typename T>
 	struct VectorN<4, T> : public VectorBase<4, T, VectorN>
 	{
-		using BaseType = VectorBase<4, T, VectorN>;
-		using BaseType::VectorBase;
-		using BaseType::operator=;
-		using ValueType = T;
-		using DerivedType = VectorN<4, T>;
+		VECTORN_CLASS(4, T);
 
-		T x, y, z, w;
+		ValueType x, y, z, w;
 
 		VectorN() : x{}, y{}, z{}, w{} {}
 
@@ -34,16 +30,13 @@ namespace chcl
 		{}
 
 		template <typename T2>
+		VectorN(const Matrix<4, 1, T2> &mat) :
+			x{ T(mat.at(0, 0)) }, y{ T(mat.at(1, 0)) }, z{ T(mat.at(2, 0)) }, w{ T(mat.at(3, 0)) }
+		{}
+
+		template <typename T2>
 		VectorN(const VectorN<4, T2> &other) :
-			x{ other.x }, y{ other.y }, z{ other.z }, w{ other.w }
-		{}
-
-		VectorN(const DerivedType &other) :
-			x{ other.x }, y{ other.y }, z{ other.z }, w{ other.w }
-		{}
-
-		VectorN(DerivedType &&other) :
-			x{ std::move(other.x) }, y{ std::move(other.y) }, z{ std::move(other.z) }, w{ std::move(other.w) }
+			x{ T(other.x) }, y{ T(other.y) }, z{ T(other.z) }, w{ T(other.w) }
 		{}
 
 		DerivedType xComponent() const { return DerivedType(x, 0, 0, 0); }
@@ -56,30 +49,20 @@ namespace chcl
 			return x || y || z || w;
 		}
 
+		friend bool operator==(const DerivedType &lhs, const DerivedType &rhs)
+		{
+			return lhs.x == rhs.x
+				&& lhs.y == rhs.y
+				&& lhs.z == rhs.z
+				&& lhs.w == rhs.w;
+		}
+
 		VectorN& operator =(ValueType val)
 		{
 			x = val;
 			y = val;
 			z = val;
 			w = val;
-			return *this;
-		}
-
-		VectorN& operator =(const DerivedType &other)
-		{
-			x = other.x;
-			y = other.y;
-			z = other.z;
-			w = other.w;
-			return *this;
-		}
-
-		VectorN& operator =(DerivedType &&other)
-		{
-			x = std::move(other.x);
-			y = std::move(other.y);
-			z = std::move(other.z);
-			w = std::move(other.w);
 			return *this;
 		}
 

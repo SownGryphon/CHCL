@@ -22,6 +22,9 @@ namespace testing
 
 		void vectorN()
 		{
+			chcl::VectorN<4, int> vecInit;
+			Asserts::Equal(vecInit[0], 0, "Default initializing vector failed.\n");
+
 			chcl::VectorN<4, int> vec1, vec2(0);
 			Asserts::Equal(vec1, vec2, "VectorN default constructor and single value constructor did not match.\n");
 

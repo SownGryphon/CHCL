@@ -4,19 +4,19 @@
 
 namespace chcl
 {
+	/**
+	 * @brief Class for two-dimensional vectors
+	 * @tparam T Underlying data type
+	 */
 	template <typename T = float>
 	using Vector2 = VectorN<2, T>;
 
 	template <typename T>
 	struct VectorN<2, T> : public VectorBase<2, T, VectorN>
 	{
-		using BaseType = VectorBase<2, T, VectorN>;
-		using BaseType::VectorBase;
-		using BaseType::operator=;
-		using ValueType = T;
-		using DerivedType = VectorN<2, T>;
+		VECTORN_CLASS(2, T);
 
-		T x, y;
+		ValueType x, y;
 
 		VectorN() : x{}, y{} {}
 
@@ -34,15 +34,7 @@ namespace chcl
 
 		template <typename T2>
 		VectorN(const VectorN<2, T2> &other) :
-			x{ other.x }, y{ other.y }
-		{}
-
-		VectorN(const DerivedType &other) :
-			x{ other.x }, y{ other.y }
-		{}
-
-		VectorN(DerivedType &&other) noexcept :
-			x{ std::move(other.x) }, y{ std::move(other.y) }
+			x{ T(other.x) }, y{ T(other.y) }
 		{}
 
 		/**
@@ -55,7 +47,15 @@ namespace chcl
 			return DerivedType(std::cos(angle), std::sin(angle));
 		}
 
+		/**
+		 * @brief Gets the x-component as a vector
+		 * @return Vector2
+		 */
 		DerivedType xComponent() const { return DerivedType(x, 0); }
+		/**
+		 * @brief Gets the y-component as a vector
+		 * @return Vector2
+		 */
 		DerivedType yComponent() const { return DerivedType(0, y); }
 
 		/**
@@ -82,20 +82,6 @@ namespace chcl
 		{
 			x = val;
 			y = val;
-			return *this;
-		}
-
-		VectorN& operator =(const DerivedType &other)
-		{
-			x = other.x;
-			y = other.y;
-			return *this;
-		}
-
-		VectorN& operator =(DerivedType &&other)
-		{
-			x = std::move(other.x);
-			y = std::move(other.y);
 			return *this;
 		}
 

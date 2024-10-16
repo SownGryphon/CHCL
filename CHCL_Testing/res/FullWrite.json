@@ -1,0 +1,20 @@
+{
+	"name": "Hello",
+	"float": 3.141,
+	"subObj": {
+		"subObj1": {
+			"object_1": 10,
+			"object_2": 20,
+			"object_3": [ 1, 2, 3 ]
+		},
+		"subObj2": {
+			"subobj1_1": -10,
+			"subobj1_2": -5
+		},
+		"subObj3": {
+			"subobj2_1": 12,
+			"subobj2_2": 22
+		},
+		"subObjNum": 42069
+	}
+}
