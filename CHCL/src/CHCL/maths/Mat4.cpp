@@ -92,3 +92,17 @@ chcl::Mat4 chcl::Matrix<4, 4, float>::Rotation3D(float pitch, float yaw)
 		0, 0, 0, 1
 	});
 }
+
+chcl::Mat4 chcl::Matrix<4, 4, float>::Rotation3D(Quaternion rot)
+{
+	/* Converting a quaternion representing a 3D rotation to a rotation matrix
+	* https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation#Quaternion-derived_rotation_matrix
+	*/
+	float s = 1.f / (rot.normSq());
+	return Mat4({
+		1.f - 2.f * s * (rot.j * rot.j + rot.k * rot.k), 2.f * s * (rot.i * rot.j - rot.k * rot.re), 2.f * s * (rot.i * rot.k + rot.j * rot.re), 0.f,
+		2.f * s * (rot.i * rot.j + rot.k * rot.re), 1.f - 2.f * s * (rot.i * rot.i + rot.k * rot.k), 2.f * s * (rot.j * rot.k - rot.i * rot.re), 0.f,
+		2.f * s * (rot.i * rot.k - rot.j * rot.re), 2.f * s * (rot.j * rot.k + rot.i * rot.re), 1.f - 2.f * s * (rot.i * rot.i + rot.j * rot.j), 0.f,
+		0.f, 0.f, 0.f, 1.f
+	});
+}
