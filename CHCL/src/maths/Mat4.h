@@ -3,6 +3,7 @@
 #include "SquareMatrix.h"
 
 #include "geometry/Vector3.h"
+#include "geometry/Quaternion.h"
 
 namespace chcl
 {
@@ -23,5 +24,6 @@ namespace chcl
 		static Matrix<4, 4, float> RotationXZ(float radians);
 		static Matrix<4, 4, float> RotationYZ(float radians);
 		static Matrix<4, 4, float> Rotation3D(float pitch, float yaw);
+		static Matrix<4, 4, float> Rotation3D(Quaternion rotation);
 	};
 }
