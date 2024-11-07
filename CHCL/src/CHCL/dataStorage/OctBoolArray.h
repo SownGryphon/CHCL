@@ -2,7 +2,7 @@
 
 #include <initializer_list>
 
-#include "OctBool.h"
+#include "chcl/dataStorage/OctBool.h"
 
 namespace chcl
 {

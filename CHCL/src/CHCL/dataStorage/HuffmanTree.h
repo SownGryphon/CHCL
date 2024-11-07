@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "BitStream.h"
+#include "chcl/dataStorage/BitStream.h"
 
 namespace chcl
 {

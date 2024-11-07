@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Matrix.h"
-#include "SquareMatrix.h"
+#include "chcl/maths/Matrix.h"
+#include "chcl/maths/SquareMatrix.h"
 
 namespace chcl
 {
@@ -39,9 +39,5 @@ namespace chcl
 				m_values[i] -= other.m_values[i];
 			}
 		}
-
-
-
-		friend ColumnMatrix operator*(const SquareMatrix<size> &lhs, const ColumnMatrix &rhs);
 	};
 }

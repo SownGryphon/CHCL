@@ -1,8 +1,8 @@
 #pragma once
 
-#include "geometry/Vector2.h"
-#include "geometry/Shape.h"
-#include "geometry/AlignedRect.h"
+#include "chcl/geometry/Vector2.h"
+#include "chcl/geometry/Shape.h"
+#include "chcl/geometry/AlignedRect.h"
 
 namespace chcl
 {

@@ -3,7 +3,7 @@
 #include <ostream>
 #include <vector>
 
-#include "maths/DynamicMatrix.h"
+#include "chcl/maths/DynamicMatrix.h"
 
 namespace chcl
 {

@@ -4,7 +4,7 @@
 #include <ostream>
 #include <stdexcept>
 
-#include "maths/Matrix.h"
+#include "chcl/maths/Matrix.h"
 
 namespace chcl
 {

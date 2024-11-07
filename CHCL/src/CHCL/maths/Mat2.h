@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SquareMatrix.h"
+#include "chcl/maths/SquareMatrix.h"
 
 namespace chcl
 {

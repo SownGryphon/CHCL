@@ -1,7 +1,7 @@
 #include "MatrixTests.h"
 
-#include <maths/Matrix.h>
-#include <maths/SquareMatrix.h>
+#include <chcl/maths/Matrix.h>
+#include <chcl/maths/SquareMatrix.h>
 
 void MatrixTestsAll()
 {

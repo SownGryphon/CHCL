@@ -1,8 +1,8 @@
 #include "VectorTests.h"
 
-#include <geometry/VectorN.h>
-#include <geometry/Vector2.h>
-#include <geometry/Vector3.h>
+#include <chcl/geometry/VectorN.h>
+#include <chcl/geometry/Vector2.h>
+#include <chcl/geometry/Vector3.h>
 
 #include "../Asserts.h"
 

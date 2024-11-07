@@ -1,12 +1,12 @@
 #pragma once
 
-#include "JSON_Parser.h"
+#include "chcl/dataStorage/JSON_Parser.h"
 
-#include "geometry/VectorN.h"
-#include "geometry/DynamicVector.h"
+#include "chcl/geometry/VectorN.h"
+#include "chcl/geometry/DynamicVector.h"
 
-#include "maths/Matrix.h"
-#include "maths/DynamicMatrix.h"
+#include "chcl/maths/Matrix.h"
+#include "chcl/maths/DynamicMatrix.h"
 
 namespace chcl
 {

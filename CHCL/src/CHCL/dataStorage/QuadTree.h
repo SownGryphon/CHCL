@@ -2,8 +2,8 @@
 
 #include <vector>
 
-#include "geometry/AlignedRect.h"
-#include "geometry/ShapeOverlap.h"
+#include "chcl/geometry/AlignedRect.h"
+#include "chcl/geometry/ShapeOverlap.h"
 
 namespace chcl
 {

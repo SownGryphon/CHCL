@@ -2,7 +2,7 @@
 
 #include <cmath>
 
-#include "geometry/VectorN.h"
+#include "chcl/geometry/VectorN.h"
 
 namespace chcl
 {

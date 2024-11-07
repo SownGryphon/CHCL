@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Shape.h"
-#include "Circle.h"
-#include "AlignedRect.h"
+#include "chcl/geometry/Shape.h"
+#include "chcl/geometry/Circle.h"
+#include "chcl/geometry/AlignedRect.h"
 
 namespace chcl
 {

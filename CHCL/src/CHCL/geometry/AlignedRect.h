@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Shape.h"
+#include "chcl/geometry/Shape.h"
 
 namespace chcl
 {

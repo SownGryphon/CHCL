@@ -1,8 +1,8 @@
 #pragma once
 
-#include "SquareMatrix.h"
+#include "chcl/maths/SquareMatrix.h"
 
-#include "geometry/Vector3.h"
+#include "chcl/geometry/Vector3.h"
 
 namespace chcl
 {

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "geometry/VectorN.h"
-#include "geometry/Vector2.h"
+#include "chcl/geometry/VectorN.h"
+#include "chcl/geometry/Vector2.h"
 
 namespace chcl
 {

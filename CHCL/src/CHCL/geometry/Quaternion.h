@@ -1,6 +1,6 @@
 #pragma once
 
-#include "geometry/Vector3.h"
+#include "chcl/geometry/Vector3.h"
 
 namespace chcl
 {

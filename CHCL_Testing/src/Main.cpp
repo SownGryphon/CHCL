@@ -4,34 +4,34 @@
 #include <numbers>
 #include <vector>
 
-#include "Prints.h"
+#include "chcl/Prints.h"
 
-#include "geometry/VectorN.h"
-#include "geometry/Vector2.h"
-#include "geometry/Vector3.h"
+#include "chcl/geometry/VectorN.h"
+#include "chcl/geometry/Vector2.h"
+#include "chcl/geometry/Vector3.h"
 
-#include "geometry/Quaternion.h"
+#include "chcl/geometry/Quaternion.h"
 
-#include "geometry/Circle.h"
-#include "geometry/Rect.h"
-#include "geometry/ShapeOverlap.h"
+#include "chcl/geometry/Circle.h"
+#include "chcl/geometry/Rect.h"
+#include "chcl/geometry/ShapeOverlap.h"
 
-#include "maths/Common.h"
-#include "maths/SquareMatrix.h"
-#include "maths/Mat2.h"
-#include "maths/Mat3.h"
-#include "maths/Mat4.h"
+#include "chcl/maths/Common.h"
+#include "chcl/maths/SquareMatrix.h"
+#include "chcl/maths/Mat2.h"
+#include "chcl/maths/Mat3.h"
+#include "chcl/maths/Mat4.h"
 
-#include "dataStorage/BinaryHeap.h"
-#include "dataStorage/QuadTree.h"
+#include "chcl/dataStorage/BinaryHeap.h"
+#include "chcl/dataStorage/QuadTree.h"
 
-#include "maths/Continuous.h"
+#include "chcl/maths/Continuous.h"
 
-#include "geometry/DynamicVector.h"
-#include "maths/DynamicMatrix.h"
+#include "chcl/geometry/DynamicVector.h"
+#include "chcl/maths/DynamicMatrix.h"
 
-#include "dataStorage/JSON_Parser.h"
-#include "dataStorage/JSON_Integration.h"
+#include "chcl/dataStorage/JSON_Parser.h"
+#include "chcl/dataStorage/JSON_Integration.h"
 
 #include "tests/VectorTests.h"
 

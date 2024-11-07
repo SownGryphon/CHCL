@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Shape.h"
+#include "chcl/geometry/Shape.h"
 
 namespace chcl
 {
 	struct Circle : public Shape
 	{
-		Vector2<> origin;
+		Vector2<float> origin;
 		float r;
 
 		Circle(float x, float y, float r);

@@ -5,11 +5,11 @@
 #include <iostream>
 #include <sstream>
 
-#include "maths/Matrix.h"
-#include "maths/DynamicMatrix.h"
+#include "chcl/maths/Matrix.h"
+#include "chcl/maths/DynamicMatrix.h"
 
-#include "geometry/VectorN.h"
-#include "geometry/DynamicVector.h"
+#include "chcl/geometry/VectorN.h"
+#include "chcl/geometry/DynamicVector.h"
 
 namespace chcl
 {

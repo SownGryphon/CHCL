@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Matrix.h"
-
 #include <stdexcept>
+
+#include "chcl/maths/Matrix.h"
 
 namespace chcl
 {
