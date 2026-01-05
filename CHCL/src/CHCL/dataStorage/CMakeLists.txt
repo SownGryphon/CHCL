@@ -3,6 +3,7 @@ target_sources(CHCL
 		BinaryFile.cpp
 		BitStream.cpp
 		BitStreamView.cpp
+		Buffer.cpp
 		JSON_Parser.cpp
 		OctBool.cpp
 		OctBoolArray.cpp
@@ -16,6 +17,7 @@ target_sources(CHCL
 			BinaryHeap.h
 			BitStream.h
 			BitStreamView.h
+			Buffer.h
 			HuffmanTree.h
 			JSON_Integration.h
 			JSON_Parser.h
