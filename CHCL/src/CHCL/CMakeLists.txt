@@ -7,6 +7,7 @@ target_sources(CHCL
 	PUBLIC
 		FILE_SET HEADERS
 		FILES
+			Formatter.h
 			Prints.h
 )
 
