@@ -1,11 +1,10 @@
 #pragma once
 
+#include <iostream>
 #include <regex>
 #include <string>
 #include <sstream>
 #include <vector>
-
-#include <iostream>
 
 namespace chcl
 {
@@ -21,7 +20,7 @@ namespace chcl
 		 * 4. (optional) format type specifier
 		 */
 		static constexpr char formatFieldRegex[] = R"(\{(\d+)(?::(\d*)\.(\d*)(.*?))?\})";
-		static std::regex s_regex;
+		inline static std::regex s_regex;
 		inline static bool s_regexInit = false;
 
 		// Struct to store information about a format field
@@ -51,6 +50,7 @@ namespace chcl
 			try
 			{
 				s_regex = std::regex(formatFieldRegex);
+				s_regexInit = true;
 			}
 			catch (std::exception e)
 			{
@@ -104,6 +104,9 @@ namespace chcl
 
 				unformattedBegin = fieldBeginIndex + field.regexMatch.length();
 			}
+
+			if (unformattedBegin < formatString.length())
+				result << formatString.substr(unformattedBegin);
 
 			return result.str();
 		}
