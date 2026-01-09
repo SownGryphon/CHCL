@@ -19,7 +19,7 @@ namespace chcl
 		 * 3. (optional) format precision specifier
 		 * 4. (optional) format type specifier
 		 */
-		static constexpr char formatFieldRegex[] = R"(\{(\d+)(?::(\d*)\.(\d*)(.*?))?\})";
+		static constexpr char formatFieldRegex[] = R"(\{(\d+)(?::(\d*)(?::\.(\d*))?(.*?))?\})";
 		inline static std::regex s_regex;
 		inline static bool s_regexInit = false;
 
@@ -42,6 +42,8 @@ namespace chcl
 		 * 	Currently supported flags:
 		 * 	- f - fixed point
 		 * 	- e - scientific notation
+		 *  - x - hexadecimal integer
+		 *  - i - decimal integer
 		 */
 		template <typename ...Ts> 
 		static std::string Format(const std::string &formatString, Ts ...args)
@@ -120,6 +122,7 @@ namespace chcl
 			{
 				FormatField *field = *fieldsIter;
 
+				bool treatAsNumeric = false;
 				std::ostringstream fieldFormatter;
 
 				// Check for width parameter
@@ -139,19 +142,31 @@ namespace chcl
 				// Check for type flags
 				if (field->regexMatch.length(4))
 				{
+					treatAsNumeric = true;
+
 					switch (*(field->regexMatch[4].first))
 					{
-					case 'f':
-						fieldFormatter << std::fixed;
+					case 'i':
+						fieldFormatter << std::dec;
 						break;
 					case 'e':
 						fieldFormatter << std::scientific;
 						break;
+					case 'f':
+						fieldFormatter << std::fixed;
+						break;
+					case 'x':
+						fieldFormatter << std::hex;
+						break;
 					}
 				}
 
-				fieldFormatter << arg;
-
+				// Hack to print char types as a number
+				if (treatAsNumeric && std::is_arithmetic_v<T>)
+					fieldFormatter << +arg;
+				else
+					fieldFormatter << arg;
+				
 				field->formattedValue = fieldFormatter.str();
 				
 				++fieldsIter;
