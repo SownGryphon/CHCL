@@ -12,6 +12,10 @@ namespace chcl
 	public:
 		HuffmanTree() {}
 
+		/**
+		 * Generates a Deflate-style huffman tree from code lengths
+		 * @param codeLengths Array of huffman code lengths, where the code length of the n-th element is the length of the huffman code of n
+		 */
 		HuffmanTree(const std::vector<T> &codeLengths)
 		{
 			T numCodes = 0;
@@ -94,68 +98,78 @@ namespace chcl
 			}
 		}
 
+		/**
+		 * Get the value associated with the given huffman code
+		 * 
+		 * @param code Huffman code of the value of interest
+		 * 
+		 * @returns Value for the huffman code.
+		 * 	Returns 0 for codes that lead to non-leaf nodes.
+		 */
 		T traverse(const BitStream &code) const
 		{
-			// How many nodes are on the current branch (including the current node)
-			T branchNodes = (T)(m_tree.size() - 1) / 2;
-			size_t treeIndex = 0;
-
-			for (size_t i = 0; i < code.size(); ++i)
-			{
-				if (code[i] == 0)
-				{
-					branchNodes = m_tree[treeIndex];
-					++treeIndex;
-				}
-				else
-				{
-					branchNodes -= m_tree[treeIndex] + 1;
-					treeIndex += (size_t)m_tree[treeIndex] * 2 + 2;
-				}
-
-				if (treeIndex >= m_tree.size())
-					return 0;
-			}
-
-			// If this isn't met, the code does not end on a leaf
-			if (branchNodes == 0)
-				return m_tree[treeIndex];
-			return 0;
+			size_t leafIndex = getLeafIndex(code);
+			if (leafIndex == m_tree.size())
+				return 0;
+			return m_tree[leafIndex];
 		}
 
+		/**
+		 * Checks if the given code leads to a leaf (value) node
+		 * 
+		 * @param code Bit stream containing the huffman code to check
+		 * 
+		 * @returns True if the value of the given code
+		 */
 		bool isLeaf(const BitStream &code) const
 		{
-			// How many nodes are on the current branch (including the current node)
-			T branchNodes = (T)(m_tree.size() - 1) / 2;
-			size_t treeIndex = 0;
-
-			for (size_t i = 0; i < code.size(); ++i)
-			{
-				if (code[i] == 0)
-				{
-					branchNodes = m_tree[treeIndex];
-					++treeIndex;
-				}
-				else
-				{
-					branchNodes -= m_tree[treeIndex] + 1;
-					treeIndex += (size_t)m_tree[treeIndex] * 2 + 2;
-				}
-
-				if (treeIndex >= m_tree.size())
-					return false;
-			}
-
-			return branchNodes == 0;
+			return getLeafIndex(code) != m_tree.size();
 		}
 
 	private:
 		/**
-			* @brief Huffman tree of nodes and leaves
-			*
-			* Nodes store the total number of nodes on their left branch, with the first value always being a node.
-			* Each node has two children, though one may be an unused value.
-			*/
+		 * @brief Huffman tree of nodes, both internal and leaf nodes
+		 *
+		 * Internal nsodes store the total number of nodes on their left branch, with the first entry always being an internal node.
+		 * Each internal node has two children, though one may be an unused value.
+		 * Nodes are stored such that the parent node is always before its branches, and the left branch precedes the right branch
+		 */
 		std::vector<T> m_tree;
+
+	private:
+		/**
+		 * Returns the position of the leaf node associated with the given code
+		 * 
+		 * @returns Index of node of interest.
+		 * 	Will return one past the end of the tree for internal nodes or codes that do are malformed.
+		 */
+		size_t getLeafIndex(const BitStream &code)
+		{
+			// How many nodes are on the current branch (including the current node)
+			T branchNodes = (T)(m_tree.size() - 1) / 2;
+			size_t treeIndex = 0;
+
+			for (size_t i = 0; i < code.size(); ++i)
+			{
+				if (code[i] == 0)	// Take left branch
+				{
+					branchNodes = m_tree[treeIndex];
+					++treeIndex;
+				}
+				else	// Take right branch
+				{
+					branchNodes -= m_tree[treeIndex] + 1;
+					treeIndex += (size_t)m_tree[treeIndex] * 2 + 2;
+				}
+
+				if (treeIndex >= m_tree.size())
+					return m_tree.size();
+			}
+
+			// If this isn't met, the code does not end on a leaf
+			if (branchNodes == 0)
+				return treeIndex;
+			return m_tree.size();
+		}
 	};
 }

@@ -6,14 +6,13 @@ chcl::BitStreamView::BitStreamView(const uint8_t *begin, uint8_t offset) :
 	m_dataBegin(begin), m_bitOffset(offset)
 {}
 
-bool chcl::BitStreamView::readBit()
+bool chcl::BitStreamView::peekBit() const
 {
 	bool result = *(m_dataBegin + m_bitOffset / 8) & (1 << (m_bitOffset % 8));
-	jump(1);
 	return result;
 }
 
-void chcl::BitStreamView::readBits(uint8_t *dest, size_t numBits)
+void chcl::BitStreamView::peekBits(uint8_t *dest, size_t numBits) const
 {
 	uint8_t upperBitMask = 0xff << (m_bitOffset % 8);
 	for (size_t i = 0; i < numBits / 8; ++i)
@@ -36,6 +35,18 @@ void chcl::BitStreamView::readBits(uint8_t *dest, size_t numBits)
 		partByte &= ~(0xff << numLeftoverBits);
 		dest[numBits / 8] |= partByte;
 	}
+}
 
+
+bool chcl::BitStreamView::readBit()
+{
+	bool result = peekBit();
+	jump(1);
+	return result;
+}
+
+void chcl::BitStreamView::readBits(uint8_t *dest, size_t numBits)
+{
+	peekBits(dest, numBits);
 	jump(numBits);
 }
