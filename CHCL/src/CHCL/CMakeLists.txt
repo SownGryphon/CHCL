@@ -14,3 +14,5 @@ target_sources(CHCL
 add_subdirectory("dataStorage")
 add_subdirectory("geometry")
 add_subdirectory("maths")
+add_subdirectory("files")
+add_subdirectory("misc")

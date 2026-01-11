@@ -4,6 +4,8 @@
 
 #include "chcl/dataStorage/BitStream.h"
 
+#include "CHCL/misc/Profiler.h"
+
 namespace chcl
 {
 	template <typename T>
@@ -14,10 +16,13 @@ namespace chcl
 
 		/**
 		 * Generates a Deflate-style huffman tree from code lengths
-		 * @param codeLengths Array of huffman code lengths, where the code length of the n-th element is the length of the huffman code of n
+		 * @param codeLengths Array of huffman code lengths, where the code length of the n-th element is the length of the huffman code of n.
+		 * 	A length of 0 indicates that this value is not in the tree.
 		 */
 		HuffmanTree(const std::vector<T> &codeLengths)
 		{
+			ProfileScope(huffman_tree_gen)
+
 			T numCodes = 0;
 			std::vector<T> codeLengthCount;
 			for (T len : codeLengths)
@@ -126,6 +131,11 @@ namespace chcl
 			return getLeafIndex(code) != m_tree.size();
 		}
 
+		size_t getLeafCount() const
+		{
+			return (m_tree.size() + 1) / 2;
+		}
+
 	private:
 		/**
 		 * @brief Huffman tree of nodes, both internal and leaf nodes
@@ -143,9 +153,9 @@ namespace chcl
 		 * @returns Index of node of interest.
 		 * 	Will return one past the end of the tree for internal nodes or codes that do are malformed.
 		 */
-		size_t getLeafIndex(const BitStream &code)
+		size_t getLeafIndex(const BitStream &code) const
 		{
-			// How many nodes are on the current branch (including the current node)
+			// How many internal nodes are on the current branch (including the current node)
 			T branchNodes = (T)(m_tree.size() - 1) / 2;
 			size_t treeIndex = 0;
 

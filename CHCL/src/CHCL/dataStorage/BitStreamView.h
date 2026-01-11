@@ -89,6 +89,8 @@ namespace chcl
 		/// @brief Move the read position to the next byte boundary
 		inline void skipTrailingBits() { jump((8 - m_bitOffset) % 8); }
 
+		inline const uint8_t* readPos() const { return m_dataBegin + m_bitOffset % 8; }
+
 	private:
 		const uint8_t *m_dataBegin;
 		size_t m_bitOffset;

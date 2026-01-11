@@ -2,6 +2,8 @@
 
 #include "BitStreamView.h"
 
+#include "CHCL/misc/Profiler.h"
+
 void chcl::BitStream::pushBit(bool state)
 {
 	// Shift previous data to make space for new bit

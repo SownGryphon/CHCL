@@ -11,8 +11,12 @@
 #include "chcl/geometry/VectorN.h"
 #include "chcl/geometry/DynamicVector.h"
 
+#include "CHCL/dataStorage/Buffer.h"
+
 namespace chcl
 {
+	void PrintBuffer(const Buffer &buffer);
+
 	template <unsigned int width, unsigned int height, typename T = float>
 	void printMatrix(const Matrix<width, height, T> &matrix, unsigned int places = 2)
 	{

@@ -3,6 +3,8 @@
 #include <cstring>
 #include <utility>
 
+#include "CHCL/misc/Profiler.h"
+
 chcl::Buffer::Buffer(size_t presize)
 {
 	resize(presize, false);
@@ -25,32 +27,44 @@ chcl::Buffer::Buffer(Buffer &&buffer)
 
 chcl::Buffer::~Buffer()
 {
-	if (*this)
-	{
-		delete[] m_data;
-	}
+	clear();
 }
 
 void chcl::Buffer::reserve(size_t size)
 {
-	if (size > m_size)
+	if (size > m_capacity)
 		resize(size, true);
 }
 
 void chcl::Buffer::write(size_t index, const void *data, size_t size)
 {
+	if (index + size > m_capacity)
+		expand(index + size);
+
 	std::memcpy(&m_data[index], data, size);
+
+	if (index + size > m_size)
+		m_size = index + size;
 }
 
 void chcl::Buffer::append(const void *data, size_t size)
 {
 	write(m_size, data, size);
-	m_size += size;
+}
+
+void chcl::Buffer::clear()
+{
+	if (m_data)
+		delete[] m_data;
+
+	m_size = 0;
+	m_capacity = 0;
+	m_data = nullptr;
 }
 
 chcl::Buffer::operator bool() const
 {
-	return m_size && m_data;
+	return m_size && m_data && m_capacity;
 }
 
 chcl::Buffer& chcl::Buffer::operator=(const Buffer &other)
@@ -62,14 +76,15 @@ chcl::Buffer& chcl::Buffer::operator=(const Buffer &other)
 
 chcl::Buffer& chcl::Buffer::operator=(Buffer &&other)
 {
-	if (*this)
-		delete[] m_data;
+	clear();
 
 	m_data = other.m_data;
 	m_size = other.m_size;
+	m_capacity = other.m_capacity;
 
 	other.m_data = nullptr;
 	other.m_size = 0;
+	other.m_capacity = 0;
 
 	return *this;
 }
@@ -82,10 +97,19 @@ void chcl::Buffer::resize(size_t newSize, bool preserveContents)
 	{
 		std::memcpy(newData, m_data, m_size);
 	}
+	else
+		m_size = 0;
 
-	if (*this)
+	if (m_data)
 		delete[] m_data;
 	
 	m_data = newData;
-	m_size = newSize;
+	m_capacity = newSize;
+}
+
+void chcl::Buffer::expand(size_t minsize)
+{
+	size_t predictiveSize = m_size * 2;
+
+	resize(std::max(minsize, predictiveSize), true);
 }

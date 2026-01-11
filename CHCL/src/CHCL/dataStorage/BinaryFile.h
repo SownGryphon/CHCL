@@ -3,14 +3,10 @@
 #include <fstream>
 #include <string>
 
+#include "NetworkOrder.h"
+
 namespace chcl
 {
-	enum class Endianness
-	{
-		Big, Little,
-		Default
-	};
-
 	class BinaryFile : public std::ifstream
 	{
 	public:
@@ -23,14 +19,10 @@ namespace chcl
 				endian = m_defaultEndian;
 
 			T result = 0;
-			if (endian == Endianness::Little)
-				std::ifstream::read((char*)&result, sizeof(T));
-			else if (endian == Endianness::Big)
+			std::ifstream::read((char*)&result, sizeof(T));
+			if (endian == Endianness::Big)
 			{
-				for (size_t i = 0; i < sizeof(T); ++i)
-				{
-					std::ifstream::read((char*)&result + sizeof(T) - i - 1, 1);
-				}
+				return NetworkOrder::reverse(&result);
 			}
 
 			return result;

@@ -21,6 +21,7 @@ target_sources(CHCL
 			HuffmanTree.h
 			JSON_Integration.h
 			JSON_Parser.h
+			NetworkOrder.h
 			OctBool.h
 			OctBoolArray.h
 			QuadTree.h

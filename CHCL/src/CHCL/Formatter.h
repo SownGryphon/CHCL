@@ -1,5 +1,7 @@
 #pragma once
 
+#include <bitset>
+#include <iomanip>
 #include <iostream>
 #include <regex>
 #include <string>
@@ -44,9 +46,10 @@ namespace chcl
 		 * 	- e - scientific notation
 		 *  - x - hexadecimal integer
 		 *  - i - decimal integer
+		 *  - b - binary integer
 		 */
 		template <typename ...Ts> 
-		static std::string Format(const std::string &formatString, Ts ...args)
+		static std::string Format(const std::string &formatString,  const Ts &...args)
 		{
 			if (!s_regexInit)
 			try
@@ -114,15 +117,40 @@ namespace chcl
 		}
 	
 	private:
+
+		template <typename T>
+		static void FormatAsNumber(std::ostream &stream, const T &arg)
+		{
+			stream << arg;
+		}
+
+		template<typename T> requires std::is_integral<T>::value
+		static void FormatAsNumber(std::ostream &stream, const T &arg)
+		{
+			stream << +arg;
+		}
+
+		template <typename T>
+		static void FormatAsBinary(std::ostream &stream, const T &arg)
+		{
+			stream << arg;
+		}
+
+		template <typename T> requires std::is_integral<T>::value
+		static void FormatAsBinary(std::ostream &stream, const T &arg)
+		{
+			stream << std::bitset<sizeof(T) * 8>(arg);
+		}
 		
 		template <typename T>
-		static void FormatArg(int &index, std::vector<FormatField*>::iterator &fieldsIter, std::vector<FormatField*>::iterator &fieldsIterEnd, T arg)
+		static void FormatArg(int &index, std::vector<FormatField*>::iterator &fieldsIter, std::vector<FormatField*>::iterator &fieldsIterEnd, const T &arg)
 		{
 			while (fieldsIter != fieldsIterEnd && (*fieldsIter)->fieldIndex == index)
 			{
 				FormatField *field = *fieldsIter;
 
 				bool treatAsNumeric = false;
+				bool treatAsBinary = false;
 				std::ostringstream fieldFormatter;
 
 				// Check for width parameter
@@ -156,14 +184,19 @@ namespace chcl
 						fieldFormatter << std::fixed;
 						break;
 					case 'x':
-						fieldFormatter << std::hex;
+						fieldFormatter << std::hex << std::showbase << std::setfill('0') << std::internal;
+						break;
+					case 'b':
+						treatAsBinary = true;
 						break;
 					}
 				}
 
+				if (treatAsBinary)
+					FormatAsBinary(fieldFormatter, arg);
 				// Hack to print char types as a number
-				if (treatAsNumeric && std::is_arithmetic_v<T>)
-					fieldFormatter << +arg;
+				else if (treatAsNumeric)
+					FormatAsNumber(fieldFormatter, arg);
 				else
 					fieldFormatter << arg;
 				
