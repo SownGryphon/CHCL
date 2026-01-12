@@ -3,8 +3,6 @@
 #include <cstring>
 #include <utility>
 
-#include "CHCL/misc/Profiler.h"
-
 chcl::Buffer::Buffer(size_t presize)
 {
 	resize(presize, false);

@@ -4,6 +4,6 @@
 
 namespace chcl
 {
-	Buffer DeflateDecomp(const void *data, size_t predictedSize = 0);
-	inline Buffer DeflateDecomp(const Buffer &compressed) { return DeflateDecomp(compressed.data()); }
+	Buffer DeflateDecomp(const void *data, size_t dataSize, size_t predictedSize = 0);
+	inline Buffer DeflateDecomp(const Buffer &compressed) { return DeflateDecomp(compressed.data(), compressed.size()); }
 }

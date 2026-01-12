@@ -13,7 +13,7 @@ chcl::HuffmanTree<uint16_t> g_fixedDistHuffmanTree;
 // Leave lenTree and distTree blank for fixed tree decompression
 void HuffmanDecompress(chcl::BitStreamView &dataView, chcl::Buffer &output, const chcl::HuffmanTree<uint16_t> *lenTree = nullptr, const chcl::HuffmanTree<uint16_t> *distTree = nullptr);
 
-chcl::Buffer chcl::DeflateDecomp(const void *compressedData, size_t predictedSize)
+chcl::Buffer chcl::DeflateDecomp(const void *compressedData, size_t compressedDataSize, size_t predictedSize)
 {
 	ProfileScope(deflate)
 
@@ -38,10 +38,12 @@ chcl::Buffer chcl::DeflateDecomp(const void *compressedData, size_t predictedSiz
 	}
 
 	Buffer decompressedData;
-	if (predictedSize)
-		decompressedData.reserve(predictedSize);
+	if (predictedSize == 0)
+		predictedSize = compressedDataSize;
 	
-	BitStreamView dataView((const uint8_t*)compressedData);
+	decompressedData.reserve(predictedSize);
+	
+	BitStreamView dataView((const uint8_t*)compressedData, compressedDataSize * 8);
 
 	bool isFinalBlock = false;
 
@@ -99,11 +101,7 @@ chcl::Buffer chcl::DeflateDecomp(const void *compressedData, size_t predictedSiz
 					codeLengths.reserve(numLengths);
 					while (codeLengths.size() < numLengths)
 					{
-						BitStream lenCodeCodeLenCode;
-						while (!codeLenTree.isLeaf(lenCodeCodeLenCode))
-							lenCodeCodeLenCode.pushBit(dataView.readBit());
-
-						uint8_t lenCodeCode = codeLenTree.traverse(lenCodeCodeLenCode);
+						uint8_t lenCodeCode = codeLenTree.readNext(dataView);
 
 						if (lenCodeCode <= 15) codeLengths.push_back(lenCodeCode);
 						else
@@ -146,7 +144,7 @@ chcl::Buffer chcl::DeflateDecomp(const void *compressedData, size_t predictedSiz
 
 void HuffmanDecompress(chcl::BitStreamView &dataView, chcl::Buffer &output, const chcl::HuffmanTree<uint16_t> *lenTree, const chcl::HuffmanTree<uint16_t> *distTree)
 {
-	// ProfileScope(huffman_decompress)
+	ProfileScope(huffman_decompress)
 
 	bool isFinalByte = false;
 
@@ -158,16 +156,16 @@ void HuffmanDecompress(chcl::BitStreamView &dataView, chcl::Buffer &output, cons
 
 	while (!isFinalByte)
 	{
-		chcl::BitStream lenCodeCode;
-		while (!lenTree->isLeaf(lenCodeCode))
-			lenCodeCode.pushBit(dataView.readBit());
-
-		uint16_t lengthCode = lenTree->traverse(lenCodeCode);
-
+		uint16_t lengthCode = lenTree->readNext(dataView);
+		
 		if (lengthCode <= 255)	// length code is literal value
+		{
 			output.append((uint8_t)lengthCode);
+		}
 		else if (lengthCode == 256) // length code is end of block
+		{
 			isFinalByte = true;
+		}
 		else // length code is an actual code
 		{
 			uint16_t length = 0;
@@ -188,16 +186,7 @@ void HuffmanDecompress(chcl::BitStreamView &dataView, chcl::Buffer &output, cons
 			if (distTree == nullptr)
 				distCode = dataView.readBits<uint8_t>(5);
 			else
-			{
-				chcl::BitStream distCodeCode;
-
-				while (!distTree->isLeaf(distCodeCode))
-				{
-					distCodeCode.pushBit(dataView.readBit());
-				}
-
-				distCode = distTree->traverse(distCodeCode);
-			}
+				distCode = distTree->readNext(dataView);
 
 			uint16_t dist = 0;
 			if (distCode <= 3) dist = distCode + 1;

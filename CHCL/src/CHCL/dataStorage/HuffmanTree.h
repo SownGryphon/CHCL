@@ -11,6 +11,16 @@ namespace chcl
 	template <typename T>
 	class HuffmanTree
 	{
+	private:
+		/**
+		 * @brief Huffman tree of nodes, both internal and leaf nodes
+		 *
+		 * Internal nodes store the total number of nodes on their left branch, with the first entry always being an internal node.
+		 * Each internal node has two children, though one may be an unused value.
+		 * Nodes are stored such that the parent node is always before its branches, and the left branch precedes the right branch
+		 */
+		std::vector<T> m_tree;
+
 	public:
 		HuffmanTree() {}
 
@@ -111,9 +121,20 @@ namespace chcl
 		 * @returns Value for the huffman code.
 		 * 	Returns 0 for codes that lead to non-leaf nodes.
 		 */
-		T traverse(const BitStream &code) const
+		T traverse(const BitStreamView &code) const
 		{
-			size_t leafIndex = getLeafIndex(code);
+			size_t leafIndex = getLeafIndexConst(code, true);
+			if (leafIndex == m_tree.size())
+				return 0;
+			return m_tree[leafIndex];
+		}
+
+		/**
+		 * Read the next compressed piece of data that would come out of `codeStream`
+		 */
+		T readNext(BitStreamView &codeStream) const
+		{
+			size_t leafIndex = getLeafIndex(codeStream, false);
 			if (leafIndex == m_tree.size())
 				return 0;
 			return m_tree[leafIndex];
@@ -126,9 +147,9 @@ namespace chcl
 		 * 
 		 * @returns True if the value of the given code
 		 */
-		bool isLeaf(const BitStream &code) const
+		bool isLeaf(const BitStreamView &code) const
 		{
-			return getLeafIndex(code) != m_tree.size();
+			return getLeafIndexConst(code, true) != m_tree.size();
 		}
 
 		size_t getLeafCount() const
@@ -137,40 +158,42 @@ namespace chcl
 		}
 
 	private:
-		/**
-		 * @brief Huffman tree of nodes, both internal and leaf nodes
-		 *
-		 * Internal nsodes store the total number of nodes on their left branch, with the first entry always being an internal node.
-		 * Each internal node has two children, though one may be an unused value.
-		 * Nodes are stored such that the parent node is always before its branches, and the left branch precedes the right branch
-		 */
-		std::vector<T> m_tree;
+		size_t getLeafIndexConst(const BitStreamView &code, bool wholeCode) const
+		{
+			BitStreamView nonConstView{ code };
+			return getLeafIndex(nonConstView, wholeCode);
+		}
 
-	private:
 		/**
 		 * Returns the position of the leaf node associated with the given code
+		 * 
+		 * @param code BitStreamView representing the huffman code
+		 * @param wholeCode Whether to treat `code` as a complete code, or infer length when reaching a leaf node
 		 * 
 		 * @returns Index of node of interest.
 		 * 	Will return one past the end of the tree for internal nodes or codes that do are malformed.
 		 */
-		size_t getLeafIndex(const BitStream &code) const
+		size_t getLeafIndex(BitStreamView &code, bool wholeCode) const
 		{
 			// How many internal nodes are on the current branch (including the current node)
 			T branchNodes = (T)(m_tree.size() - 1) / 2;
 			size_t treeIndex = 0;
 
-			for (size_t i = 0; i < code.size(); ++i)
+			while (!code.eof())
 			{
-				if (code[i] == 0)	// Take left branch
+				if (!code.readBit()) // Take left branch on 0
 				{
 					branchNodes = m_tree[treeIndex];
 					++treeIndex;
 				}
-				else	// Take right branch
+				else // Take right branch on 1
 				{
 					branchNodes -= m_tree[treeIndex] + 1;
 					treeIndex += (size_t)m_tree[treeIndex] * 2 + 2;
 				}
+
+				if (!wholeCode && branchNodes == 0)
+					return treeIndex;
 
 				if (treeIndex >= m_tree.size())
 					return m_tree.size();

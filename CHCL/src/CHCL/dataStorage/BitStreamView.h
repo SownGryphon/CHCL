@@ -1,6 +1,9 @@
 #pragma once
 
+#include <ostream>
 #include <cstdint>
+
+#include "BitStream.h"
 
 namespace chcl
 {
@@ -10,14 +13,25 @@ namespace chcl
 	 * */
 	class BitStreamView
 	{
+	private:
+		const uint8_t *m_dataBegin; ///< Pointer to first byte of data
+		size_t m_position = 0; ///< Current read position, in bits
+		size_t m_size = 0; ///< Size of readable data, in bits
 	public:
 		/**
 		 * Create a BitStreamView to read bit data starting from a certain bit
 		 * 
 		 * @param begin Pointer to first data byte
-		 * @param bitOffset Starting offset to read from, in bits
+		 * @param size Size of readable data, in bits
 		 */
-		BitStreamView(const uint8_t* begin, uint8_t bitOffset = 0);
+		BitStreamView(const uint8_t* begin, size_t size);
+
+		/**
+		 * Create a BitStreamView looking at the contents of a BitStream
+		 * 
+		 * @param stream BitStream to view
+		 */
+		BitStreamView(const BitStream &stream);
 
 		/**
 		 * Read the next bit value
@@ -83,16 +97,19 @@ namespace chcl
 		 * Move the read position to the given position
 		 * @param bitPos Bit offset from the start of the data to place read position at
 		 */
-		inline void seek(size_t bitPos) { m_bitOffset = bitPos; }
+		inline void seek(size_t bitPos) { m_position = bitPos; }
 		/** Move the read position forward by 'bits' */
-		inline void jump(size_t bits) { m_bitOffset += bits; }
+		inline void jump(size_t bits) { m_position += bits; }
 		/// @brief Move the read position to the next byte boundary
-		inline void skipTrailingBits() { jump((8 - m_bitOffset) % 8); }
+		inline void skipTrailingBits() { jump((8 - offsetInByte()) % 8); }
 
-		inline const uint8_t* readPos() const { return m_dataBegin + m_bitOffset % 8; }
+		inline size_t size() const { return m_size; }
+		inline bool eof() const { return m_position >= m_size; }
+		inline const uint8_t* readPos() const { return m_dataBegin + m_position / 8; }
+
+		friend std::ostream& operator<<(std::ostream& ostream, const BitStreamView &view);
 
 	private:
-		const uint8_t *m_dataBegin;
-		size_t m_bitOffset;
+		inline uint8_t offsetInByte() const { return m_position % 8; }
 	};
 }

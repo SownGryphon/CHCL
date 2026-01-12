@@ -2,8 +2,6 @@
 
 #include "BitStreamView.h"
 
-#include "CHCL/misc/Profiler.h"
-
 void chcl::BitStream::pushBit(bool state)
 {
 	// Shift previous data to make space for new bit
@@ -15,28 +13,40 @@ void chcl::BitStream::pushBit(bool state)
 		m_data[0] |= 1;
 }
 
+void chcl::BitStream::appendBit(bool state)
+{
+	if (m_sizeBits % 8 == 0)
+		m_data.resize(m_sizeBits / 8 + 1);
+
+	if (state)
+		m_data.back() |= 0x1 << (m_sizeBits % 8);
+	
+	m_sizeBits++;
+}
+
 void chcl::BitStream::pushBits(uint8_t *data, size_t numBits, uint8_t bitReadOffset)
 {
 	// Shift previous data to make space for new bits
 	// This also handles increasing buffer size
 	shift(numBits);
 
-	BitStreamView dataView(data, bitReadOffset);
+	BitStreamView dataView(data, numBits);
+	dataView.seek(bitReadOffset);
 	dataView.readBits(m_data.data(), numBits);
 }
 
 bool chcl::BitStream::operator[](size_t i) const
 {
-	size_t byteIndex = (m_numBits - i - 1) / 8;
-	size_t bitIndex = (m_numBits - i - 1) % 8;
+	size_t byteIndex = (m_sizeBits - i - 1) / 8;
+	size_t bitIndex = (m_sizeBits - i - 1) % 8;
 	return m_data[byteIndex] & (1 << bitIndex);
 }
 
 void chcl::BitStream::shift(size_t bits)
 {
 	// Resize the data buffer if needed
-	if (sizeBytes() < (m_numBits + bits + 7) / 8)
-		m_data.resize((m_numBits + bits + 7) / 8);
+	if (sizeBytes() < (m_sizeBits + bits + 7) / 8)
+		m_data.resize((m_sizeBits + bits + 7) / 8);
 
 	size_t shiftBytes = bits / 8;
 	size_t shiftBits = bits % 8;
@@ -55,7 +65,7 @@ void chcl::BitStream::shift(size_t bits)
 			m_data[i] = 0;
 	}
 
-	m_numBits += bits;
+	m_sizeBits += bits;
 }
 
 bool chcl::operator==(const BitStream &lhs, const BitStream &rhs)
