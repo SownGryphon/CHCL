@@ -21,7 +21,7 @@ namespace chcl
 		 * 3. (optional) format precision specifier
 		 * 4. (optional) format type specifier
 		 */
-		static constexpr char formatFieldRegex[] = R"(\{(\d+)(?::(\d*)(?::\.(\d*))?(.*?))?\})";
+		static constexpr char formatFieldRegex[] = R"(\{(\d+)(?::(\d*)(?:\.(\d*))?(.*?))?\})";
 		inline static std::regex s_regex;
 		inline static bool s_regexInit = false;
 
