@@ -21,7 +21,7 @@ namespace chcl
 		 * 3. (optional) format precision specifier
 		 * 4. (optional) format type specifier
 		 */
-		static constexpr char formatFieldRegex[] = R"(\{(\d+)(?::(\d*)(?:\.(\d*))?(.*?))?\})";
+		static constexpr char formatFieldRegex[] = R"(\{(\d*)(?::(\d*)(?:\.(\d*))?(.*?))?\})";
 		inline static std::regex s_regex;
 		inline static bool s_regexInit = false;
 
@@ -73,10 +73,15 @@ namespace chcl
 			formatFields.reserve(numFields);
 			sortedFormatFields.reserve(numFields);
 
+			int autoIndex = 0;
 			for (std::sregex_iterator i = fieldsBegin; i != fieldsEnd; ++i)
 			{
 				std::smatch fieldMatch = *i;
-				int index = std::stoi(fieldMatch[1].str());
+				int index = 0;
+				if (fieldMatch.length(1))
+					index = std::stoi(fieldMatch.str(1));
+				else
+					index = autoIndex++;
 
 				formatFields.push_back(FormatField{ fieldMatch, index, "" });
 				sortedFormatFields.push_back(&formatFields.back());
